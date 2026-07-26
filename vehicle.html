@@ -1,0 +1,241 @@
+<!-- Copyright (c) 2026 Mikko Tarkiainen. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alfa Romeo Giulia Quadrifoglio · XYZ-123 – Kopilotti Sales</title>
+  <meta name="description" content="Alfa Romeo Giulia Quadrifoglio, XYZ-123. Listahinta 95 000 €. Kopilotti Salesin ei-sitova ostopolkudemo.">
+  <meta property="og:title" content="Alfa Romeo Giulia Quadrifoglio · XYZ-123 – Kopilotti Sales">
+  <meta property="og:description" content="Listahinta 95 000 €. Tutustu Kopilotti Salesin ei-sitovaan ostopolkudemoon.">
+  <meta property="og:url" content="https://kopilotti-sales-demo.vercel.app/vehicle.html?id=veh-0001">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-placeholder.svg">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Alfa Romeo Giulia Quadrifoglio · XYZ-123 – Kopilotti Sales">
+  <meta name="twitter:description" content="Listahinta 95 000 €. Ei-sitova ostopolkudemo.">
+  <meta name="twitter:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-placeholder.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/vehicle.css">
+</head>
+<body class="vehicle-page">
+  <a href="#vehicleMain" class="skip-link">Siirry ajoneuvon tietoihin</a>
+  <header class="store-header">
+    <a class="store-brand" href="index.html" aria-label="Kopilotti Sales, etusivu">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.7"/>
+          <circle cx="12" cy="12" r="2.1" fill="white"/>
+          <path d="M12 3v4.3M12 16.7V21M3 12h4.3M16.7 12H21" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
+    </a>
+    <a class="store-back" href="index.html">← Takaisin autoihin</a>
+  </header>
+
+  <main class="vehicle-shell" id="vehicleMain">
+    <nav class="vehicle-breadcrumb" aria-label="Murupolku">
+      <a href="index.html">Autot</a><span aria-hidden="true">/</span><span id="breadcrumbVehicle">Ajoneuvo</span>
+    </nav>
+
+    <div class="vehicle-layout">
+      <section class="vehicle-content" aria-labelledby="vehicleTitle">
+        <div class="vehicle-heading">
+          <div>
+            <span class="vehicle-availability" id="vehicleAvailability">Demoajoneuvo</span>
+            <h1 id="vehicleTitle">Alfa Romeo Giulia Quadrifoglio</h1>
+            <p id="vehicleSubtitle">XYZ-123</p>
+          </div>
+          <div class="vehicle-heading-price" aria-label="Ajoneuvon hinta">
+            <strong id="vehiclePrice">95 000 €</strong><span id="vehicleMonthly"></span>
+          </div>
+        </div>
+
+        <figure class="vehicle-hero">
+          <img id="vehicleImage" alt="Geneerinen demoajoneuvon paikkamerkkikuva" src="assets/cars/demo-vehicle-placeholder.svg">
+          <figcaption>Geneerinen demokuva — ei kuva yksittäisestä ajoneuvosta</figcaption>
+        </figure>
+
+        <section class="vehicle-spec-card" aria-labelledby="specTitle">
+          <h2 id="specTitle">Ajoneuvon tiedot</h2>
+          <dl class="vehicle-spec-grid" id="vehicleSpecs">
+            <div><dt>Merkki ja malli</dt><dd id="specMakeModel">Alfa Romeo Giulia Quadrifoglio</dd></div>
+            <div><dt>Rekisteritunnus</dt><dd id="specRegistration">XYZ-123</dd></div>
+            <div><dt>Listahinta</dt><dd id="specListPrice">95 000 €</dd></div>
+            <div class="condition-report-gate">
+              <dt>Kuntoraportti</dt>
+              <dd><span id="conditionReportAvailability">✓ Saatavilla</span><button class="condition-report-open" id="btnOpenPreNegotiationReport" type="button" aria-haspopup="dialog" aria-controls="preNegotiationConditionReport">Avaa kuntoraportti</button></dd>
+            </div>
+          </dl>
+        </section>
+
+      </section>
+
+      <aside class="purchase-column" aria-label="Hintaehdotus ja ostopolku">
+        <section class="purchase-card digital-salesperson-card" aria-labelledby="digitalSalespersonTitle">
+          <div class="service-heading">
+            <span class="service-mark" aria-hidden="true">✦</span>
+            <div><p class="purchase-eyebrow">Digitaalinen automyyjä</p><h2 id="digitalSalespersonTitle">Digitaalinen hintaneuvottelu</h2></div>
+          </div>
+          <p>Hintaneuvottelu voidaan aloittaa, kun olet tutustunut ajoneuvoon ja kuntoraporttiin.</p>
+          <p>Millä hinnalla voimme tehdä kaupat?</p>
+          <p class="negotiation-gate-status" id="negotiationGateStatus" role="status" aria-live="polite">☐ Kuntoraportti avattava ennen hintaneuvottelua</p>
+          <button class="btn btn-primary purchase-button" id="btnStartDigitalSalesperson" type="button" aria-controls="digitalSalespersonFlow" aria-describedby="negotiationGateStatus" aria-expanded="false" disabled>Aloita hintaneuvottelu</button>
+          <p class="decision-basis-note">Päätökset perustuvat myyjäliikkeen liiketoimintasääntöihin. Poikkeustapaukset ohjataan automaattisesti ihmiselle.</p>
+          <p class="availability-note">Demo havainnollistaa digitaalisen hintaneuvottelun. Tuotantoversiossa ostoprosessi jatkuu maksuun ja ajoneuvon luovutukseen myyjäliikkeen järjestelmäintegraatioiden kautta.</p>
+        </section>
+
+        <section class="salesperson-flow hidden" id="digitalSalespersonFlow" aria-labelledby="flowTitle" tabindex="-1">
+          <div class="flow-header">
+            <div><h2 id="flowTitle">Hintaneuvottelu</h2><p class="flow-vehicle" id="flowVehicle">Alfa Romeo Giulia Quadrifoglio · XYZ-123</p></div>
+            <button class="flow-close" id="btnCloseFlow" type="button" aria-label="Sulje neuvottelu">×</button>
+          </div>
+
+          <section class="conversation hidden" id="conversation" aria-labelledby="negotiationAgentTitle">
+            <div class="negotiation-workspace">
+              <aside class="deal-summary" aria-labelledby="dealSummaryTitle">
+                <h3 id="dealSummaryTitle">Kaupan yhteenveto</h3>
+                <img class="deal-summary-image" id="dealSummaryImage" src="assets/cars/demo-vehicle-placeholder.svg" alt="Geneerinen demokuva ajoneuvosta">
+                <div class="deal-summary-vehicle">
+                  <strong id="dealSummaryVehicle">Alfa Romeo Giulia Quadrifoglio</strong>
+                  <span id="dealSummaryRegistration">XYZ-123</span>
+                </div>
+                <dl class="deal-summary-prices">
+                  <div><dt>Listahinta</dt><dd id="dealSummaryListPrice">95 000 €</dd></div>
+                  <div class="deal-summary-offer"><dt id="dealSummaryOfferLabel">Ehdottamasi hinta</dt><dd id="dealSummaryOffer">Ei vielä annettu</dd></div>
+                  <div aria-label="Ero listahintaan"><dt>Ero listahintaan</dt><dd id="dealSummaryDifference">—</dd></div>
+                </dl>
+              </aside>
+              <div class="negotiation-input">
+                <h3 class="negotiation-agent-title" id="negotiationAgentTitle">Digitaalinen automyyjä</h3>
+                <p class="negotiation-introduction">Olet tutustunut auton tietoihin ja kuntoraporttiin.<br><br>Millä hinnalla voimme tehdä kaupat?</p>
+                <div class="message-list" id="messageList" role="log" aria-live="polite" aria-relevant="additions"></div>
+                <form class="price-discussion" id="priceForm">
+                  <label for="priceInput">Ehdottamasi kauppahinta</label>
+                  <div class="price-input-row">
+                    <input id="priceInput" name="price" type="text" inputmode="numeric" autocomplete="off" placeholder="Esim. 93 900 €" aria-describedby="priceHelp priceError">
+                    <button class="btn btn-primary" type="submit">Ehdota hintaa</button>
+                  </div>
+                  <p id="priceHelp">Digitaalinen automyyjä tarkistaa, voidaanko kaupat tehdä ehdottamallasi hinnalla.</p>
+                  <p class="form-error" id="priceError" role="alert"></p>
+                </form>
+              </div>
+            </div>
+            <div class="decision-actions hidden" id="decisionActions"></div>
+          </section>
+        </section>
+
+        <section class="purchase-card journey-demo-card" aria-labelledby="journeyDemoTitle">
+          <div><p class="purchase-eyebrow">Konseptidemo</p><h2 id="journeyDemoTitle">Koko digitaalinen ostopolku</h2></div>
+          <button class="btn btn-outline purchase-button" id="btnRunDemo" type="button" aria-controls="journeyDemoTimeline">Katso koko demopolku</button>
+          <div class="journey-demo-timeline hidden" id="journeyDemoTimeline" role="status" aria-live="polite" aria-atomic="true">
+            <div class="demo-now">
+              <strong id="journeyDemoStatus">Demo käynnistyy…</strong>
+              <span id="journeyDemoVehicle">Alfa Romeo Giulia Quadrifoglio · XYZ-123</span>
+            </div>
+            <ol aria-label="Demon eteneminen">
+              <li data-demo-step="condition"><span aria-hidden="true">○</span>Kuntoraportti avattu</li>
+              <li data-demo-step="offer"><span aria-hidden="true">○</span>Hintaehdotus</li>
+              <li data-demo-step="counter-one"><span aria-hidden="true">○</span>Ensimmäinen hintatarkistus</li>
+              <li data-demo-step="offer-two"><span aria-hidden="true">○</span>Uusi hintaehdotus</li>
+              <li data-demo-step="counter-two"><span aria-hidden="true">○</span>Toinen hintatarkistus</li>
+              <li data-demo-step="agreement"><span aria-hidden="true">○</span><span id="journeyDemoAgreedPrice">Hinnasta sovittu · 94 300 €</span></li>
+              <li data-demo-step="payment"><span aria-hidden="true">○</span>Maksutapa valittu</li>
+              <li data-demo-step="waiting"><span aria-hidden="true">○</span>Maksu odottaa vahvistusta</li>
+              <li data-demo-step="confirmed"><span aria-hidden="true">○</span>Maksu vahvistettu</li>
+              <li data-demo-step="ready"><span aria-hidden="true">○</span>Valmis noudettavaksi</li>
+            </ol>
+            <p class="purchase-fineprint">Ei-sitova käyttöliittymäesitys. Ei sisällä tuotantohinnoittelulogiikkaa, muodosta oikeaa kauppaa tai käsittele oikeaa maksua.</p>
+          </div>
+        </section>
+
+        <section class="condition-report-step hidden" id="conditionReportStep" aria-labelledby="conditionReportTitle" tabindex="-1">
+          <div class="flow-header">
+            <div>
+              <p class="purchase-eyebrow">Pakollinen vaihe ennen maksamista</p>
+              <h2 id="conditionReportTitle">Auton kuntoraportti</h2>
+            </div>
+          </div>
+          <div class="condition-report-body">
+            <p class="condition-introduction">Tutustu auton kuntoon ja raportissa mainittuihin huomioihin ennen kuin jatkat rahoitukseen tai maksamiseen.</p>
+            <div class="condition-status" id="conditionReportStatus" role="status" aria-live="polite" aria-atomic="true">Kuntoraporttia ladataan…</div>
+
+            <article class="condition-report-content hidden" id="conditionReportContent" aria-labelledby="conditionReportDocumentTitle">
+              <header class="condition-document-header">
+                <div>
+                  <h3 id="conditionReportDocumentTitle">Kuntoraportin yhteenveto</h3>
+                  <p id="conditionReportMeta"></p>
+                </div>
+                <a class="condition-source-link hidden" id="conditionReportSource" href="#" target="_blank" rel="noopener">Avaa alkuperäinen PDF</a>
+              </header>
+              <div class="condition-sections" id="conditionReportSections"></div>
+              <section class="condition-photographs hidden" id="conditionPhotographs" aria-labelledby="conditionPhotographsTitle">
+                <h3 id="conditionPhotographsTitle">Raporttiin liittyvät valokuvat</h3>
+                <div class="condition-photo-grid" id="conditionPhotoGrid"></div>
+              </section>
+            </article>
+
+            <form class="condition-acknowledgement hidden" id="conditionAcknowledgementForm">
+              <label class="condition-checkbox" for="conditionAcknowledgement">
+                <input id="conditionAcknowledgement" name="conditionAcknowledgement" type="checkbox">
+                <span>Olen tutustunut auton kuntoraporttiin ja siinä mainittuihin huomioihin.</span>
+              </label>
+              <p class="condition-rights-note">Kuittaus vahvistaa, että olet tutustunut raporttiin. Se ei rajoita lakisääteisiä oikeuksiasi eikä autoliikkeen vastuuta tietojen oikeellisuudesta.</p>
+              <div class="condition-actions">
+                <button class="btn btn-primary purchase-button" id="btnProceedAfterCondition" type="submit" disabled>Jatka rahoitukseen tai maksamiseen</button>
+                <button class="btn btn-outline purchase-button" id="btnBackFromCondition" type="button">Palaa kaupan yhteenvetoon</button>
+              </div>
+              <p class="form-error" id="conditionReportError" role="alert"></p>
+            </form>
+          </div>
+        </section>
+
+        <section class="purchase-journey hidden" id="purchaseJourney" aria-labelledby="purchaseJourneyTitle" tabindex="-1">
+          <div class="flow-header">
+            <div><p class="purchase-eyebrow">Kaupan eteneminen</p><h2 id="purchaseJourneyTitle">Hinnasta sovittu</h2></div>
+          </div>
+          <div class="purchase-journey-body">
+            <section class="deal-agreement hidden" id="dealAgreement" aria-labelledby="dealAgreementTitle">
+              <span class="agreement-check" aria-hidden="true">✓</span>
+              <p class="purchase-eyebrow">Kauppa-akti</p>
+              <h3 id="dealAgreementTitle">Hinnasta sovittu</h3>
+              <strong class="agreement-price" id="agreementPrice">—</strong>
+              <p class="agreement-vehicle" id="agreementVehicle">—</p>
+              <button class="btn btn-primary purchase-button" id="btnReviewCondition" type="button">Tutustu kuntoraporttiin</button>
+            </section>
+            <ol class="purchase-progress" aria-label="Ostopolun vaiheet">
+              <li data-progress="price"><span>1</span>Hinta</li>
+              <li data-progress="condition"><span>2</span>Kuntoraportti</li>
+              <li data-progress="provider"><span>3</span>Maksu tai rahoitus</li>
+              <li data-progress="handover"><span>4</span>Luovutus</li>
+            </ol>
+            <div class="purchase-status-panel" id="purchaseStatus" role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></div>
+            <div class="payment-methods hidden" id="paymentMethods">
+              <fieldset>
+                <legend>Valitse maksutapa</legend>
+                <button class="payment-method-option" type="button" data-payment-method="PAYMENT"><span aria-hidden="true">○</span><span><strong>Käteinen / tilisiirto</strong><small>Maksu vahvistetaan maksupalvelun kautta.</small></span></button>
+                <button class="payment-method-option" type="button" data-payment-method="FINANCING"><span aria-hidden="true">○</span><span><strong>Rahoitus</strong><small>Rahoituksen vahvistaa rahoitusyhtiö.</small></span></button>
+              </fieldset>
+            </div>
+            <div class="demo-confirmation hidden" id="demoConfirmation"></div>
+            <button class="seller-contact" id="btnContactSeller" type="button">Ota yhteys myyjään</button>
+            <p class="purchase-fineprint">Tämä demo ei muodosta sitovaa kauppaa, maksua, rahoitussopimusta tai varausta.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <dialog class="demo-dialog" id="preNegotiationConditionReport" aria-labelledby="preNegotiationConditionReportTitle">
+    <div>
+      <p class="purchase-eyebrow">Kopilotti Sales -demo</p>
+      <h2 id="preNegotiationConditionReportTitle">Kuntoraportti</h2>
+      <p>Tämä konseptidemo näyttää kuntoraportin avaamisen osana ostopolkua. Varsinaista ajoneuvokohtaista raporttisisältöä ei esitetä.</p>
+      <button class="btn btn-primary" id="btnClosePreNegotiationReport" type="button">Sulje kuntoraportti</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="js/digital-salesperson.js"></script>
+</body>
+</html>

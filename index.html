@@ -1,0 +1,46 @@
+<!-- Copyright (c) 2026 Mikko Tarkiainen. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kopilotti Sales – Digital Car Salesperson</title>
+  <meta name="description" content="Kopilotti Sales on asiakkaalle tarkoitettu digitaalinen automyyjä, joka ohjaa hinnan keskustelusta maksutavan valintaan ja auton luovutukseen.">
+  <meta property="og:title" content="Kopilotti Sales – Digital Car Salesperson">
+  <meta property="og:description" content="Asiakkaalle tarkoitettu digitaalinen automyyjä hinnan keskustelusta maksutavan valintaan ja auton luovutukseen.">
+  <meta property="og:url" content="https://kopilotti-sales-demo.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-placeholder.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Kopilotti Sales – Digital Car Salesperson">
+  <meta name="twitter:description" content="Asiakkaalle tarkoitettu digitaalinen automyyjä hinnan keskustelusta auton luovutukseen.">
+  <meta name="twitter:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-placeholder.svg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/vehicle.css">
+</head>
+<body class="vehicle-page product-landing">
+  <a href="#mainContent" class="skip-link">Siirry pääsisältöön</a>
+  <header class="store-header">
+    <a class="store-brand" href="index.html" aria-label="Kopilotti Sales, etusivu">
+      <span class="logo-mark" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.7"/><circle cx="12" cy="12" r="2.1" fill="white"/>
+          <path d="M12 3v4.3M12 16.7V21M3 12h4.3M16.7 12H21" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
+    </a>
+  </header>
+  <p class="landing-positioning">Perinteinen verkkokauppa digitalisoi listahintaisen ostamisen.<br>Kopilotti Sales digitalisoi hintaneuvottelun.</p>
+  <main class="product-landing-main" id="mainContent">
+    <p class="purchase-eyebrow">Kopilotti Sales</p>
+    <h1>Digital Car Salesperson</h1>
+    <p>Digitaalinen automyyjä käy turvallisen hintaneuvottelun myyjäliikkeen liiketoimintasääntöjen mukaisesti.</p>
+    <blockquote>LLM keskustelee. Backend päättää.</blockquote>
+    <p><strong id="demoVehicleName">Demoajoneuvo</strong><br><span id="demoVehicleRegistration"></span> · <span id="demoVehiclePrice"></span></p>
+    <a class="btn btn-primary" href="vehicle.html?id=veh-0001">Avaa demo</a>
+    <p class="purchase-fineprint">Demo havainnollistaa Kopilotti Salesin käyttöliittymää ja digitaalista hintaneuvotteluprosessia. Se käyttää esimerkkiajoneuvoa eikä käsittele oikeita kaupallisia päätöksiä tai maksuja.</p>
+  </main>
+  <script type="module" src="js/demo-landing.js"></script>
+</body>
+</html>
