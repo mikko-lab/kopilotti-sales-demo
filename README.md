@@ -274,24 +274,47 @@ Tavoitteena on kasvattaa kauppojen määrää vaarantamatta myyjäliikkeen katet
 
 # Kopilotti Platform
 
-Kopilotti Sales on osa laajempaa tuotekokonaisuutta.
+Kopilotti Sales — tämän repositorion tuote — on osa laajempaa Kopilotti-tuoteperhettä.
 
-Jokaisella tuotteella on oma selkeä vastuunsa.
+Jokaisella tuotteella on oma selkeä vastuunsa, ja yhdessä ne muodostavat saman myyntiprosessin toisiaan täydentävät osat.
 
 ```text
 Kopilotti Platform
 
+├── Kopilotti
+│   AI Sales Copilot myyjälle
+│
 ├── Kopilotti Sales
-│   Digitaalinen hintaneuvottelu, kaupanteko ja maksuprosessi
+│   Digitaalinen automyyjä asiakkaalle
 │
 ├── Kopilotti Admin
-│   Ajoneuvot, kuntoraportit, liiketoimintasäännöt ja julkaisu
+│   Ajoneuvot, DMS-integraatiot ja liiketoimintasäännöt
 │
 └── Kopilotti Insights
-    Ostokäyttäytymisen ja liiketoiminnan analytiikka
+    Myynti-, neuvottelu- ja käyttäytymisanalytiikka
 ```
 
-Yhdessä tuotteet muodostavat digitaalisen kaupankäyntialustan käytettyjen ajoneuvojen myyntiin.
+- **Kopilotti** tukee ihmismyyjää asiakaskeskustelun aikana. Se tunnistaa ostosignaaleja, ehdottaa seuraavia toimenpiteitä, tuottaa CRM-yhteenvedon ja suosittelee asiakkaalle sopivia autoja.
+- **Kopilotti Sales** palvelee asiakasta suoraan ja vie digitaalista autokauppaa eteenpäin 24/7 determinististen liiketoimintasääntöjen rajoissa.
+- **Kopilotti Admin** hallitsee ajoneuvodataa, DMS-tuonteja, jälleenmyyjäkohtaisia asetuksia ja neuvottelupolitiikkoja.
+- **Kopilotti Insights** kokoaa järjestelmän tuottaman myynti-, neuvottelu- ja käyttäytymisdatan raportointia varten.
+
+Kopilotti ja Kopilotti Sales eivät ole kilpailevia tuotteita, vaan saman myyntiprosessin toisiaan täydentäviä osia: Kopilotti auttaa ihmismyyjää, ja Kopilotti Sales palvelee asiakasta itsenäisesti silloin, kun myyjää ei ole saatavilla tai asiakas haluaa edetä digitaalisesti.
+
+Yhdessä tuotteet muodostavat AI-avusteisen kaupankäyntialustan, joka kattaa käytettyjen ajoneuvojen myyntiprosessin ensimmäisestä asiakaskontaktista toteutuneeseen kauppaan, hallintaan ja analytiikkaan.
+
+## Kopilotti
+
+Kopilotti on AI Sales Copilot ihmismyyjälle — se tukee myyjää asiakaskeskustelun aikana, ei korvaa häntä eikä tee kaupallisia päätöksiä.
+
+Sen tehtäviin kuuluvat:
+
+- ostosignaalien tunnistaminen asiakaskeskustelusta
+- seuraavien toimenpiteiden ehdottaminen myyjälle
+- CRM-yhteenvedon tuottaminen
+- sopivien ajoneuvojen suositteleminen asiakkaalle
+
+Kopilotti palvelee myyjää; Kopilotti Sales palvelee asiakasta suoraan silloin, kun myyjää ei ole saatavilla tai asiakas haluaa edetä digitaalisesti.
 
 ## Kopilotti Sales
 
