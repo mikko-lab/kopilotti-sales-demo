@@ -1,0 +1,9 @@
+# Exclude CSS from GitHub's Linguist language statistics.
+#
+# This repo's CSS (styles.css, styles/vehicle.css) is hand-written
+# application styling, not vendored or generated. It is excluded purely
+# because its size otherwise dominates the language stats and makes CSS
+# show up as the repo's "main language" on GitHub, even though the
+# runtime logic is JavaScript/HTML. This has no effect on rendering,
+# builds, or deployment — only on the Linguist language bar.
+*.css linguist-detectable=false
