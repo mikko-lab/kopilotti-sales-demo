@@ -1,8 +1,14 @@
 # Kopilotti Sales
 
+Kopilotti Sales on kaupallinen ohjelmistotuote.
+
+Tämä repositorio esittelee tuotteen toimintaa ja arkkitehtuuria.
+
+Julkinen repositorio ei sisällä tuotannon päätösmoottoria eikä jälleenmyyjäkohtaisia sääntöjä.
+
 ![Status](https://img.shields.io/badge/status-active%20development-orange)
 ![Platform](https://img.shields.io/badge/platform-web-blue)
-![License](https://img.shields.io/badge/license-TBD-lightgrey)
+![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
 → [Avaa Kopilotti Sales -demo](https://kopilotti-sales-demo.vercel.app/)
 
@@ -244,6 +250,22 @@ Kaupalliset päätökset on eristetty LLM:ään kohdistuvista prompt injection -
 
 ---
 
+# Tietoturva ja arkkitehtuuri
+
+LLM käy keskustelun asiakkaan kanssa.
+
+LLM ei päätä hintaa.
+
+Hintapäätöksiä ei koskaan tehdä kielimallin perusteella.
+
+Kaikki kaupalliset päätökset tehdään deterministisessä backendissä, joka tarkistaa aina myyjäliikkeen omat säännöt ennen hyväksyntää.
+
+Tämä arkkitehtuuri on tietoinen suunnitteluratkaisu.
+
+Tarkkaa päätöslogiikkaa ei julkaista tässä repositoriossa.
+
+---
+
 # Olemassa olevat myyntikanavat, uusi toimintamalli
 
 Useimmilla autoliikkeillä asiakkaat ottavat jo yhteyttä esimerkiksi:
@@ -481,6 +503,14 @@ Ei päinvastoin.
 
 ---
 
+# Demo
+
+Tämä repositorio sisältää demonstraation Kopilotti Salesin toiminnasta.
+
+Julkiseen versioon eivät kuulu tuotantoympäristön integraatiot, jälleenmyyjäkohtaiset asetukset, hinnoittelupolitiikat eivätkä kaupalliset integraatiot.
+
+---
+
 # Projektin tila
 
 Status: Active Development
@@ -495,4 +525,6 @@ Seuraavat vaiheet laajentavat kokonaisuutta hallintaan, analytiikkaan, integraat
 
 # Lisenssi
 
-Projektin lähdekoodi ja lisenssi määritellään myöhemmin.
+Kopilotti Sales on omisteinen ohjelmisto. Lähdekoodin kopiointi, muokkaaminen, levittäminen tai kaupallinen käyttö ilman tekijän etukäteen antamaa kirjallista lupaa on kielletty.
+
+Katso tarkemmat ehdot LICENSE-tiedostosta.
