@@ -117,7 +117,7 @@ async function submitPrice(event) {
   const offerAmount = parseEuroInput(input.value);
   errorElement.textContent = '';
   if (!Number.isSafeInteger(offerAmount) || offerAmount <= 0) {
-    errorElement.textContent = 'Kirjoita ehdottamasi kauppahinta kokonaisina euroina, esimerkiksi 20 000.';
+    errorElement.textContent = 'Kirjoita ehdottamasi kauppahinta kokonaisina euroina, esimerkiksi 90 000.';
     input.focus();
     return;
   }
@@ -127,6 +127,14 @@ async function submitPrice(event) {
   submitButton.disabled = true;
   addMessage('customer', formatEuro(offerAmount), 'Sinä');
   const waitingMessage = addMessage('salesperson pending', 'Tarkistan, voimmeko tehdä kaupat tällä hinnalla.');
+  // Disabling the currently-focused button removes it from the a11y tree,
+  // which drops focus to <body> for as long as the request is in flight -
+  // move it to the (already aria-live) message list instead, so a keyboard/
+  // screen-reader user stays anchored right where the messages are. Must
+  // happen after the addMessage() calls above: #messageList is
+  // "display: none" while empty (.message-list:empty in vehicle.css), so
+  // focusing it before it has content is a silent no-op.
+  document.getElementById('messageList').focus();
   try {
     const decision = await api.discussPrice({
       vehicleId: state.vehicle.id,
@@ -206,6 +214,11 @@ function renderDecisionActions(mode, decision = null) {
     container.append(note);
   }
   container.append(createAction('Palaa auton tietoihin', closeFlow, false));
+  // Without this, focus is left on the (now-hidden) price form's submit
+  // button and the browser drops it to <body> - a keyboard/screen-reader
+  // user loses their place the instant the bot responds and has no
+  // indication where the new action buttons are.
+  container.querySelector('button')?.focus();
 }
 
 function prepareNewOffer() {
@@ -576,6 +589,11 @@ async function runDemo() {
   button.disabled = true;
   timeline.classList.remove('hidden');
   document.querySelectorAll('[data-demo-step]').forEach((item) => item.classList.remove('current', 'complete'));
+  // Give the browser one paint before the first status change: some screen
+  // readers only start watching an aria-live region for changes once it has
+  // actually rendered, so un-hiding the region and updating its text in the
+  // same tick risks the very first step going unannounced.
+  await new Promise(requestAnimationFrame);
   const delay = matchMedia('(prefers-reduced-motion: reduce)').matches
     ? REDUCED_MOTION_DEMO_STEP_DELAY_MS
     : DEMO_STEP_DELAY_MS;

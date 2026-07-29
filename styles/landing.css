@@ -290,6 +290,29 @@
   background: var(--white);
   box-shadow: var(--shadow);
 }
+/* Orange accent (not the primary blue used by .section-callout elsewhere)
+   so this reads as its own distinct highlight, not another generic callout.
+   #A03D00 on #FFF0E8 measures ~5.97:1 - comfortably past the 4.5:1 AA floor
+   for normal text. */
+.negotiation-highlight {
+  margin-top: var(--space-4);
+  padding: var(--space-4);
+  max-width: 640px;
+  border: 1px solid rgba(232, 93, 0, 0.35);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius-sm);
+  background: var(--orange-light);
+  color: var(--orange-dark);
+}
+.negotiation-highlight-lead {
+  font-weight: 700;
+  font-size: var(--text-md);
+}
+.negotiation-highlight p + p {
+  margin-top: 6px;
+  font-weight: 500;
+  font-size: var(--text-sm);
+}
 .step-number {
   display: inline-flex;
   align-items: center;
@@ -545,3 +568,21 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   .steps-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ============ Legal/content pages (e.g. tietosuoja.html) ============
+   Left-aligned prose instead of the marketing page's centered headers -
+   a privacy notice should read as a document, not a hero section. */
+.legal-content .landing-section-inner { max-width: 720px; }
+.legal-content .section-heading,
+.legal-content .section-intro,
+.legal-content .section-callout {
+  max-width: none;
+  margin-inline: 0;
+  text-align: left;
+}
+.legal-content h2 {
+  margin-top: var(--space-5);
+  font-size: var(--text-lg);
+}
+.legal-content p { margin-top: var(--space-3); color: var(--text2); line-height: 1.6; }
+.legal-content .section-callout { margin-top: var(--space-4); }

@@ -57,7 +57,7 @@
 .vehicle-equipment li::before { content: '✓'; color: var(--success-text); font-weight: 800; margin-right: 8px; }
 
 .purchase-card { margin-top: 0; }
-.purchase-card > p:not(.purchase-eyebrow, .purchase-fineprint, .service-promise) { color: var(--text2); margin-top: 8px; }
+.purchase-card > p:not(.purchase-eyebrow, .purchase-fineprint, .service-promise, .ai-disclosure-note) { color: var(--text2); margin-top: 8px; }
 .purchase-eyebrow { color: var(--primary); font-size: var(--text-2xs); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
 .purchase-price { display: flex; align-items: baseline; justify-content: space-between; margin: var(--space-3) 0; padding: 12px 0; border-block: 1px solid var(--border); }
 .purchase-price span { color: var(--text2); font-size: var(--text-xs); }
@@ -221,3 +221,17 @@
   .negotiation-input { grid-area: input; }
   .deal-summary { grid-area: summary; position: sticky; top: var(--space-3); }
 }
+
+/* AI Act Art. 50 transparency notice - deliberately full-contrast/visible
+   text, not the small muted fine-print treatment used by the notes above
+   and below it. Must read as a clear disclosure, not buried boilerplate. */
+.ai-disclosure-note {
+  margin-top: var(--space-3);
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+.negotiation-input .ai-disclosure-note { margin-top: 6px; margin-bottom: var(--space-2); }

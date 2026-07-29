@@ -17,6 +17,7 @@
   <meta name="twitter:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-alfa-romeo-giulia.jpg">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles/vehicle.css">
+  <link rel="stylesheet" href="styles/landing.css">
 </head>
 <body class="vehicle-page">
   <a href="#vehicleMain" class="skip-link">Siirry ajoneuvon tietoihin</a>
@@ -83,6 +84,7 @@
           <p class="negotiation-gate-status" id="negotiationGateStatus" role="status" aria-live="polite">☐ Kuntoraportti avattava ennen hintaneuvottelua</p>
           <button class="condition-report-open" id="btnOpenPreNegotiationReport" type="button" aria-haspopup="dialog" aria-controls="preNegotiationConditionReport">Avaa kuntoraportti</button>
           <button class="btn btn-primary purchase-button" id="btnStartDigitalSalesperson" type="button" aria-controls="digitalSalespersonFlow" aria-describedby="negotiationGateStatus" aria-expanded="false" disabled>Aloita hintaneuvottelu</button>
+          <p class="ai-disclosure-note"><strong>Keskustelet tekoälyjärjestelmän kanssa, ei ihmismyyjän kanssa.</strong></p>
           <p class="decision-basis-note">Päätökset perustuvat myyjäliikkeen liiketoimintasääntöihin. Poikkeustapaukset ohjataan automaattisesti ihmiselle.</p>
           <p class="availability-note">Demo havainnollistaa digitaalisen hintaneuvottelun. Tuotantoversiossa ostoprosessi jatkuu maksuun ja ajoneuvon luovutukseen myyjäliikkeen järjestelmäintegraatioiden kautta.</p>
         </section>
@@ -110,12 +112,13 @@
               </aside>
               <div class="negotiation-input">
                 <h3 class="negotiation-agent-title" id="negotiationAgentTitle">Digitaalinen automyyjä</h3>
+                <p class="ai-disclosure-note"><strong>Keskustelet tekoälyjärjestelmän kanssa, ei ihmismyyjän kanssa.</strong></p>
                 <p class="negotiation-introduction">Olet tutustunut auton tietoihin ja kuntoraporttiin.<br><br>Millä hinnalla voimme tehdä kaupat?</p>
-                <div class="message-list" id="messageList" role="log" aria-live="polite" aria-relevant="additions"></div>
+                <div class="message-list" id="messageList" role="log" aria-live="polite" aria-relevant="additions" tabindex="-1"></div>
                 <form class="price-discussion" id="priceForm">
                   <label for="priceInput">Ehdottamasi kauppahinta</label>
                   <div class="price-input-row">
-                    <input id="priceInput" name="price" type="text" inputmode="numeric" autocomplete="off" placeholder="Esim. 20 000 €" aria-describedby="priceHelp priceError">
+                    <input id="priceInput" name="price" type="text" inputmode="numeric" autocomplete="off" placeholder="Esim. 90 000 €" aria-describedby="priceHelp priceError">
                     <button class="btn btn-primary" type="submit">Ehdota hintaa</button>
                   </div>
                   <p id="priceHelp">Digitaalinen automyyjä tarkistaa, voidaanko kaupat tehdä ehdottamallasi hinnalla.</p>
@@ -227,6 +230,20 @@
       </aside>
     </div>
   </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        <p class="site-footer-brand">Kopilotti Sales</p>
+        <p class="site-footer-desc">Digitaalinen automyyjä autokaupan hintaneuvotteluun.</p>
+      </div>
+      <ul class="site-footer-links">
+        <li><a href="index.html">Etusivu</a></li>
+        <li><a href="tietosuoja.html">Tietosuojaseloste</a></li>
+      </ul>
+    </div>
+    <p class="site-footer-note">© 2026 Kopilotti Sales. Kaikki oikeudet pidätetään.</p>
+  </footer>
 
   <dialog class="demo-dialog" id="preNegotiationConditionReport" aria-labelledby="preNegotiationConditionReportTitle">
     <div>

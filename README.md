@@ -10,7 +10,7 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria eikä jälleenmyy
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-→ [Avaa Kopilotti Sales -demo](https://kopilotti-sales-demo.vercel.app/)
+→ [Avaa Kopilotti Sales -sivusto](https://kopilotti-sales-demo.vercel.app/) · [Kokeile hintaneuvotteludemoa suoraan](https://kopilotti-sales-demo.vercel.app/vehicle.html)
 
 > **Perinteinen verkkokauppa digitalisoi listahintaisen ostamisen.**
 >
