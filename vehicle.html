@@ -10,11 +10,11 @@
   <meta property="og:description" content="Listahinta 95 000 €. Tutustu Kopilotti Salesin ei-sitovaan ostopolkudemoon.">
   <meta property="og:url" content="https://kopilotti-sales-demo.vercel.app/vehicle.html?id=veh-0001">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-placeholder.svg">
+  <meta property="og:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-alfa-romeo-giulia.jpg">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Alfa Romeo Giulia Quadrifoglio · XYZ-123 – Kopilotti Sales">
   <meta name="twitter:description" content="Listahinta 95 000 €. Ei-sitova ostopolkudemo.">
-  <meta name="twitter:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-placeholder.svg">
+  <meta name="twitter:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-alfa-romeo-giulia.jpg">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles/vehicle.css">
 </head>
@@ -53,8 +53,8 @@
         </div>
 
         <figure class="vehicle-hero">
-          <img id="vehicleImage" alt="Geneerinen demoajoneuvon paikkamerkkikuva" src="assets/cars/demo-vehicle-placeholder.svg">
-          <figcaption>Geneerinen demokuva — ei kuva yksittäisestä ajoneuvosta</figcaption>
+          <img id="vehicleImage" alt="Punainen Alfa Romeo Giulia -mallinen ajoneuvo tiellä" src="assets/cars/demo-vehicle-alfa-romeo-giulia.jpg">
+          <figcaption>Esimerkkikuva — ei kuva myytävästä yksittäisestä ajoneuvosta</figcaption>
         </figure>
 
         <section class="vehicle-spec-card" aria-labelledby="specTitle">
@@ -65,7 +65,7 @@
             <div><dt>Listahinta</dt><dd id="specListPrice">95 000 €</dd></div>
             <div class="condition-report-gate">
               <dt>Kuntoraportti</dt>
-              <dd><span id="conditionReportAvailability">✓ Saatavilla</span><button class="condition-report-open" id="btnOpenPreNegotiationReport" type="button" aria-haspopup="dialog" aria-controls="preNegotiationConditionReport">Avaa kuntoraportti</button></dd>
+              <dd><span id="conditionReportAvailability">✓ Saatavilla</span></dd>
             </div>
           </dl>
         </section>
@@ -81,6 +81,7 @@
           <p>Hintaneuvottelu voidaan aloittaa, kun olet tutustunut ajoneuvoon ja kuntoraporttiin.</p>
           <p>Millä hinnalla voimme tehdä kaupat?</p>
           <p class="negotiation-gate-status" id="negotiationGateStatus" role="status" aria-live="polite">☐ Kuntoraportti avattava ennen hintaneuvottelua</p>
+          <button class="condition-report-open" id="btnOpenPreNegotiationReport" type="button" aria-haspopup="dialog" aria-controls="preNegotiationConditionReport">Avaa kuntoraportti</button>
           <button class="btn btn-primary purchase-button" id="btnStartDigitalSalesperson" type="button" aria-controls="digitalSalespersonFlow" aria-describedby="negotiationGateStatus" aria-expanded="false" disabled>Aloita hintaneuvottelu</button>
           <p class="decision-basis-note">Päätökset perustuvat myyjäliikkeen liiketoimintasääntöihin. Poikkeustapaukset ohjataan automaattisesti ihmiselle.</p>
           <p class="availability-note">Demo havainnollistaa digitaalisen hintaneuvottelun. Tuotantoversiossa ostoprosessi jatkuu maksuun ja ajoneuvon luovutukseen myyjäliikkeen järjestelmäintegraatioiden kautta.</p>
@@ -96,7 +97,7 @@
             <div class="negotiation-workspace">
               <aside class="deal-summary" aria-labelledby="dealSummaryTitle">
                 <h3 id="dealSummaryTitle">Kaupan yhteenveto</h3>
-                <img class="deal-summary-image" id="dealSummaryImage" src="assets/cars/demo-vehicle-placeholder.svg" alt="Geneerinen demokuva ajoneuvosta">
+                <img class="deal-summary-image" id="dealSummaryImage" src="assets/cars/demo-vehicle-alfa-romeo-giulia.jpg" alt="Esimerkkikuva demoautosta">
                 <div class="deal-summary-vehicle">
                   <strong id="dealSummaryVehicle">Alfa Romeo Giulia Quadrifoglio</strong>
                   <span id="dealSummaryRegistration">XYZ-123</span>
@@ -114,7 +115,7 @@
                 <form class="price-discussion" id="priceForm">
                   <label for="priceInput">Ehdottamasi kauppahinta</label>
                   <div class="price-input-row">
-                    <input id="priceInput" name="price" type="text" inputmode="numeric" autocomplete="off" placeholder="Esim. 93 900 €" aria-describedby="priceHelp priceError">
+                    <input id="priceInput" name="price" type="text" inputmode="numeric" autocomplete="off" placeholder="Esim. 20 000 €" aria-describedby="priceHelp priceError">
                     <button class="btn btn-primary" type="submit">Ehdota hintaa</button>
                   </div>
                   <p id="priceHelp">Digitaalinen automyyjä tarkistaa, voidaanko kaupat tehdä ehdottamallasi hinnalla.</p>
@@ -140,7 +141,7 @@
               <li data-demo-step="counter-one"><span aria-hidden="true">○</span>Ensimmäinen hintatarkistus</li>
               <li data-demo-step="offer-two"><span aria-hidden="true">○</span>Uusi hintaehdotus</li>
               <li data-demo-step="counter-two"><span aria-hidden="true">○</span>Toinen hintatarkistus</li>
-              <li data-demo-step="agreement"><span aria-hidden="true">○</span><span id="journeyDemoAgreedPrice">Hinnasta sovittu · 94 300 €</span></li>
+              <li data-demo-step="agreement"><span aria-hidden="true">○</span><span id="journeyDemoAgreedPrice">Hinnasta sovittu · 94 200 €</span></li>
               <li data-demo-step="payment"><span aria-hidden="true">○</span>Maksutapa valittu</li>
               <li data-demo-step="waiting"><span aria-hidden="true">○</span>Maksu odottaa vahvistusta</li>
               <li data-demo-step="confirmed"><span aria-hidden="true">○</span>Maksu vahvistettu</li>

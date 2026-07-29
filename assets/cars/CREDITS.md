@@ -42,3 +42,18 @@ in the generated inventory — it is illustrative, not a photo of the specific u
 | `mercedes-benz-sprinter.jpg` | Mercedes-Benz | Sprinter | Alexander Migl | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/Special:FilePath/File:Mercedes-Benz_Sprinter_(2018)_IMG_3503.jpg) |
 | `renault-trafic.jpg` | Renault | Trafic | EurovisionNim | CC BY-SA 4.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/Special:FilePath/File:2014_Renault_Trafic_(X82)_dCi140_van_(2018-05-05)_01.jpg) |
 | `citroen-berlingo.jpg` | Citroën | Berlingo | Spielvogel | CC0 1.0 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/Special:FilePath/File:Citroen_Berlingo_2018_panel_van_left.jpg) |
+
+## Digital Car Salesperson demo vehicle photo
+
+`demo-vehicle-alfa-romeo-giulia.jpg` is unrelated to the inventory table above —
+it illustrates the single fictional demo vehicle used by `vehicle.html`
+(`js/demo-vehicle.js`'s `DEMO_VEHICLE`), not a generated inventory listing.
+
+| File | Photographer | License | Source |
+|---|---|---|---|
+| `demo-vehicle-alfa-romeo-giulia.jpg` | Luke Jen | [Pexels License](https://www.pexels.com/license/) (free for commercial use, no attribution required) | [Pexels photo 32358822](https://www.pexels.com/photo/32358822/) |
+
+Processing applied before use: cropped to a wide front-three-quarter frame,
+the visible California license plate was permanently blurred beyond
+recognition, resized to 1200px max width, re-encoded as JPEG with all
+EXIF/metadata stripped (verified with Pillow — 0 EXIF tags remain).

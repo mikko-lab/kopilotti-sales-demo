@@ -1,0 +1,65 @@
+# This project is deployed to Vercel as a plain static site by running
+# `vercel deploy` from the repo root (no build step, no outputDirectory).
+# That means anything NOT listed here gets uploaded and served publicly,
+# including backend source code and pricing config, unless excluded below.
+#
+# SECURITY: this file is the only thing standing between the public site
+# and the negotiation engine's source/config. When adding new top-level
+# files or directories to the repo, default to adding them here too unless
+# they are meant to be served to customers. See
+# tests/security/static-deploy-allowlist.test.js, which fails the build if
+# a new tracked file is neither explicitly allowed nor ignored here.
+
+# Backend source and business logic — the actual negotiation engine.
+server.js
+lib/
+src/
+
+# Server-side configuration, including real negotiation floor/target prices.
+config/
+
+# Data, infra, tooling — never needed by the browser.
+migrations/
+scripts/
+deploy/
+docker-compose.yml
+.env.example
+.data/
+inventory.json
+
+# Node/build tooling metadata — not needed for a zero-build static deploy.
+package.json
+package-lock.json
+tsconfig.json
+node_modules/
+
+# Tests and docs — not part of the public product surface.
+tests/
+README.md
+LICENSE
+
+# Editor/tooling directories.
+.claude/
+.vercel/
+.git/
+.gitignore
+.vercelignore
+
+# Config for the `serve` CLI used only for local static-demo testing
+# (scripts/serve-static-demo.js is the real local dev server); Vercel's own
+# production deploy does not read this file.
+serve.json
+
+# Legacy client-side prototype (purchase-intent signal detection), unused by
+# both live pages (index.html, vehicle.html) — nothing currently loads these
+# via <script>, import, or fetch. Excluded so an unreferenced file can't
+# quietly become a new public surface.
+js/app.js
+js/audit-log.js
+js/business-rules.js
+js/gauge.js
+js/html-escape.js
+js/inventory-engine.js
+js/signals.js
+js/transaction-status-stream.js
+js/vehicle-preferences.js

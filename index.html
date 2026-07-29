@@ -4,24 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kopilotti Sales – Digital Car Salesperson</title>
-  <meta name="description" content="Kopilotti Sales on asiakkaalle tarkoitettu digitaalinen automyyjä, joka ohjaa hinnan keskustelusta maksutavan valintaan ja auton luovutukseen.">
-  <meta property="og:title" content="Kopilotti Sales – Digital Car Salesperson">
-  <meta property="og:description" content="Asiakkaalle tarkoitettu digitaalinen automyyjä hinnan keskustelusta maksutavan valintaan ja auton luovutukseen.">
+  <title>Kopilotti Sales – digitaalinen automyyjä hintaneuvotteluun</title>
+  <meta name="description" content="Kopilotti Sales neuvottelee auton hinnasta asiakkaan kanssa 24/7 autoliikkeen määrittämien rajojen sisällä ja voidaan integroida nykyiseen myyntiprosessiin.">
+  <link rel="canonical" href="https://kopilotti-sales-demo.vercel.app/">
+  <meta property="og:title" content="Kopilotti Sales – digitaalinen automyyjä hintaneuvotteluun">
+  <meta property="og:description" content="Kopilotti Sales neuvottelee auton hinnasta asiakkaan kanssa 24/7 autoliikkeen määrittämien rajojen sisällä ja voidaan integroida nykyiseen myyntiprosessiin.">
   <meta property="og:url" content="https://kopilotti-sales-demo.vercel.app/">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-placeholder.svg">
+  <meta property="og:image" content="https://kopilotti-sales-demo.vercel.app/assets/screenshot-negotiation-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Kopilotti Sales – Digital Car Salesperson">
-  <meta name="twitter:description" content="Asiakkaalle tarkoitettu digitaalinen automyyjä hinnan keskustelusta auton luovutukseen.">
-  <meta name="twitter:image" content="https://kopilotti-sales-demo.vercel.app/assets/cars/demo-vehicle-placeholder.svg">
+  <meta name="twitter:title" content="Kopilotti Sales – digitaalinen automyyjä hintaneuvotteluun">
+  <meta name="twitter:description" content="Kopilotti Sales neuvottelee auton hinnasta asiakkaan kanssa 24/7 autoliikkeen määrittämien rajojen sisällä ja voidaan integroida nykyiseen myyntiprosessiin.">
+  <meta name="twitter:image" content="https://kopilotti-sales-demo.vercel.app/assets/screenshot-negotiation-card.jpg">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="styles/vehicle.css">
+  <link rel="stylesheet" href="styles/landing.css">
 </head>
-<body class="vehicle-page product-landing">
+<body class="landing-page">
   <a href="#mainContent" class="skip-link">Siirry pääsisältöön</a>
-  <header class="store-header">
-    <a class="store-brand" href="index.html" aria-label="Kopilotti Sales, etusivu">
+
+  <header class="site-header">
+    <a class="site-brand" href="index.html" aria-label="Kopilotti Sales, etusivu">
       <span class="logo-mark" aria-hidden="true">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.7"/><circle cx="12" cy="12" r="2.1" fill="white"/>
@@ -30,18 +33,233 @@
       </span>
       <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
     </a>
+    <button type="button" class="site-nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Valikko">
+      <svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="site-nav" id="primaryNav" aria-label="Päänavigaatio">
+      <ul>
+        <li><a href="#miten-se-toimii">Miten se toimii</a></li>
+        <li><a href="#integraatiot">Integraatiot</a></li>
+        <li><a href="#turvallisuus">Turvallisuus</a></li>
+        <li><a href="#pilotointi">Pilotointi</a></li>
+        <li><a href="#demo">Demo</a></li>
+      </ul>
+    </nav>
   </header>
-  <p class="landing-positioning">Perinteinen verkkokauppa digitalisoi listahintaisen ostamisen.<br>Kopilotti Sales digitalisoi hintaneuvottelun.</p>
-  <main class="product-landing-main" id="mainContent">
-    <p class="purchase-eyebrow">Kopilotti Sales</p>
-    <h1>Digital Car Salesperson</h1>
-    <p>Digitaalinen automyyjä käy turvallisen hintaneuvottelun myyjäliikkeen liiketoimintasääntöjen mukaisesti.</p>
-    <blockquote>LLM keskustelee. Backend päättää.</blockquote>
-    <p><strong id="demoVehicleName">Demoajoneuvo</strong><br><span id="demoVehicleRegistration"></span> · <span id="demoVehiclePrice"></span></p>
-    <a class="btn btn-primary" href="vehicle.html?id=veh-0001">Avaa demo</a>
-    <p class="purchase-fineprint">Demo havainnollistaa Kopilotti Salesin käyttöliittymää ja digitaalista hintaneuvotteluprosessia. Se käyttää esimerkkiajoneuvoa eikä käsittele oikeita kaupallisia päätöksiä tai maksuja.</p>
+
+  <main id="mainContent" tabindex="-1">
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Kopilotti Sales</p>
+        <h1>Digitaalinen automyyjä, joka neuvottelee hinnasta 24/7</h1>
+        <p class="hero-lede">Kopilotti Sales antaa asiakkaalle vastauksen silloin, kun ostohalu on korkeimmillaan. Autoliike määrittää neuvottelun rajat, ja järjestelmä toimii vain niiden sisällä.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="vehicle.html">Kokeile hintaneuvottelua</a>
+          <a class="btn btn-outline" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Keskustellaan pilotista</a>
+        </div>
+        <p class="hero-note">Demo havainnollistaa käyttöliittymää ja neuvotteluprosessia esimerkkiajoneuvolla — ei käsittele oikeita kaupallisia päätöksiä tai maksuja.</p>
+        <figure class="hero-media">
+          <img src="assets/screenshot-negotiation-card.jpg" width="2560" height="970" loading="eager" alt="Kopilotti Salesin digitaalisen hintaneuvottelun käyttöliittymä esimerkkiajoneuvolla verkkosivustolla">
+          <figcaption>Esimerkkinäkymä demosta. Auto, hinnat ja teksti kuvassa ovat esimerkkitietoja.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="landing-section" aria-labelledby="ongelmaHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Haaste</p>
+        <h2 id="ongelmaHeading" class="section-heading">Asiakas ei aina odota aamuun</h2>
+        <ul class="problem-list">
+          <li>Asiakkaat selaavat autoja myös iltaisin, öisin ja viikonloppuisin.</li>
+          <li>Kiinnostus voi olla korkeimmillaan juuri sillä hetkellä, kun myyjä tai vaihtoautopäällikkö ei ole tavoitettavissa.</li>
+          <li>Hinnasta keskusteleminen pysähtyy helposti manuaaliseen hyväksyntään.</li>
+          <li>Viive voi katkaista ostoprosessin.</li>
+          <li>Kopilotti Sales antaa asiakkaalle heti hallitun seuraavan vastauksen.</li>
+        </ul>
+        <p class="section-callout">Tarkoitus on lyhentää aikaa asiakkaan tarjouksesta autoliikkeen vastaukseen.</p>
+      </div>
+    </section>
+
+    <section class="landing-section alt" id="miten-se-toimii" aria-labelledby="mitenHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Prosessi</p>
+        <h2 id="mitenHeading" class="section-heading">Miten se toimii</h2>
+        <ol class="steps-grid">
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">1</span>
+            <h3>Asiakas valitsee auton</h3>
+            <p>Kopilotti Sales avautuu autokohtaisesti verkkosivulla tai nykyisen myyntipolun yhteydessä.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">2</span>
+            <h3>Asiakas aloittaa hintakeskustelun</h3>
+            <p>Digitaalinen automyyjä käy asiakkaan kanssa luonnollisen keskustelun ja kerää tarjouksen.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">3</span>
+            <h3>Järjestelmä tarkistaa autoliikkeen määrittämät rajat</h3>
+            <p>Liiketoimintakriittinen päätös tehdään palvelinpuolella. Hintarajoja ei säilytetä selaimessa eikä anneta kielimallin päätettäväksi.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">4</span>
+            <h3>Asiakas saa vastauksen</h3>
+            <p>Lopputulos voi olla hyväksytty tarjous, hallittu vastatarjous, ohjaus ihmismyyjälle tai lisätietojen pyytäminen.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="landing-section" aria-labelledby="vertailuHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Erottuvuus</p>
+        <h2 id="vertailuHeading" class="section-heading">Mikä erottaa Kopilotti Salesin chatbotista</h2>
+        <div class="compare-grid">
+          <div class="compare-card">
+            <h3>Tavallinen chatbot</h3>
+            <ul>
+              <li>Vastaa yleisiin kysymyksiin</li>
+              <li>Ohjaa asiakaspalveluun</li>
+              <li>Hakee tietoa tietopankista</li>
+              <li>Ei vastaa hinnan päätöslogiikasta</li>
+            </ul>
+          </div>
+          <div class="compare-card is-kopilotti">
+            <h3>Kopilotti Sales</h3>
+            <ul>
+              <li>Toimii autokohtaisessa ostotilanteessa</li>
+              <li>Käy rajattua hintaneuvottelua</li>
+              <li>Käyttää autoliikkeen määrittämiä liiketoimintarajoja</li>
+              <li>Voi jatkaa keskustelua myös myyntihenkilöstön ollessa poissa</li>
+              <li>Siirtää poikkeustilanteet ihmiselle</li>
+            </ul>
+          </div>
+          <p class="compare-note">Kopilotti Salesin ei tarvitse korvata autoliikkeen nykyistä chat-ratkaisua — se hoitaa yhden rajatun, kaupallisesti kriittisen tilanteen.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section alt" id="integraatiot" aria-labelledby="integraatioHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Arkkitehtuuri</p>
+        <h2 id="integraatioHeading" class="section-heading">Ei uutta autokaupan perusjärjestelmää</h2>
+        <p class="section-intro">Kopilotti Sales voidaan toteuttaa nykyisen ympäristön rinnalle, ei sen tilalle.</p>
+        <ol class="architecture-diagram" aria-label="Kopilotti Salesin sijainti autoliikkeen järjestelmäympäristössä">
+          <li>Autoliikkeen verkkosivusto</li>
+          <li>Kopilotti Sales -käyttöliittymä</li>
+          <li>Kopilotti Sales API</li>
+          <li>Autoliikkeen järjestelmät</li>
+        </ol>
+        <ul class="integration-tags" aria-label="Mahdollisia integraatiokohteita">
+          <li>Ajoneuvovarasto</li>
+          <li>Verkkosivusto</li>
+          <li>CRM</li>
+          <li>DMS</li>
+          <li>Liidien käsittely</li>
+          <li>Ajanvaraus</li>
+          <li>Maksaminen</li>
+          <li>Rahoitushakemus</li>
+          <li>Nykyinen chat-järjestelmä</li>
+        </ul>
+        <p class="section-callout">Pilotissa valitaan tarvittavat integraatiot autoliikkeen nykyisen ympäristön perusteella.</p>
+      </div>
+    </section>
+
+    <section class="landing-section" aria-labelledby="hintarajatHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Hallinta</p>
+        <h2 id="hintarajatHeading" class="section-heading">Autoliike määrittää neuvottelun rajat. Kopilotti Sales toimii vain niiden sisällä.</h2>
+        <p class="section-intro">Autoliike voi määrittää neuvottelun ehdot esimerkiksi:</p>
+        <ul class="bullet-grid">
+          <li>Autokohtaisesti</li>
+          <li>Ajoneuvoryhmittäin</li>
+          <li>Hintaluokittain</li>
+          <li>Kampanjan perusteella</li>
+          <li>Varastotilanteen perusteella</li>
+          <li>Manuaalisen hyväksynnän vaativiksi</li>
+        </ul>
+        <p class="section-callout">Käytettävä malli sovitaan pilotissa autoliikkeen oman hinnoitteluprosessin mukaan.</p>
+      </div>
+    </section>
+
+    <section class="landing-section alt" id="turvallisuus" aria-labelledby="turvallisuusHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Turvallisuus ja hallinta</p>
+        <h2 id="turvallisuusHeading" class="section-heading">Keskustelu voi olla älykäs. Hintapäätös ei saa olla arvaus.</h2>
+        <ul class="security-list">
+          <li>Kielimalli ei päätä hintarajoja.</li>
+          <li>Autoliikkeen säännöt käsitellään palvelinpuolella.</li>
+          <li>Selain ei saa tietää sisäisiä rajoja.</li>
+          <li>Poikkeustilanteet voidaan ohjata ihmiselle.</li>
+          <li>Päätökset ja tapahtumat voidaan kirjata audit-lokiin.</li>
+          <li>Epäselvä tai puutteellinen tilanne ei johda automaattisesti hintalupaukseen.</li>
+          <li>Autoliike säilyttää määräysvallan hinnoitteluun.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="landing-section" id="pilotointi" aria-labelledby="pilotointiHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Käyttöönotto</p>
+        <h2 id="pilotointiHeading" class="section-heading">Aloita rajatulla pilotilla</h2>
+        <ol class="pilot-steps">
+          <li>Valitaan rajattu määrä autoja.</li>
+          <li>Määritetään neuvottelun liiketoimintarajat.</li>
+          <li>Päätetään, mitkä tilanteet siirtyvät ihmiselle.</li>
+          <li>Integroidaan tarvittavat tiedot.</li>
+          <li>Seurataan keskusteluja ja tuloksia.</li>
+          <li>Laajennetaan vasta kontrolloidun testauksen jälkeen.</li>
+        </ol>
+        <div class="hero-actions" style="justify-content: flex-start; margin-top: var(--space-4);">
+          <a class="btn btn-primary" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Keskustellaan pilotista</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section alt" id="demo" aria-labelledby="demoHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Demo</p>
+        <h2 id="demoHeading" class="section-heading">Kokeile itse, miltä digitaalinen hintaneuvottelu tuntuu</h2>
+        <p class="section-intro">Demo näyttää asiakkaan näkökulmasta, miltä digitaalinen hintaneuvottelu voi tuntua. Demon auto, hinnat ja keskustelu ovat esimerkkitietoja.</p>
+        <div class="demo-callout">
+          <p><strong id="demoVehicleName">Demoajoneuvo</strong><br><span id="demoVehicleRegistration"></span> · <span id="demoVehiclePrice"></span></p>
+          <a class="btn btn-primary" href="vehicle.html">Avaa demo</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section" id="yhteydenotto" aria-labelledby="yhteysHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Yhteydenotto</p>
+        <h2 id="yhteysHeading" class="section-heading">Voisiko Kopilotti Sales toimia teidän autokaupassanne?</h2>
+        <p class="section-intro">Pilotissa ratkaisu sovitetaan autoliikkeen nykyiseen myyntiprosessiin, hinnoittelumalliin ja järjestelmäympäristöön.</p>
+        <div class="contact-card">
+          <p>Kerro lyhyesti autoliikkeestänne ja siitä, mitä haluaisitte kokeilla — vastaamme henkilökohtaisesti.</p>
+          <a class="btn btn-primary" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Ota yhteyttä</a>
+        </div>
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        <p class="site-footer-brand">Kopilotti Sales</p>
+        <p class="site-footer-desc">Digitaalinen automyyjä autokaupan hintaneuvotteluun.</p>
+      </div>
+      <ul class="site-footer-links">
+        <li><a href="vehicle.html">Avaa demo</a></li>
+        <!-- Tietosuojasivua ei ole vielä toteutettu. Lisää tähän linkki
+             (esim. <li><a href="/tietosuoja.html">Tietosuoja</a></li>) vasta
+             kun sivu on oikeasti olemassa — älä näytä kävijälle linkkiä
+             sivulle jota ei ole. -->
+      </ul>
+    </div>
+    <p class="site-footer-note">© 2026 Kopilotti Sales. Kaikki oikeudet pidätetään.</p>
+  </footer>
+
   <script type="module" src="js/demo-landing.js"></script>
+  <script type="module" src="js/landing-nav.js"></script>
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>

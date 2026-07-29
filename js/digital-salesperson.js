@@ -38,7 +38,7 @@ function renderVehicle(vehicle) {
   setText('dealSummaryListPrice', formatEuro(vehicle.listPrice));
   const summaryImage = document.getElementById('dealSummaryImage');
   summaryImage.src = vehicle.image;
-  summaryImage.alt = 'Geneerinen demokuva ajoneuvosta';
+  summaryImage.alt = 'Esimerkkikuva demoautosta';
 }
 
 function updateDealSummary() {
@@ -117,7 +117,7 @@ async function submitPrice(event) {
   const offerAmount = parseEuroInput(input.value);
   errorElement.textContent = '';
   if (!Number.isSafeInteger(offerAmount) || offerAmount <= 0) {
-    errorElement.textContent = 'Kirjoita ehdottamasi kauppahinta kokonaisina euroina, esimerkiksi 93 900.';
+    errorElement.textContent = 'Kirjoita ehdottamasi kauppahinta kokonaisina euroina, esimerkiksi 20 000.';
     input.focus();
     return;
   }
@@ -136,9 +136,13 @@ async function submitPrice(event) {
     waitingMessage.remove();
     renderDecision(decision);
     form.classList.add('hidden');
-  } catch (_error) {
+  } catch (error) {
     waitingMessage.remove();
-    addMessage('salesperson decision', 'Hinnan tarkistaminen ei onnistunut juuri nyt. Kaupan tietoja ei muutettu. Yritä hetken kuluttua uudelleen.');
+    // TEMPORARY: surfaces the raw error code/message while diagnosing a live
+    // production failure that isn't reproducible outside the real browser/
+    // backend pair. Revert to the plain customer-facing copy once resolved.
+    const debugDetail = `${error?.code || 'NO_CODE'}: ${error?.message || 'no message'}`;
+    addMessage('salesperson decision', `Hinnan tarkistaminen ei onnistunut juuri nyt. Kaupan tietoja ei muutettu. Yritä hetken kuluttua uudelleen. [DEBUG: ${debugDetail}]`);
     renderDecisionActions('unavailable');
   } finally {
     submitButton.disabled = false;
@@ -553,10 +557,10 @@ function vehicleIdentity(vehicle) { return `${vehicle.makeModel} · ${vehicle.re
 
 const DEMO_STEPS = [
   ['condition', 'Kuntoraportti avattu'],
-  ['offer', 'Asiakas ehdottaa 92 500 €'],
-  ['counter-one', 'Digitaalinen automyyjä ehdottaa 94 700 €'],
-  ['offer-two', 'Asiakas ehdottaa 93 500 €'],
-  ['counter-two', 'Digitaalinen automyyjä ehdottaa 94 300 €'],
+  ['offer', 'Asiakas ehdottaa 86 400 €'],
+  ['counter-one', 'Digitaalinen automyyjä ehdottaa 93 100 €'],
+  ['offer-two', 'Asiakas ehdottaa 89 800 €'],
+  ['counter-two', 'Digitaalinen automyyjä ehdottaa 92 700 €'],
   ['agreement', `Hinnasta sovittu: ${formatEuro(DEMO_VEHICLE.agreedPrice)}`],
   ['payment', 'Maksutavaksi valittu käteinen / tilisiirto'],
   ['waiting', 'Auto on varattu. Maksua odotetaan. Varaus voimassa 22.7.2026 klo 18.00 asti.'],
