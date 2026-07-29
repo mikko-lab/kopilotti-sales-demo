@@ -122,12 +122,21 @@
    banding against the page background — use --white so alt sections
    actually alternate instead of silently no-op'ing. */
 .landing-section.alt { background: var(--white); }
+/* Centered to match the hero's header treatment — on wide viewports the
+   .landing-section-inner container is centered (max-width:1080px + auto
+   margins), but left-aligned text inside it still starts flush at the
+   container's left edge, which reads as "hero is centered, everything
+   else is shoved left" once there's enough side space to notice. List/card
+   body content below (steps-grid, security-list, etc.) stays left-aligned
+   on purpose — only the eyebrow/heading/intro "chapter title" cluster is
+   centered, same pattern the hero already uses. */
 .section-eyebrow {
   color: var(--primary);
   font-size: var(--text-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .08em;
+  text-align: center;
 }
 .section-heading {
   margin-top: 8px;
@@ -135,6 +144,8 @@
   letter-spacing: -0.02em;
   line-height: 1.2;
   max-width: 40ch;
+  margin-inline: auto;
+  text-align: center;
 }
 .section-intro {
   margin-top: var(--space-3);
@@ -142,6 +153,8 @@
   font-size: var(--text-md);
   line-height: 1.6;
   max-width: 62ch;
+  margin-inline: auto;
+  text-align: center;
 }
 .section-callout {
   margin-top: var(--space-3);
