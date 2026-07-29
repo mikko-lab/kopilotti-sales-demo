@@ -118,6 +118,16 @@
   max-width: 1080px;
   margin: 0 auto;
 }
+/* Every direct child (problem-list, security-list, bullet-grid, pilot-steps,
+   demo-callout, contact-card, etc.) sets its own narrower max-width for
+   readability, but without this it sits flush against this container's
+   left edge instead of being centered within it — on a wide viewport that
+   reads as "the heading is centered, the body text is stuck on the left."
+   Grid-based children with no max-width (steps-grid, compare-grid) already
+   fill the full width, so this has no visible effect on them. */
+.landing-section-inner > * {
+  margin-inline: auto;
+}
 /* --surface2 equals --bg exactly (both #F5F7FA), so it can't create visible
    banding against the page background — use --white so alt sections
    actually alternate instead of silently no-op'ing. */
