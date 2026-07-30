@@ -264,6 +264,8 @@ Tämä arkkitehtuuri on tietoinen suunnitteluratkaisu.
 
 Tarkkaa päätöslogiikkaa ei julkaista tässä repositoriossa.
 
+Asiakkaan identiteetti vahvistetaan sähköpostitse ennen hintaneuvottelun aloittamista, ja järjestelmä rajoittaa saman asiakkaan automaattisten tarjousten määrää yhtä ajoneuvoa kohden ennen siirtoa myyjäliikkeen käsiteltäväksi. Tämä suojaa sekä asiakasta että myyjäliikettä väärinkäytöltä.
+
 ---
 
 # Olemassa olevat myyntikanavat, uusi toimintamalli
@@ -432,15 +434,18 @@ Kopilotti Sales on suunniteltu erityisesti autoliikkeille, jotka:
 
 ## Kopilotti Admin
 
+Toteutettu:
+
+- DMS-tuonnit (esikatselu ja vahvistus ennen tuotantoon vientiä)
+- ajoneuvojen ja toimipisteiden näkyvyyden hallinta digitaalisessa myyntikanavassa
+- hintaneuvottelujen lukkojen hallinta
+
 Suunnitteilla:
 
-- DMS-integraatiot
-- ajoneuvojen hallinta
 - kuntoraporttien hallinta
 - liiketoimintasääntöjen hallinta
 - käyttäjähallinta
-- toimipisteiden hallinta
-- julkaisu- ja hyväksyntäprosessit
+- muodolliset julkaisu- ja hyväksyntäprosessit
 
 ## Kopilotti Insights
 
