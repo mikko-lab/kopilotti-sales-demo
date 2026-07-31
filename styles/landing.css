@@ -234,7 +234,7 @@
   font-size: var(--text-xs);
 }
 .hero-media {
-  width: min(880px, 100%);
+  width: min(1040px, 100%);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--white);
@@ -274,6 +274,53 @@
   border-radius: 50%;
   background: var(--orange);
 }
+
+/* ============ Market evidence (research-backed stats) ============ */
+.evidence-grid {
+  margin-top: var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(3, 1fr);
+  list-style: none;
+}
+.evidence-card {
+  display: grid;
+  gap: 6px;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.evidence-card strong {
+  font-size: clamp(28px, 4.5vw, 40px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--primary-dark);
+}
+.evidence-card span {
+  color: var(--text2);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+.source-note {
+  margin-top: var(--space-3);
+  color: var(--muted);
+  font-size: var(--text-2xs);
+  text-align: center;
+}
+
+/* This section's own .section-intro runs noticeably longer (4 sentences)
+   than every other section-intro on this page - centered text over that
+   many lines reads worse (uneven ragged edges on both sides), especially on
+   mobile. Left-aligning it here is scoped to this one paragraph only via
+   its own class, not a change to the shared .section-intro rule - every
+   other, shorter section-intro elsewhere stays centered. Applies at every
+   viewport width, not just mobile - the block itself stays centered as a
+   column (inherited max-width/margin-inline:auto from .section-intro),
+   only the text's own alignment changes. */
+.evidence-intro { text-align: left; }
 
 /* ============ Consumer commerce (not an auction) ============ */
 .consumer-commerce-body {
@@ -554,6 +601,7 @@
   .steps-grid { grid-template-columns: 1fr; }
   .compare-grid { grid-template-columns: 1fr; }
   .bullet-grid { grid-template-columns: 1fr; }
+  .evidence-grid { grid-template-columns: 1fr; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .steps-grid { grid-template-columns: repeat(2, 1fr); }
