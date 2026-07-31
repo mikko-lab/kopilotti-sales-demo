@@ -138,6 +138,12 @@ Kopilotti Sales:
 - ei sovi ajoneuvon luovutuksesta
 - ei tee kaupallisia päätöksiä LLM:n perusteella
 
+Kopilotti Sales ei ole huutokauppa, tarjouskilpailu tai automaattinen poistomyyntikanava.
+
+Se on käytettyjen ajoneuvojen normaaliin vähittäismyyntiin tarkoitettu digitaalinen hintaneuvottelukanava. Ajoneuvo myydään myyjäliikkeen määrittämällä markkinahinnalla ja liiketoimintasäännöillä.
+
+Kauppa on normaalia autoliikkeen kuluttajakauppaa, johon sovelletaan kuluttajansuojalain mukaisia oikeuksia kaupankäyntikanavasta riippumatta.
+
 Sen tehtävä on yksi:
 
 viedä asiakas turvallisesti hintaneuvottelusta toteutuneisiin kauppoihin.

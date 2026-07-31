@@ -275,6 +275,19 @@
   background: var(--orange);
 }
 
+/* ============ Consumer commerce (not an auction) ============ */
+.consumer-commerce-body {
+  margin-top: var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+  max-width: 720px;
+}
+.consumer-commerce-body p {
+  color: var(--text2);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+
 /* ============ How it works ============ */
 .steps-grid {
   margin-top: var(--space-5);
