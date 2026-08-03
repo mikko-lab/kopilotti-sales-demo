@@ -364,6 +364,36 @@
 }
 .step-card h3 { margin-top: var(--space-3); font-size: var(--text-md); }
 .step-card p { margin-top: 6px; color: var(--text2); font-size: var(--text-xs); line-height: 1.55; }
+.steps-grid.rollout-grid { grid-template-columns: repeat(3, 1fr); }
+.step-card code {
+  color: var(--primary-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: .92em;
+  overflow-wrap: anywhere;
+}
+.magic-link-code {
+  margin-top: var(--space-4);
+  max-width: 760px;
+  padding: var(--space-3);
+  overflow-x: auto;
+  border: 1px solid var(--header-border);
+  border-radius: var(--radius-sm);
+  background: var(--header-bg);
+  color: var(--header-text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: var(--text-xs);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.payment-boundary {
+  margin-top: var(--space-4);
+  max-width: 760px;
+  border-left-color: var(--success-text);
+  background: var(--success-light);
+  color: var(--text);
+  font-weight: 400;
+}
+.payment-boundary strong { color: var(--success-text); }
 
 /* ============ Comparison ============ */
 .compare-grid {
@@ -599,12 +629,14 @@
 /* ============ Responsive ============ */
 @media (max-width: 767px) {
   .steps-grid { grid-template-columns: 1fr; }
+  .steps-grid.rollout-grid { grid-template-columns: 1fr; }
   .compare-grid { grid-template-columns: 1fr; }
   .bullet-grid { grid-template-columns: 1fr; }
   .evidence-grid { grid-template-columns: 1fr; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid.rollout-grid { grid-template-columns: 1fr; }
 }
 
 /* ============ Legal/content pages (e.g. tietosuoja.html) ============

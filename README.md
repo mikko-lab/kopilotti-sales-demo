@@ -55,7 +55,7 @@ Asiakas voi:
 - hakea rahoituksen
 - tutustua myynti-ilmoitukseen ja kuntoraporttiin
 - tehdä kaupat
-- siirtyä maksuprosessiin
+- siirtyä myyjäliikkeen omaan maksuprosessiin
 
 Yksi vaihe on kuitenkin usein edelleen manuaalinen.
 
@@ -116,11 +116,11 @@ Kopilotti Sales toimii digitaalisena automyyjänä, joka voi:
 - hyväksyä tarjouksen liiketoimintasääntöjen sallimissa rajoissa
 - eskaloida poikkeustapaukset ihmiselle
 - muodostaa kauppa sovitulla hinnalla
-- käynnistää maksuprosessi
+- siirtää asiakas myyjäliikkeen omaan kaupanteko- ja maksuprosessiin
 
-Kopilotti Salesin tehtävä päättyy sovitulla hinnalla muodostettuun kauppaan ja maksuprosessin käynnistämiseen.
+Kopilotti Salesin tehtävä päättyy sovitulla hinnalla muodostettuun kauppaan ja asiakkaan siirtämiseen myyjäliikkeen omaan prosessiin.
 
-Tämän jälkeen myyjäliike sopii asiakkaan kanssa ajoneuvon luovutuksesta normaalin toimintatapansa mukaisesti.
+Maksut eivät koskaan kulje Kopilotti Salesin kautta. Myyjäliike hoitaa koko kaupanteko- ja maksuprosessin omissa järjestelmissään, valitsemansa maksupalvelun kautta, ja sopii asiakkaan kanssa ajoneuvon luovutuksesta normaalin toimintatapansa mukaisesti.
 
 ---
 
@@ -136,6 +136,7 @@ Kopilotti Sales:
 - ei hallitse ajoneuvoja
 - ei korvaa automyyjää
 - ei sovi ajoneuvon luovutuksesta
+- ei vastaanota, säilytä tai välitä asiakkaan maksuja
 - ei tee kaupallisia päätöksiä LLM:n perusteella
 
 Kopilotti Sales ei ole huutokauppa, tarjouskilpailu tai automaattinen poistomyyntikanava.
@@ -146,7 +147,7 @@ Kauppa on normaalia autoliikkeen kuluttajakauppaa, johon sovelletaan kuluttajans
 
 Sen tehtävä on yksi:
 
-viedä asiakas turvallisesti hintaneuvottelusta toteutuneisiin kauppoihin.
+viedä asiakas turvallisesti hintaneuvottelusta myyjäliikkeen kaupantekoprosessiin.
 
 ---
 
@@ -204,6 +205,57 @@ Myyjäliikkeen päätösvalta säilyy kaikissa tilanteissa.
 
 ---
 
+# Kevyt käyttöönotto: Magic Link → Admin → API
+
+Ensimmäinen pilotti ei vaadi viikkojen integraatioprojektia. Autoliike lisää jokaisen mukaan otettavan auton sivulle yhden painikkeen:
+
+> **Neuvottele hinnasta**
+
+## Vaihe 1: autokohtainen Magic Link
+
+Painike avaa autokohtaisen esimerkkiosoitteen:
+
+```text
+https://sales.kopilotti.online/n/8F3KD91X
+```
+
+Linkissä on vain satunnainen, läpinäkymätön tunniste. Se ei sisällä auton hintarajoja tai muita sisäisiä liiketoimintasääntöjä. Kopilotti Sales hakee auton tiedot ja voimassa olevan neuvottelupolitiikan palvelimelta Kopilotti Adminin kautta.
+
+## Vaihe 2: Kopilotti Admin
+
+Myyjä valitsee auton ja määrittää esimerkiksi:
+
+- listahinnan
+- alimman hyväksyttävän hinnan
+- tarjousportaat
+- kampanjat
+- voimassaoloajan
+
+Admin luo autokohtaisen linkin ja tarvittaessa valmiin HTML-pätkän:
+
+```html
+<a href="https://sales.kopilotti.online/n/8F3KD91X">
+  Neuvottele hinnasta
+</a>
+```
+
+Pilotissa autoliikkeen tekninen työ voi siten rajoittua yhden linkin lisäämiseen auton sivulle.
+
+## Vaihe 3: API ja integraatiot
+
+Kun toimintamalli on osoittanut arvonsa, linkkien luonti ja ajoneuvotietojen päivitys voidaan automatisoida esimerkiksi:
+
+- DMS-järjestelmään
+- autoliikkeen verkkokauppaan
+- CRM-järjestelmään
+- Nettiautoon ja muihin markkinapaikkoihin niiden tarjoamien rajapintojen ja kumppanuuksien kautta
+
+Integraatiot ovat hallittu seuraava vaihe, eivät pilotin aloittamisen edellytys.
+
+> **Maksut pysyvät aina myyjäliikkeellä.** Kopilotti Sales ei vastaanota, säilytä eikä välitä asiakkaan maksuja. Hyväksytyn neuvottelutuloksen jälkeen myyjäliike hoitaa koko kaupanteko- ja maksuprosessin omissa järjestelmissään ja valitsemansa maksupalvelun kautta.
+
+---
+
 # Arkkitehtuuri
 
 ```text
@@ -225,7 +277,7 @@ Myyjäliikkeen päätösvalta säilyy kaikissa tilanteissa.
         ACCEPT · COUNTER · REJECT · ESCALATE
                         │
                         ▼
-               Kauppa ja maksuprosessi
+       Myyjäliikkeen kauppa- ja maksuprosessi
 ```
 
 LLM voi osallistua keskusteluun, tunnistaa asiakkaan tarkoituksen ja muodostaa luonnollisen vastauksen.
@@ -355,9 +407,9 @@ Sen vastuulla ovat:
 - digitaalinen hintaneuvottelu
 - liiketoimintasääntöjen mukainen päätöksenteko
 - kaupan muodostaminen
-- maksuprosessin käynnistäminen
+- asiakkaan siirtäminen myyjäliikkeen kaupanteko- ja maksuprosessiin
 
-Sales ei hallitse ajoneuvoja, määritä hinnoittelua tai sisällä liiketoimintasääntöjen ylläpitoa.
+Sales ei hallitse ajoneuvoja, määritä hinnoittelua, sisällä liiketoimintasääntöjen ylläpitoa eikä käsittele asiakkaan maksuja.
 
 ## Kopilotti Admin
 
@@ -528,7 +580,7 @@ Status: Active Development
 
 Tuote kehittyy vaiheittain.
 
-Ensimmäinen vaihe keskittyy digitaaliseen hintaneuvotteluun, kaupantekoon ja maksuprosessin käynnistämiseen.
+Ensimmäinen vaihe keskittyy digitaaliseen hintaneuvotteluun ja asiakkaan hallittuun siirtämiseen myyjäliikkeen omaan kaupantekoprosessiin.
 
 Seuraavat vaiheet laajentavat kokonaisuutta hallintaan, analytiikkaan, integraatioihin ja monikanavaiseen asiointiin.
 

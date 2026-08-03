@@ -40,7 +40,7 @@
     <nav class="site-nav" id="primaryNav" aria-label="Päänavigaatio">
       <ul>
         <li><a href="#miten-se-toimii">Miten se toimii</a></li>
-        <li><a href="#integraatiot">Integraatiot</a></li>
+        <li><a href="#integraatiot">Käyttöönotto</a></li>
         <li><a href="#turvallisuus">Turvallisuus</a></li>
         <li><a href="#pilotointi">Pilotointi</a></li>
         <li><a href="#demo">Demo</a></li>
@@ -179,27 +179,37 @@
 
     <section class="landing-section alt" id="integraatiot" aria-labelledby="integraatioHeading">
       <div class="landing-section-inner">
-        <p class="section-eyebrow">Arkkitehtuuri</p>
-        <h2 id="integraatioHeading" class="section-heading">Ei uutta autokaupan perusjärjestelmää</h2>
-        <p class="section-intro">Kopilotti Sales voidaan toteuttaa nykyisen ympäristön rinnalle, ei sen tilalle.</p>
-        <ol class="architecture-diagram" aria-label="Kopilotti Salesin sijainti autoliikkeen järjestelmäympäristössä">
-          <li>Autoliikkeen verkkosivusto</li>
-          <li>Kopilotti Sales -käyttöliittymä</li>
-          <li>Kopilotti Sales API</li>
-          <li>Autoliikkeen järjestelmät</li>
+        <p class="section-eyebrow">Kevyt käyttöönotto</p>
+        <h2 id="integraatioHeading" class="section-heading">Pilotti alkaa yhdellä linkillä</h2>
+        <p class="section-intro">Kopilotti Sales voidaan ottaa käyttöön ilman viikkojen integraatioprojektia. Autoliike lisää auton sivulle yhden <strong>Neuvottele hinnasta</strong> -linkin, ja varsinaiset integraatiot rakennetaan vasta, kun toimintamalli on osoittanut arvonsa.</p>
+
+        <ol class="steps-grid rollout-grid">
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">1</span>
+            <h3>Autokohtainen Magic Link</h3>
+            <p>Linkissä on vain satunnainen, läpinäkymätön tunniste, esimerkiksi <code>sales.kopilotti.online/n/8F3KD91X</code>. Auton tiedot ja neuvottelusäännöt haetaan palvelimelta — minimi- tai tavoitehintaa ei koskaan lisätä URL-osoitteeseen.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">2</span>
+            <h3>Kopilotti Admin</h3>
+            <p>Myyjä määrittää listahinnan, alimman hyväksyttävän hinnan, tarjousportaat, kampanjat ja voimassaoloajan. Admin muodostaa linkin ja valmiin HTML-pätkän auton sivulle.</p>
+          </li>
+          <li class="step-card">
+            <span class="step-number" aria-hidden="true">3</span>
+            <h3>API ja integraatiot</h3>
+            <p>Kun toimintamalli on todennettu, linkkien luonti voidaan automatisoida DMS-, verkkokauppa- ja CRM-integraatioilla sekä markkinapaikoissa niiden tarjoamien rajapintojen ja kumppanuuksien kautta.</p>
+          </li>
         </ol>
-        <ul class="integration-tags" aria-label="Mahdollisia integraatiokohteita">
-          <li>Ajoneuvovarasto</li>
-          <li>Verkkosivusto</li>
-          <li>CRM</li>
-          <li>DMS</li>
-          <li>Liidien käsittely</li>
-          <li>Ajanvaraus</li>
-          <li>Maksaminen</li>
-          <li>Rahoitushakemus</li>
-          <li>Nykyinen chat-järjestelmä</li>
-        </ul>
-        <p class="section-callout">Pilotissa valitaan tarvittavat integraatiot autoliikkeen nykyisen ympäristön perusteella.</p>
+
+        <pre class="magic-link-code" aria-label="Esimerkki Neuvottele hinnasta -linkin HTML-koodista"><code>&lt;a href="https://sales.kopilotti.online/n/8F3KD91X"&gt;
+  Neuvottele hinnasta
+&lt;/a&gt;</code></pre>
+
+        <div class="section-callout payment-boundary">
+          <strong>Maksut pysyvät aina myyjäliikkeellä.</strong> Kopilotti Sales ei vastaanota, säilytä eikä välitä asiakkaan maksuja. Kun neuvottelutulos on hyväksytty, myyjäliike hoitaa koko kaupanteko- ja maksuprosessin omissa järjestelmissään ja valitsemansa maksupalvelun kautta.
+        </div>
+
+        <p class="section-callout">Pilotin työ autoliikkeelle: yhden linkin lisääminen auton sivulle. Ei pakollista DMS-, CRM- tai markkinapaikkaintegraatiota.</p>
       </div>
     </section>
 
