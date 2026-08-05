@@ -30,6 +30,28 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 ---
 
+# Tuotannon tila
+
+## Todistettu julkaistussa demoympäristössä
+
+- Magic Link -käyttöönotto: yksi autokohtainen, läpinäkymätön linkki, jonka takaa asiakas löytää auton tiedot ja voi aloittaa hintaneuvottelun
+- Autoliikkeen Kopilotti Adminissa määrittämät deterministiset hintasäännöt: hyväksyntä, vastatarjous, hylkäys ja eskalointi ihmiselle
+- Hyväksytyn hinnan jälkeen kaupan viimeistely, rahoitus, maksut ja ajoneuvon luovutus hoidetaan myyjäliikkeen omissa järjestelmissä. Kopilotti ei vastaanota, säilytä eikä välitä asiakkaan maksuja.
+
+## Rakennettu, mutta ei vielä osa julkisen demon tuotantoliikennettä
+
+- **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Sitä ei ole vielä kytketty julkisen demon tuotantoliikenteeseen.
+
+## Vaaditaan ennen ensimmäistä oikeaa asiakaspilottia
+
+- **Neuvottelusessioiden pysyvä tietokantatallennus.** Ennen oikeaa asiakaspilottia neuvottelusessiot siirretään nykyisestä kehitysratkaisusta pysyvään tietokantaan.
+
+## Suunniteltu jatkokehitys, ei nykyinen ominaisuus
+
+- **1–3 erikseen määriteltävää vastatarjoushintaa.** Järjestelmässä on jo kolme automaattista neuvottelukierrosta; tuleva ominaisuus koskee nimenomaan sitä, että autoliike voisi määritellä jokaiselle kierrokselle oman vastatarjoushinnan yhden laskentakaavan sijaan.
+
+---
+
 # Keskeinen ajatus
 
 > **LLM voi keskustella asiakkaan kanssa.**
@@ -489,6 +511,18 @@ Kopilotti Sales on suunniteltu erityisesti autoliikkeille, jotka:
 ---
 
 # Roadmap
+
+## Kopilotti Sales
+
+Suunnitteilla:
+
+- DDN-todennuksen kytkeminen julkisen neuvottelupolun tuotantoliikenteeseen
+- neuvottelusessioiden pysyvä tietokantatallennus
+- autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
+- DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
+- vaihtoauton arvon tuonti autoliikkeen omasta arvonmääritysjärjestelmästä
+
+Nämä ovat suunniteltuja integraatioita ja ominaisuuksia, eivät nykyisiä.
 
 ## Kopilotti Admin
 
