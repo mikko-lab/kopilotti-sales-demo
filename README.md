@@ -624,7 +624,7 @@ Ei päinvastoin.
 
 # Kuvakaappaukset
 
-![Kopilotti Sales -etusivu](assets/screenshot-landing.jpg)
+![Kopilotti Sales -etusivu](assets/screenshot-landing-2026-08.jpg)
 
 ![Ajoneuvosivu ja digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)
 
