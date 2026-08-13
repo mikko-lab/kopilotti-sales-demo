@@ -36,11 +36,24 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 - Magic Link -käyttöönotto: yksi autokohtainen, läpinäkymätön linkki, jonka takaa asiakas löytää auton tiedot ja voi aloittaa hintaneuvottelun
 - Autoliikkeen Kopilotti Adminissa määrittämät deterministiset hintasäännöt: hyväksyntä, vastatarjous, hylkäys ja eskalointi ihmiselle
-- Hyväksytyn hinnan jälkeen kaupan viimeistely, rahoitus, maksut ja ajoneuvon luovutus hoidetaan myyjäliikkeen omissa järjestelmissä. Kopilotti ei vastaanota, säilytä eikä välitä asiakkaan maksuja.
+- Hyväksytyn hinnan jälkeen asiakas siirtyy nykyisessä julkisessa demossa myyjäliikkeen omaan kaupantekoprosessiin. Rahoitus, maksut ja ajoneuvon luovutus hoidetaan myyjäliikkeen omissa järjestelmissä.
+- Kopilotti ei vastaanota, säilytä eikä välitä asiakkaan maksuja.
 
-## Rakennettu, mutta ei vielä osa julkisen demon tuotantoliikennettä
+## Rakennettu ja testattu, mutta ei julkisessa tuotantoliikenteessä
 
-- **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Sitä ei ole vielä kytketty julkisen demon tuotantoliikenteeseen.
+- **Sopimus-, lasku- ja tilisiirtopolku.** Palvelimen hyväksymästä hinnasta voidaan muodostaa idempotentti kauppapaketti, jonka tilakone on `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`.
+- **Myyjäliikkeen maksuhallinta.** Kopilotti Adminiin on rakennettu maksuprofiilit, maksua odottavien kauppojen näkymä ja atominen manuaalinen maksuvahvistus. Asiakas ei voi vahvistaa maksua eikä asettaa `PAID`-tilaa. Maksuvahvistuksen kanoninen audit-tapahtuma on samassa tietokantatransaktiossa kirjoitettava `PAID_CONFIRMED`.
+- **Maksukelvoton konseptisopimus.** Tuotantoympäristössä konseptiasiakirja vaatii kaksi erillistä, eksplisiittistä käyttöönottoa. Asiakirja merkitään näkyvästi `KONSEPTIDEMO`-tekstillä, eikä siinä näytetä IBANia, BICiä, viitenumeroa, eräpäivää tai maksukehotetta. Polku pysähtyy `CONTRACT_READY`-tilaan.
+- **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Julkisessa tuotantoliikenteessä tila on tällä hetkellä `NOT_CONFIGURED`: siitä ei muodosteta väitettä varmennetusta päätöksestä, päätöskuittia eikä kuittilinkkiä.
+
+## Vaaditaan ennen maksukelpoista tuotantopolkua
+
+- Myyjäliikkeen hyväksytty ja hallitsema maksutili sekä palvelinlähtöinen, asiakkaan selaimesta muuttumaton maksutieto
+- Maksuohjeen vahva sitominen oikeaan myyjäliikkeeseen, kauppaan, sovittuun hintaan, laskunumeroon ja viitteeseen sekä riippumaton varmennus ennen kuin asiakkaalle näytetään maksukelpoinen IBAN
+- Oikea DMS-sopimusintegraatio konseptiasiakirjan tilalle
+- Tuotantokatselmus, jossa tenant-eristys, atomisuus, idempotenssi, tietovuodot ja asiakkaan mahdottomuus vahvistaa maksu todennetaan
+
+Täysi lasku–`PAID`-tuotantopolku on näihin asti **NO-GO**. Kun se aikanaan otetaan käyttöön, rahat siirtyvät suoraan asiakkaalta myyjäliikkeelle; Kopilotti ei vastaanota, säilytä eikä välitä rahaa.
 
 ## Vaaditaan ennen ensimmäistä oikeaa asiakaspilottia
 
@@ -140,7 +153,9 @@ Kopilotti Sales toimii digitaalisena automyyjänä, joka voi:
 - muodostaa kauppa sovitulla hinnalla
 - siirtää asiakas myyjäliikkeen omaan kaupanteko- ja maksuprosessiin
 
-Kopilotti Salesin tehtävä päättyy sovitulla hinnalla muodostettuun kauppaan ja asiakkaan siirtämiseen myyjäliikkeen omaan prosessiin.
+Nykyisessä julkisessa tuotantodemossa Kopilotti Salesin tehtävä päättyy sovitulla hinnalla muodostettuun kauppaan ja asiakkaan siirtämiseen myyjäliikkeen omaan prosessiin.
+
+Kehitys- ja testiympäristöissä rakennettu sopimus-, lasku- ja maksunseurantapolku on kuvattu kohdassa [Tuotannon tila](#tuotannon-tila). Se ei ole vielä julkisen tuotantodemon maksukelpoinen ominaisuus.
 
 Maksut eivät koskaan kulje Kopilotti Salesin kautta. Myyjäliike hoitaa koko kaupanteko- ja maksuprosessin omissa järjestelmissään, valitsemansa maksupalvelun kautta, ja sopii asiakkaan kanssa ajoneuvon luovutuksesta normaalin toimintatapansa mukaisesti.
 
@@ -447,6 +462,8 @@ Sen avulla hallitaan:
 - käyttäjät
 - toimipisteet
 
+Kehitys- ja testiympäristöissä Adminiin on lisäksi rakennettu myyjäliikkeen maksuprofiilien hallinta, maksua odottavien kauppojen näkymä ja atominen manuaalinen maksuvahvistus. Nämä eivät ole vielä osa julkista tuotantoliikennettä.
+
 Kaikki Salesin tekemät kaupalliset päätökset perustuvat Adminissa ylläpidettyihin liiketoimintasääntöihin.
 
 Sales ei sisällä kovakoodattuja hintarajoja tai jälleenmyyjäkohtaisia päätöksiä.
@@ -514,6 +531,13 @@ Kopilotti Sales on suunniteltu erityisesti autoliikkeille, jotka:
 
 ## Kopilotti Sales
 
+Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
+
+- hyväksytystä palvelinlähtöisestä hinnasta muodostuva sopimus- ja laskupaketti
+- asiakkaan sopimuksen hyväksyntä ja maksun tilan seuranta
+- tilakone `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`
+- maksukelvoton, näkyvästi merkitty konseptisopimus tuotantodemon turvallisuusrajana
+
 Suunnitteilla:
 
 - DDN-todennuksen kytkeminen julkisen neuvottelupolun tuotantoliikenteeseen
@@ -531,6 +555,12 @@ Toteutettu:
 - DMS-tuonnit (esikatselu ja vahvistus ennen tuotantoon vientiä)
 - ajoneuvojen ja toimipisteiden näkyvyyden hallinta digitaalisessa myyntikanavassa
 - hintaneuvottelujen lukkojen hallinta
+
+Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
+
+- myyjäliikkeen maksuprofiilin hallinta
+- vain oman myyjäliikkeen maksua odottavat kaupat näyttävä näkymä
+- atominen manuaalinen maksuvahvistus ja kanoninen `PAID_CONFIRMED`-audit trail
 
 Suunnitteilla:
 
