@@ -1,10 +1,10 @@
 # Kopilotti Sales
 
-Kopilotti Sales on kaupallinen ohjelmistotuote.
+Kopilotti Sales on kaupallinen ohjelmistotuote ja digitaalinen kaupankäyntikerros käytettyjen ajoneuvojen myyntiin.
 
-Tämä repositorio esittelee tuotteen toimintaa ja arkkitehtuuria.
+Tämä repositorio esittelee tuotteen toimintaa, käyttöliittymää, arkkitehtuuria ja tuotantorajoja.
 
-Julkinen repositorio ei sisällä tuotannon päätösmoottoria eikä jälleenmyyjäkohtaisia sääntöjä.
+Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäkohtaisia sääntöjä, integraatiotunnuksia eikä kaupallisten rajapintojen sopimussisältöä.
 
 ![Status](https://img.shields.io/badge/status-active%20development-orange)
 ![Platform](https://img.shields.io/badge/platform-web-blue)
@@ -16,9 +16,9 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria eikä jälleenmyy
 >
 > **Kopilotti Sales digitalisoi hintaneuvottelun.**
 
-Kopilotti Sales on digitaalinen myyntikanava käytettyjen ajoneuvojen hintaneuvotteluun.
+Kopilotti Sales jatkaa käytetyn auton kaupantekoa verkossa silloin, kun asiakas on valmis keskustelemaan hinnasta.
 
-Se mahdollistaa turvallisen digitaalisen hintaneuvottelun, joka kasvattaa kauppojen määrää säilyttäen myyjäliikkeen päätösvallan. Kaikki kaupalliset päätökset tehdään deterministisesti myyjäliikkeen omien liiketoimintasääntöjen mukaisesti.
+Se lisää nykyiseen digitaaliseen ostopolkuun asiakkaan tarjouksen, rajatun neuvottelun ja deterministisen hinnanpäätöksen. Myyjäliikkeen päätösvalta säilyy, ja kaikki kaupalliset päätökset tehdään palvelimella myyjäliikkeen omien liiketoimintasääntöjen mukaisesti.
 
 Kopilotti Sales ei ole chatbot.
 
@@ -41,10 +41,14 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 ## Rakennettu ja testattu, mutta ei julkisessa tuotantoliikenteessä
 
+- **Trade-in V1 ja DealSnapshot.** Vaihtoauton tunnistaminen, ulkoisesta arvonmäärityksestä saatavan arvion käsittely, deterministinen tarjous, tarjouksen hyväksyminen, väliraha ja muuttumaton kauppayhteenveto on toteutettu erillisinä ja jäljitettävinä vaiheina. Hyväksytty vaihtoautotarjous voidaan käyttää kauppaan vain kerran.
+- **VIS / Autovista -integraatiovalmius.** Providerista riippumaton domain-raja ja adapterirakenne ajoneuvon tunnistamiselle ja vaihtoauton arvonmääritykselle ovat valmiina. Puuttuvaa tai epäonnistunutta arvonmääritystä ei arvata, vaan tapaus ohjataan manuaaliseen tarkistukseen.
 - **Sopimus-, lasku- ja tilisiirtopolku.** Palvelimen hyväksymästä hinnasta voidaan muodostaa idempotentti kauppapaketti, jonka tilakone on `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`.
 - **Myyjäliikkeen maksuhallinta.** Kopilotti Adminiin on rakennettu maksuprofiilit, maksua odottavien kauppojen näkymä ja atominen manuaalinen maksuvahvistus. Asiakas ei voi vahvistaa maksua eikä asettaa `PAID`-tilaa. Maksuvahvistuksen kanoninen audit-tapahtuma on samassa tietokantatransaktiossa kirjoitettava `PAID_CONFIRMED`.
 - **Maksukelvoton konseptisopimus.** Tuotantoympäristössä konseptiasiakirja vaatii kaksi erillistä, eksplisiittistä käyttöönottoa. Asiakirja merkitään näkyvästi `KONSEPTIDEMO`-tekstillä, eikä siinä näytetä IBANia, BICiä, viitenumeroa, eräpäivää tai maksukehotetta. Polku pysähtyy `CONTRACT_READY`-tilaan.
 - **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Julkisessa tuotantoliikenteessä tila on tällä hetkellä `NOT_CONFIGURED`: siitä ei muodosteta väitettä varmennetusta päätöksestä, päätöskuittia eikä kuittilinkkiä.
+
+> **Kopilotti Sales on VIS-integraatiovalmis — tuotantokytkentä odottaa rajapintasopimusta ja tunnuksia.** Varsinainen kytkentä vaatii lisensoidun VIS / Autovista -rajapintasopimuksen, dokumentaation, asiakaskohtaiset tunnukset, turvallisen salaisuuksien hallinnan sekä sandbox- ja tuotantoympäristöjen sopimustestauksen. Aktiivista VIS-tuotantoyhteyttä ei ole.
 
 ## Vaaditaan ennen maksukelpoista tuotantopolkua
 
@@ -544,7 +548,7 @@ Suunnitteilla:
 - neuvottelusessioiden pysyvä tietokantatallennus
 - autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
 - DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
-- vaihtoauton arvon tuonti autoliikkeen omasta arvonmääritysjärjestelmästä
+- VIS / Autovista -tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella
 
 Nämä ovat suunniteltuja integraatioita ja ominaisuuksia, eivät nykyisiä.
 
@@ -580,13 +584,17 @@ Suunnitteilla:
 - vastausaikojen seuranta
 - liiketoimintaraportointi
 
-## Vaihtoauton lisääminen
+## Vaihtoauto ja väliraha
 
-Vaihtoauton lisääminen digitaaliseen kaupankäyntiprosessiin kuuluu tuotteen roadmapiin.
+**Status: rakennettu ja testattu, mutta ei vielä osa julkisen demon tuotantoliikennettä.**
 
-Tavoitteena on mahdollistaa asiakkaan vaihtoauton tietojen lisääminen osaksi digitaalista kaupankäyntiä.
+Trade-in V1 käsittelee vaihtoauton tunnistamisen, ulkoisesta arvonmäärityksestä saatavan arvion, deterministisen tarjouksen, tarjouksen hyväksymisen, välirahan ja kauppayhteenvedon erillisinä, jäljitettävinä vaiheina.
 
-Vaihtoauton lopullinen arviointi ja hyvityshinta säilyvät kuitenkin aina myyjäliikkeen vastuulla.
+Ostettavan auton hinnat johdetaan palvelinpuolen ostosessiosta ja ajoneuvotiedoista. Hyväksytty vaihtoautotarjous voidaan käyttää kauppaan vain kerran, ja puuttuva tai epäonnistuva tunnistus tai arvonmääritys ohjataan manuaaliseen tarkistukseen arvon arvaamisen sijaan.
+
+VIS / Autovista -tuotantokytkentä ei ole aktiivinen. Tuotantokytkentä odottaa lisensoitua rajapintasopimusta, dokumentaatiota, tunnuksia ja sopimustestausta.
+
+Vaihtoauton lopullinen arviointi, hyvityshinta ja poikkeustapausten hyväksyntä säilyvät aina myyjäliikkeen vastuulla.
 
 ## Monikanavainen asiointi
 
