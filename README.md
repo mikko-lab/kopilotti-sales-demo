@@ -12,6 +12,8 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 
 → [Avaa Kopilotti Sales -sivusto](https://app.kopilotti.online/) · [Kokeile hintaneuvotteludemoa suoraan](https://app.kopilotti.online/vehicle.html)
 
+> **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**
+
 > **Perinteinen verkkokauppa digitalisoi listahintaisen ostamisen.**
 >
 > **Kopilotti Sales digitalisoi hintaneuvottelun.**
@@ -293,7 +295,7 @@ Kun toimintamalli on osoittanut arvonsa, linkkien luonti ja ajoneuvotietojen pä
 
 Integraatiot ovat hallittu seuraava vaihe, eivät pilotin aloittamisen edellytys.
 
-> **Maksut pysyvät aina myyjäliikkeellä.** Kopilotti Sales ei vastaanota, säilytä eikä välitä asiakkaan maksuja. Hyväksytyn neuvottelutuloksen jälkeen myyjäliike hoitaa koko kaupanteko- ja maksuprosessin omissa järjestelmissään ja valitsemansa maksupalvelun kautta.
+> **Raha siirtyy suoraan asiakkaalta myyjäliikkeelle.** Kopilotti ei vastaanota, säilytä eikä välitä varoja. Maksun vahvistaa myyjäliike.
 
 ---
 
@@ -640,7 +642,7 @@ Ei päinvastoin.
 
 # Demo
 
-Tämä repositorio sisältää demonstraation Kopilotti Salesin toiminnasta.
+Tämä repositorio sisältää demonstraation Kopilotti Salesin toiminnasta. Konseptidemo ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.
 
 Julkiseen versioon eivät kuulu tuotantoympäristön integraatiot, jälleenmyyjäkohtaiset asetukset, hinnoittelupolitiikat eivätkä kaupalliset integraatiot.
 
