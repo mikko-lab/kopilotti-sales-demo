@@ -1,0 +1,77 @@
+<svg viewBox="0 0 480 940" width="480" height="940" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="kst-title kst-desc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title id="kst-title">Kopilotti Salesin toimintaperiaate</title>
+  <desc id="kst-desc">Asiakas tekee tarjouksen Kopilotti Salesille. Kopilotti Sales käyttää LLM:ää keskusteluun asiakkaan kanssa, mutta LLM ei koskaan tee hintapäätöstä — tämä on merkitty erilliseksi katkoviivaiseksi sivuhaaraksi. Varsinaisella päätöspolulla backend tarkistaa autoliikkeen liiketoimintasäännöt ja muodostaa deterministisen päätöksen, joka on yksi neljästä vaihtoehdosta: ACCEPT eli hyväksy tarjous, COUNTER eli tee vastatarjous, REJECT eli hylkää tarjous, tai ESCALATE eli siirrä ihmiselle.</desc>
+
+  <defs>
+    <marker id="kst-arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1F4DB8"/>
+    </marker>
+    <marker id="kst-arrow-muted" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4B5565"/>
+    </marker>
+  </defs>
+
+  <!-- Light background so the diagram reads correctly on both GitHub light and dark mode -->
+  <rect x="0" y="0" width="480" height="940" fill="#FFFFFF"/>
+
+  <!-- 1. Asiakas tekee tarjouksen -->
+  <rect x="10" y="30" width="300" height="64" rx="10" fill="#EDF1F9" stroke="#1F4DB8" stroke-width="2"/>
+  <text x="160" y="68" text-anchor="middle" font-size="18" font-weight="600" fill="#1A1A2E">Asiakas tekee tarjouksen</text>
+
+  <line x1="160" y1="94" x2="160" y2="132" stroke="#1F4DB8" stroke-width="2.5" marker-end="url(#kst-arrow)"/>
+
+  <!-- 2. Kopilotti Sales (hub) -->
+  <rect x="10" y="132" width="300" height="64" rx="10" fill="#1F4DB8" stroke="#163A8C" stroke-width="2"/>
+  <text x="160" y="172" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF">Kopilotti Sales</text>
+
+  <!-- Dashed side branch: LLM converses but never decides -->
+  <line x1="310" y1="164" x2="325" y2="164" stroke="#4B5565" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#kst-arrow-muted)"/>
+  <rect x="325" y="112" width="135" height="104" rx="10" fill="#F5F7FA" stroke="#4B5565" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="392" y="142" text-anchor="middle" font-size="14" font-weight="600" fill="#4B5565">LLM</text>
+  <text x="392" y="160" text-anchor="middle" font-size="14" font-weight="600" fill="#4B5565">keskustelee,</text>
+  <text x="392" y="178" text-anchor="middle" font-size="14" font-weight="600" fill="#4B5565">mutta ei tee</text>
+  <text x="392" y="196" text-anchor="middle" font-size="14" font-weight="600" fill="#4B5565">hintapäätöstä</text>
+
+  <line x1="160" y1="196" x2="160" y2="234" stroke="#1F4DB8" stroke-width="2.5" marker-end="url(#kst-arrow)"/>
+
+  <!-- 3. Backend tarkistaa autoliikkeen liiketoimintasäännöt -->
+  <rect x="10" y="234" width="300" height="98" rx="10" fill="#EDF1F9" stroke="#1F4DB8" stroke-width="2"/>
+  <text x="160" y="265" text-anchor="middle" font-size="17" font-weight="600" fill="#1A1A2E">Backend tarkistaa</text>
+  <text x="160" y="287" text-anchor="middle" font-size="17" font-weight="600" fill="#1A1A2E">autoliikkeen</text>
+  <text x="160" y="309" text-anchor="middle" font-size="17" font-weight="600" fill="#1A1A2E">liiketoimintasäännöt</text>
+
+  <line x1="160" y1="332" x2="160" y2="370" stroke="#1F4DB8" stroke-width="2.5" marker-end="url(#kst-arrow)"/>
+
+  <!-- 4. Backend muodostaa deterministisen päätöksen -->
+  <rect x="10" y="370" width="300" height="98" rx="10" fill="#EDF1F9" stroke="#1F4DB8" stroke-width="2"/>
+  <text x="160" y="401" text-anchor="middle" font-size="17" font-weight="600" fill="#1A1A2E">Backend muodostaa</text>
+  <text x="160" y="423" text-anchor="middle" font-size="17" font-weight="600" fill="#1A1A2E">deterministisen</text>
+  <text x="160" y="445" text-anchor="middle" font-size="17" font-weight="600" fill="#1A1A2E">päätöksen</text>
+
+  <!-- Fan-out spine into the four possible decisions -->
+  <path d="M160,468 L160,498 L50,498 L50,852" fill="none" stroke="#1F4DB8" stroke-width="2.5"/>
+
+  <!-- ACCEPT -->
+  <line x1="50" y1="564" x2="70" y2="564" stroke="#1F4DB8" stroke-width="2.5" marker-end="url(#kst-arrow)"/>
+  <rect x="70" y="528" width="380" height="72" rx="10" fill="#EDF1F9" stroke="#1F4DB8" stroke-width="2"/>
+  <text x="260" y="556" text-anchor="middle" font-size="22" font-weight="700" fill="#163A8C">ACCEPT</text>
+  <text x="260" y="582" text-anchor="middle" font-size="16" font-weight="500" fill="#1A1A2E">Hyväksy tarjous</text>
+
+  <!-- COUNTER -->
+  <line x1="50" y1="660" x2="70" y2="660" stroke="#1F4DB8" stroke-width="2.5" marker-end="url(#kst-arrow)"/>
+  <rect x="70" y="624" width="380" height="72" rx="10" fill="#EDF1F9" stroke="#1F4DB8" stroke-width="2"/>
+  <text x="260" y="652" text-anchor="middle" font-size="22" font-weight="700" fill="#163A8C">COUNTER</text>
+  <text x="260" y="678" text-anchor="middle" font-size="16" font-weight="500" fill="#1A1A2E">Tee vastatarjous</text>
+
+  <!-- REJECT -->
+  <line x1="50" y1="756" x2="70" y2="756" stroke="#1F4DB8" stroke-width="2.5" marker-end="url(#kst-arrow)"/>
+  <rect x="70" y="720" width="380" height="72" rx="10" fill="#EDF1F9" stroke="#1F4DB8" stroke-width="2"/>
+  <text x="260" y="748" text-anchor="middle" font-size="22" font-weight="700" fill="#163A8C">REJECT</text>
+  <text x="260" y="774" text-anchor="middle" font-size="16" font-weight="500" fill="#1A1A2E">Hylkää tarjous</text>
+
+  <!-- ESCALATE -->
+  <line x1="50" y1="852" x2="70" y2="852" stroke="#1F4DB8" stroke-width="2.5" marker-end="url(#kst-arrow)"/>
+  <rect x="70" y="816" width="380" height="72" rx="10" fill="#EDF1F9" stroke="#1F4DB8" stroke-width="2"/>
+  <text x="260" y="844" text-anchor="middle" font-size="22" font-weight="700" fill="#163A8C">ESCALATE</text>
+  <text x="260" y="870" text-anchor="middle" font-size="16" font-weight="500" fill="#1A1A2E">Siirrä ihmiselle</text>
+</svg>

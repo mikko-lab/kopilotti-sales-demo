@@ -38,19 +38,7 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 ## Näin Kopilotti Sales toimii
 
-```mermaid
-flowchart LR
-    A["Asiakas tekee tarjouksen"] --> B["Kopilotti Sales"]
-    B --> C["LLM keskustelee"]
-    B --> D["Backend tarkistaa<br/>autoliikkeen säännöt"]
-    D --> E{"Deterministinen päätös"}
-    E -->|ACCEPT| F["Hyväksy tarjous"]
-    E -->|COUNTER| G["Tee vastatarjous"]
-    E -->|REJECT| H["Hylkää tarjous"]
-    E -->|ESCALATE| I["Siirrä ihmiselle"]
-
-    style C stroke-dasharray: 5 5
-```
+![Kopilotti Salesin toimintaperiaate: LLM keskustelee ja backend tekee deterministisen hintapäätöksen](assets/kopilotti-sales-flow.svg)
 
 > **LLM keskustelee. Backend päättää.** Kielimalli ei koskaan hyväksy, hylkää tai hinnoittele tarjousta.
 
