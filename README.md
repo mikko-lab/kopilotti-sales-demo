@@ -10,7 +10,9 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-→ [Avaa Kopilotti Sales -sivusto](https://app.kopilotti.online/) · [Kokeile hintaneuvotteludemoa suoraan](https://app.kopilotti.online/vehicle.html)
+## [🚀 Kokeile hintaneuvotteludemoa](https://app.kopilotti.online/vehicle.html)
+
+[Avaa Kopilotti Sales -sivusto](https://app.kopilotti.online/) · [Siirry suoraan Alfa Romeo Giulia Quadrifoglio -demoon](https://app.kopilotti.online/vehicle.html)
 
 > **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**
 
@@ -29,6 +31,26 @@ Kopilotti Sales ei ole automaattinen hinnoittelujärjestelmä.
 Kopilotti Sales ei korvaa automyyjää.
 
 Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalisen vaiheen ennen kauppoja.
+
+[![Kopilotti Salesin digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)](https://app.kopilotti.online/vehicle.html)
+
+## Näin Kopilotti Sales toimii
+
+```mermaid
+flowchart LR
+    A["Asiakas tekee tarjouksen"] --> B["Kopilotti Sales"]
+    B --> C["LLM keskustelee"]
+    B --> D["Backend tarkistaa<br/>autoliikkeen säännöt"]
+    D --> E{"Deterministinen päätös"}
+    E -->|ACCEPT| F["Hyväksy tarjous"]
+    E -->|COUNTER| G["Tee vastatarjous"]
+    E -->|REJECT| H["Hylkää tarjous"]
+    E -->|ESCALATE| I["Siirrä ihmiselle"]
+
+    style C stroke-dasharray: 5 5
+```
+
+> **LLM keskustelee. Backend päättää.** Kielimalli ei koskaan hyväksy, hylkää tai hinnoittele tarjousta.
 
 ---
 
@@ -331,6 +353,23 @@ Päätöksenteko ei perustu mallin mielipiteeseen, todennäköisyyteen tai vapaa
 
 ---
 
+# Julkisen repositorion rooli ja rakenne
+
+Tämä julkinen repositorio toimii **tuote-esittelynä ja selainkäyttöliittymän konseptidemona**. Se näyttää asiakaspolun ja palvelurajapintoja käyttävän frontendin, mutta ei julkaise tuotannon päätösmoottoria, Kopilotti Adminia, jälleenmyyjäkohtaisia liiketoimintasääntöjä, tietokantoja, tunnuksia tai kaupallisten integraatioiden sopimussisältöä.
+
+| Polku | Sisältö |
+| --- | --- |
+| `index.html` | Tuotesivu, pilotointimalli ja pääsy live-demoon |
+| `vehicle.html` | Alfa Romeo Giulia Quadrifoglio -ajoneuvo- ja neuvotteludemo |
+| `js/` | Frontendin demo-, neuvottelu- ja ostopolun asiakaslogiikka |
+| `styles/` ja `styles.css` | Käyttöliittymän tyylit |
+| `inventory.json` | Demon esimerkkiajoneuvot |
+| `assets/` | Kuvakaappaukset, kuvat ja muut visuaaliset resurssit |
+
+Tuotannon kaupalliset päätökset tehdään suojatussa taustajärjestelmässä palvelinpuolen sääntöjen mukaisesti.
+
+---
+
 # Arkkitehtuuriperiaatteet
 
 Kopilotti Sales perustuu yksinkertaiseen periaatteeseen:
@@ -629,11 +668,9 @@ Ei päinvastoin.
 
 ---
 
-# Kuvakaappaukset
+# Lisää kuvakaappauksia
 
 ![Kopilotti Sales -etusivu](assets/screenshot-landing-2026-08.jpg)
-
-![Ajoneuvosivu ja digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)
 
 ---
 
