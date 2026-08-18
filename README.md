@@ -57,7 +57,7 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - Myyjäliikkeen hyväksytty ja hallitsema maksutili sekä palvelinlähtöinen, asiakkaan selaimesta muuttumaton maksutieto
 - Maksuohjeen vahva sitominen oikeaan myyjäliikkeeseen, kauppaan, sovittuun hintaan, laskunumeroon ja viitteeseen sekä riippumaton varmennus ennen kuin asiakkaalle näytetään maksukelpoinen IBAN
 - Oikea DMS-sopimusintegraatio konseptiasiakirjan tilalle
-- Tuotantokatselmus, jossa tenant-eristys, atomisuus, idempotenssi, tietovuodot ja asiakkaan mahdottomuus vahvistaa maksu todennetaan
+- Tuotantokatselmus, jossa todennetaan tenant-eristys, atomisuus ja idempotenssi sekä varmistetaan, ettei tietoja vuoda eikä asiakas voi vahvistaa maksua
 
 Täysi lasku–`PAID`-tuotantopolku on näihin asti **NO-GO**. Kun se aikanaan otetaan käyttöön, rahat siirtyvät suoraan asiakkaalta myyjäliikkeelle; Kopilotti ei vastaanota, säilytä eikä välitä rahaa.
 
@@ -540,7 +540,7 @@ Kopilotti Sales on suunniteltu erityisesti autoliikkeille, jotka:
 Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
 
 - hyväksytystä palvelinlähtöisestä hinnasta muodostuva sopimus- ja laskupaketti
-- asiakkaan sopimuksen hyväksyntä ja maksun tilan seuranta
+- asiakkaan sopimuksen hyväksyntä sekä myyjäliikkeen vahvistaman maksutilan seuranta
 - tilakone `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`
 - maksukelvoton, näkyvästi merkitty konseptisopimus tuotantodemon turvallisuusrajana
 
@@ -549,21 +549,18 @@ Suunnitteilla:
 - DDN-todennuksen kytkeminen julkisen neuvottelupolun tuotantoliikenteeseen
 - neuvottelusessioiden pysyvä tietokantatallennus
 - autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
-- DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
+- API-pohjaiset DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
 - VIS / Autovista -tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella
 
 Nämä ovat suunniteltuja integraatioita ja ominaisuuksia, eivät nykyisiä.
 
 ## Kopilotti Admin
 
-Toteutettu:
-
-- DMS-tuonnit (esikatselu ja vahvistus ennen tuotantoon vientiä)
-- ajoneuvojen ja toimipisteiden näkyvyyden hallinta digitaalisessa myyntikanavassa
-- hintaneuvottelujen lukkojen hallinta
-
 Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
 
+- tiedosto- ja adapteripohjaiset DMS-tuonnit (esikatselu ja vahvistus ennen tuotantoon vientiä)
+- ajoneuvojen ja toimipisteiden näkyvyyden hallinta digitaalisessa myyntikanavassa
+- hintaneuvottelujen lukkojen hallinta
 - myyjäliikkeen maksuprofiilin hallinta
 - vain oman myyjäliikkeen maksua odottavat kaupat näyttävä näkymä
 - atominen manuaalinen maksuvahvistus ja kanoninen `PAID_CONFIRMED`-audit trail
@@ -571,7 +568,7 @@ Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
 Suunnitteilla:
 
 - kuntoraporttien hallinta
-- liiketoimintasääntöjen hallinta
+- liiketoimintasääntöjen laajempi hallinta
 - käyttäjähallinta
 - muodolliset julkaisu- ja hyväksyntäprosessit
 
