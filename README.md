@@ -549,7 +549,7 @@ Suunnitteilla:
 - DDN-todennuksen kytkeminen julkisen neuvottelupolun tuotantoliikenteeseen
 - neuvottelusessioiden pysyvä tietokantatallennus
 - autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
-- reaaliaikaiset/API-pohjaiset DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
+- API-pohjaiset DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
 - VIS / Autovista -tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella
 
 Nämä ovat suunniteltuja integraatioita ja ominaisuuksia, eivät nykyisiä.
@@ -568,7 +568,7 @@ Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
 Suunnitteilla:
 
 - kuntoraporttien hallinta
-- liiketoimintasääntöjen laajempi hallinta ja julkaiseminen
+- liiketoimintasääntöjen laajempi hallinta
 - käyttäjähallinta
 - muodolliset julkaisu- ja hyväksyntäprosessit
 
