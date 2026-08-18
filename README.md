@@ -1,24 +1,30 @@
 # Kopilotti Sales
 
-Kopilotti Sales on kaupallinen ohjelmistotuote.
+Kopilotti Sales on kaupallinen ohjelmistotuote ja digitaalinen kaupankäyntikerros käytettyjen ajoneuvojen myyntiin.
 
-Tämä repositorio esittelee tuotteen toimintaa ja arkkitehtuuria.
+Tämä repositorio esittelee tuotteen toimintaa, käyttöliittymää, arkkitehtuuria ja tuotantorajoja.
 
-Julkinen repositorio ei sisällä tuotannon päätösmoottoria eikä jälleenmyyjäkohtaisia sääntöjä.
+Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäkohtaisia sääntöjä, integraatiotunnuksia eikä kaupallisten rajapintojen sopimussisältöä.
 
 ![Status](https://img.shields.io/badge/status-active%20development-orange)
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-→ [Avaa Kopilotti Sales -sivusto](https://app.kopilotti.online/) · [Kokeile hintaneuvotteludemoa suoraan](https://app.kopilotti.online/vehicle.html)
+## [🚀 Kokeile hintaneuvotteludemoa](https://app.kopilotti.online/vehicle.html)
+
+[Avaa Kopilotti Sales -sivusto](https://app.kopilotti.online/) · [Siirry suoraan Alfa Romeo Giulia Quadrifoglio -demoon](https://app.kopilotti.online/vehicle.html)
+
+[📄 Lataa yhden sivun asiakas- ja sijoittajatiivistelmä](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf)
+
+> **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**
 
 > **Perinteinen verkkokauppa digitalisoi listahintaisen ostamisen.**
 >
 > **Kopilotti Sales digitalisoi hintaneuvottelun.**
 
-Kopilotti Sales on digitaalinen myyntikanava käytettyjen ajoneuvojen hintaneuvotteluun.
+Kopilotti Sales jatkaa käytetyn auton kaupantekoa verkossa silloin, kun asiakas on valmis keskustelemaan hinnasta.
 
-Se mahdollistaa turvallisen digitaalisen hintaneuvottelun, joka kasvattaa kauppojen määrää säilyttäen myyjäliikkeen päätösvallan. Kaikki kaupalliset päätökset tehdään deterministisesti myyjäliikkeen omien liiketoimintasääntöjen mukaisesti.
+Se lisää nykyiseen digitaaliseen ostopolkuun asiakkaan tarjouksen, rajatun neuvottelun ja deterministisen hinnanpäätöksen. Myyjäliikkeen päätösvalta säilyy, ja kaikki kaupalliset päätökset tehdään palvelimella myyjäliikkeen omien liiketoimintasääntöjen mukaisesti.
 
 Kopilotti Sales ei ole chatbot.
 
@@ -28,6 +34,26 @@ Kopilotti Sales ei korvaa automyyjää.
 
 Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalisen vaiheen ennen kauppoja.
 
+[![Kopilotti Salesin digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)](https://app.kopilotti.online/vehicle.html)
+
+## Näin Kopilotti Sales toimii
+
+```mermaid
+flowchart LR
+    A["Asiakas tekee tarjouksen"] --> B["Kopilotti Sales"]
+    B --> C["LLM keskustelee"]
+    B --> D["Backend tarkistaa<br/>autoliikkeen säännöt"]
+    D --> E{"Deterministinen päätös"}
+    E -->|ACCEPT| F["Hyväksy tarjous"]
+    E -->|COUNTER| G["Tee vastatarjous"]
+    E -->|REJECT| H["Hylkää tarjous"]
+    E -->|ESCALATE| I["Siirrä ihmiselle"]
+
+    style C stroke-dasharray: 5 5
+```
+
+> **LLM keskustelee. Backend päättää.** Kielimalli ei koskaan hyväksy, hylkää tai hinnoittele tarjousta.
+
 ---
 
 # Tuotannon tila
@@ -36,11 +62,28 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 - Magic Link -käyttöönotto: yksi autokohtainen, läpinäkymätön linkki, jonka takaa asiakas löytää auton tiedot ja voi aloittaa hintaneuvottelun
 - Autoliikkeen Kopilotti Adminissa määrittämät deterministiset hintasäännöt: hyväksyntä, vastatarjous, hylkäys ja eskalointi ihmiselle
-- Hyväksytyn hinnan jälkeen kaupan viimeistely, rahoitus, maksut ja ajoneuvon luovutus hoidetaan myyjäliikkeen omissa järjestelmissä. Kopilotti ei vastaanota, säilytä eikä välitä asiakkaan maksuja.
+- Hyväksytyn hinnan jälkeen asiakas siirtyy nykyisessä julkisessa demossa myyjäliikkeen omaan kaupantekoprosessiin. Rahoitus, maksut ja ajoneuvon luovutus hoidetaan myyjäliikkeen omissa järjestelmissä.
+- Kopilotti ei vastaanota, säilytä eikä välitä asiakkaan maksuja.
 
-## Rakennettu, mutta ei vielä osa julkisen demon tuotantoliikennettä
+## Rakennettu ja testattu, mutta ei julkisessa tuotantoliikenteessä
 
-- **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Sitä ei ole vielä kytketty julkisen demon tuotantoliikenteeseen.
+- **Trade-in V1 ja DealSnapshot.** Vaihtoauton tunnistaminen, ulkoisesta arvonmäärityksestä saatavan arvion käsittely, deterministinen tarjous, tarjouksen hyväksyminen, väliraha ja muuttumaton kauppayhteenveto on toteutettu erillisinä ja jäljitettävinä vaiheina. Hyväksytty vaihtoautotarjous voidaan käyttää kauppaan vain kerran.
+- **VIS / Autovista -integraatiovalmius.** Providerista riippumaton domain-raja ja adapterirakenne ajoneuvon tunnistamiselle ja vaihtoauton arvonmääritykselle ovat valmiina. Puuttuvaa tai epäonnistunutta arvonmääritystä ei arvata, vaan tapaus ohjataan manuaaliseen tarkistukseen.
+- **Sopimus-, lasku- ja tilisiirtopolku.** Palvelimen hyväksymästä hinnasta voidaan muodostaa idempotentti kauppapaketti, jonka tilakone on `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`.
+- **Myyjäliikkeen maksuhallinta.** Kopilotti Adminiin on rakennettu maksuprofiilit, maksua odottavien kauppojen näkymä ja atominen manuaalinen maksuvahvistus. Asiakas ei voi vahvistaa maksua eikä asettaa `PAID`-tilaa. Maksuvahvistuksen kanoninen audit-tapahtuma on samassa tietokantatransaktiossa kirjoitettava `PAID_CONFIRMED`.
+- **Maksukelvoton konseptisopimus.** Tuotantoympäristössä konseptiasiakirja vaatii kaksi erillistä, eksplisiittistä käyttöönottoa. Asiakirja merkitään näkyvästi `KONSEPTIDEMO`-tekstillä, eikä siinä näytetä IBANia, BICiä, viitenumeroa, eräpäivää tai maksukehotetta. Polku pysähtyy `CONTRACT_READY`-tilaan.
+- **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Julkisessa tuotantoliikenteessä tila on tällä hetkellä `NOT_CONFIGURED`: siitä ei muodosteta väitettä varmennetusta päätöksestä, päätöskuittia eikä kuittilinkkiä.
+
+> **Kopilotti Sales on VIS-integraatiovalmis — tuotantokytkentä odottaa rajapintasopimusta ja tunnuksia.** Varsinainen kytkentä vaatii lisensoidun VIS / Autovista -rajapintasopimuksen, dokumentaation, asiakaskohtaiset tunnukset, turvallisen salaisuuksien hallinnan sekä sandbox- ja tuotantoympäristöjen sopimustestauksen. Aktiivista VIS-tuotantoyhteyttä ei ole.
+
+## Vaaditaan ennen maksukelpoista tuotantopolkua
+
+- Myyjäliikkeen hyväksytty ja hallitsema maksutili sekä palvelinlähtöinen, asiakkaan selaimesta muuttumaton maksutieto
+- Maksuohjeen vahva sitominen oikeaan myyjäliikkeeseen, kauppaan, sovittuun hintaan, laskunumeroon ja viitteeseen sekä riippumaton varmennus ennen kuin asiakkaalle näytetään maksukelpoinen IBAN
+- Oikea DMS-sopimusintegraatio konseptiasiakirjan tilalle
+- Tuotantokatselmus, jossa todennetaan tenant-eristys, atomisuus ja idempotenssi sekä varmistetaan, ettei tietoja vuoda eikä asiakas voi vahvistaa maksua
+
+Täysi lasku–`PAID`-tuotantopolku on näihin asti **NO-GO**. Kun se aikanaan otetaan käyttöön, rahat siirtyvät suoraan asiakkaalta myyjäliikkeelle; Kopilotti ei vastaanota, säilytä eikä välitä rahaa.
 
 ## Vaaditaan ennen ensimmäistä oikeaa asiakaspilottia
 
@@ -140,7 +183,9 @@ Kopilotti Sales toimii digitaalisena automyyjänä, joka voi:
 - muodostaa kauppa sovitulla hinnalla
 - siirtää asiakas myyjäliikkeen omaan kaupanteko- ja maksuprosessiin
 
-Kopilotti Salesin tehtävä päättyy sovitulla hinnalla muodostettuun kauppaan ja asiakkaan siirtämiseen myyjäliikkeen omaan prosessiin.
+Nykyisessä julkisessa tuotantodemossa Kopilotti Salesin tehtävä päättyy sovitulla hinnalla muodostettuun kauppaan ja asiakkaan siirtämiseen myyjäliikkeen omaan prosessiin.
+
+Kehitys- ja testiympäristöissä rakennettu sopimus-, lasku- ja maksunseurantapolku on kuvattu kohdassa [Tuotannon tila](#tuotannon-tila). Se ei ole vielä julkisen tuotantodemon maksukelpoinen ominaisuus.
 
 Maksut eivät koskaan kulje Kopilotti Salesin kautta. Myyjäliike hoitaa koko kaupanteko- ja maksuprosessin omissa järjestelmissään, valitsemansa maksupalvelun kautta, ja sopii asiakkaan kanssa ajoneuvon luovutuksesta normaalin toimintatapansa mukaisesti.
 
@@ -274,7 +319,7 @@ Kun toimintamalli on osoittanut arvonsa, linkkien luonti ja ajoneuvotietojen pä
 
 Integraatiot ovat hallittu seuraava vaihe, eivät pilotin aloittamisen edellytys.
 
-> **Maksut pysyvät aina myyjäliikkeellä.** Kopilotti Sales ei vastaanota, säilytä eikä välitä asiakkaan maksuja. Hyväksytyn neuvottelutuloksen jälkeen myyjäliike hoitaa koko kaupanteko- ja maksuprosessin omissa järjestelmissään ja valitsemansa maksupalvelun kautta.
+> **Raha siirtyy suoraan asiakkaalta myyjäliikkeelle.** Kopilotti ei vastaanota, säilytä eikä välitä varoja. Maksun vahvistaa myyjäliike.
 
 ---
 
@@ -307,6 +352,23 @@ LLM voi osallistua keskusteluun, tunnistaa asiakkaan tarkoituksen ja muodostaa l
 Deterministinen päätöksentekokerros tekee kaikki kaupalliset päätökset.
 
 Päätöksenteko ei perustu mallin mielipiteeseen, todennäköisyyteen tai vapaamuotoiseen tekstivastaukseen.
+
+---
+
+# Julkisen repositorion rooli ja rakenne
+
+Tämä julkinen repositorio toimii **tuote-esittelynä ja selainkäyttöliittymän konseptidemona**. Se näyttää asiakaspolun ja palvelurajapintoja käyttävän frontendin, mutta ei julkaise tuotannon päätösmoottoria, Kopilotti Adminia, jälleenmyyjäkohtaisia liiketoimintasääntöjä, tietokantoja, tunnuksia tai kaupallisten integraatioiden sopimussisältöä.
+
+| Polku | Sisältö |
+| --- | --- |
+| `index.html` | Tuotesivu, pilotointimalli ja pääsy live-demoon |
+| `vehicle.html` | Alfa Romeo Giulia Quadrifoglio -ajoneuvo- ja neuvotteludemo |
+| `js/` | Frontendin demo-, neuvottelu- ja ostopolun asiakaslogiikka |
+| `styles/` ja `styles.css` | Käyttöliittymän tyylit |
+| `inventory.json` | Demon esimerkkiajoneuvot |
+| `assets/` | Kuvakaappaukset, kuvat ja muut visuaaliset resurssit |
+
+Tuotannon kaupalliset päätökset tehdään suojatussa taustajärjestelmässä palvelinpuolen sääntöjen mukaisesti.
 
 ---
 
@@ -447,6 +509,8 @@ Sen avulla hallitaan:
 - käyttäjät
 - toimipisteet
 
+Kehitys- ja testiympäristöissä Adminiin on lisäksi rakennettu myyjäliikkeen maksuprofiilien hallinta, maksua odottavien kauppojen näkymä ja atominen manuaalinen maksuvahvistus. Nämä eivät ole vielä osa julkista tuotantoliikennettä.
+
 Kaikki Salesin tekemät kaupalliset päätökset perustuvat Adminissa ylläpidettyihin liiketoimintasääntöihin.
 
 Sales ei sisällä kovakoodattuja hintarajoja tai jälleenmyyjäkohtaisia päätöksiä.
@@ -514,28 +578,38 @@ Kopilotti Sales on suunniteltu erityisesti autoliikkeille, jotka:
 
 ## Kopilotti Sales
 
+Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
+
+- hyväksytystä palvelinlähtöisestä hinnasta muodostuva sopimus- ja laskupaketti
+- asiakkaan sopimuksen hyväksyntä sekä myyjäliikkeen vahvistaman maksutilan seuranta
+- tilakone `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`
+- maksukelvoton, näkyvästi merkitty konseptisopimus tuotantodemon turvallisuusrajana
+
 Suunnitteilla:
 
 - DDN-todennuksen kytkeminen julkisen neuvottelupolun tuotantoliikenteeseen
 - neuvottelusessioiden pysyvä tietokantatallennus
 - autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
-- DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
-- vaihtoauton arvon tuonti autoliikkeen omasta arvonmääritysjärjestelmästä
+- API-pohjaiset DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
+- VIS / Autovista -tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella
 
 Nämä ovat suunniteltuja integraatioita ja ominaisuuksia, eivät nykyisiä.
 
 ## Kopilotti Admin
 
-Toteutettu:
+Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
 
-- DMS-tuonnit (esikatselu ja vahvistus ennen tuotantoon vientiä)
+- tiedosto- ja adapteripohjaiset DMS-tuonnit (esikatselu ja vahvistus ennen tuotantoon vientiä)
 - ajoneuvojen ja toimipisteiden näkyvyyden hallinta digitaalisessa myyntikanavassa
 - hintaneuvottelujen lukkojen hallinta
+- myyjäliikkeen maksuprofiilin hallinta
+- vain oman myyjäliikkeen maksua odottavat kaupat näyttävä näkymä
+- atominen manuaalinen maksuvahvistus ja kanoninen `PAID_CONFIRMED`-audit trail
 
 Suunnitteilla:
 
 - kuntoraporttien hallinta
-- liiketoimintasääntöjen hallinta
+- liiketoimintasääntöjen laajempi hallinta
 - käyttäjähallinta
 - muodolliset julkaisu- ja hyväksyntäprosessit
 
@@ -550,13 +624,17 @@ Suunnitteilla:
 - vastausaikojen seuranta
 - liiketoimintaraportointi
 
-## Vaihtoauton lisääminen
+## Vaihtoauto ja väliraha
 
-Vaihtoauton lisääminen digitaaliseen kaupankäyntiprosessiin kuuluu tuotteen roadmapiin.
+**Status: rakennettu ja testattu, mutta ei vielä osa julkisen demon tuotantoliikennettä.**
 
-Tavoitteena on mahdollistaa asiakkaan vaihtoauton tietojen lisääminen osaksi digitaalista kaupankäyntiä.
+Trade-in V1 käsittelee vaihtoauton tunnistamisen, ulkoisesta arvonmäärityksestä saatavan arvion, deterministisen tarjouksen, tarjouksen hyväksymisen, välirahan ja kauppayhteenvedon erillisinä, jäljitettävinä vaiheina.
 
-Vaihtoauton lopullinen arviointi ja hyvityshinta säilyvät kuitenkin aina myyjäliikkeen vastuulla.
+Ostettavan auton hinnat johdetaan palvelinpuolen ostosessiosta ja ajoneuvotiedoista. Hyväksytty vaihtoautotarjous voidaan käyttää kauppaan vain kerran, ja puuttuva tai epäonnistuva tunnistus tai arvonmääritys ohjataan manuaaliseen tarkistukseen arvon arvaamisen sijaan.
+
+VIS / Autovista -tuotantokytkentä ei ole aktiivinen. Tuotantokytkentä odottaa lisensoitua rajapintasopimusta, dokumentaatiota, tunnuksia ja sopimustestausta.
+
+Vaihtoauton lopullinen arviointi, hyvityshinta ja poikkeustapausten hyväksyntä säilyvät aina myyjäliikkeen vastuulla.
 
 ## Monikanavainen asiointi
 
@@ -592,17 +670,15 @@ Ei päinvastoin.
 
 ---
 
-# Kuvakaappaukset
+# Lisää kuvakaappauksia
 
-![Kopilotti Sales -etusivu](assets/screenshot-landing.jpg)
-
-![Ajoneuvosivu ja digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)
+![Kopilotti Sales -etusivu](assets/screenshot-landing-2026-08.jpg)
 
 ---
 
 # Demo
 
-Tämä repositorio sisältää demonstraation Kopilotti Salesin toiminnasta.
+Tämä repositorio sisältää demonstraation Kopilotti Salesin toiminnasta. Konseptidemo ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.
 
 Julkiseen versioon eivät kuulu tuotantoympäristön integraatiot, jälleenmyyjäkohtaiset asetukset, hinnoittelupolitiikat eivätkä kaupalliset integraatiot.
 

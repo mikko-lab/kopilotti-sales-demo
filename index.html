@@ -40,9 +40,9 @@
     <nav class="site-nav" id="primaryNav" aria-label="Päänavigaatio">
       <ul>
         <li><a href="#miten-se-toimii">Miten se toimii</a></li>
+        <li><a href="#kaupankaynti">Kaupankäynti</a></li>
+        <li><a href="#vaihtoauto">Vaihtoauto</a></li>
         <li><a href="#integraatiot">Käyttöönotto</a></li>
-        <li><a href="#turvallisuus">Turvallisuus</a></li>
-        <li><a href="#pilotointi">Pilotointi</a></li>
         <li><a href="#demo">Demo</a></li>
       </ul>
     </nav>
@@ -55,10 +55,10 @@
         <h1>Digitaalinen automyyjä, joka neuvottelee hinnasta 24/7</h1>
         <p class="hero-lede">Kopilotti Sales antaa asiakkaalle vastauksen silloin, kun ostohalu on korkeimmillaan. Autoliike määrittää neuvottelun rajat, ja järjestelmä toimii vain niiden sisällä.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="vehicle.html">Kokeile hintaneuvottelua</a>
+          <a class="btn btn-primary" href="vehicle.html" aria-describedby="heroDemoNotice">Kokeile hintaneuvottelua</a>
           <a class="btn btn-outline" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Keskustellaan pilotista</a>
         </div>
-        <p class="hero-note">Demo havainnollistaa käyttöliittymää ja neuvotteluprosessia esimerkkiajoneuvolla — ei käsittele oikeita kaupallisia päätöksiä tai maksuja.</p>
+        <p class="hero-note" id="heroDemoNotice"><strong>Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.</strong> Auto, hinnat ja keskustelu ovat esimerkkitietoja; demo ei käsittele oikeita maksuja.</p>
         <figure class="hero-media">
           <img src="assets/screenshot-negotiation-card.jpg" width="1287" height="622" loading="eager" alt="Kopilotti Salesin digitaalisen hintaneuvottelun käyttöliittymä esimerkkiajoneuvolla verkkosivustolla">
           <figcaption>Esimerkkinäkymä demosta. Auto, hinnat ja teksti kuvassa ovat esimerkkitietoja.</figcaption>
@@ -148,6 +148,73 @@
       </div>
     </section>
 
+    <section class="landing-section" id="kaupankaynti" aria-labelledby="kaupankayntiHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Kaupankäyntikerros</p>
+        <h2 id="kaupankayntiHeading" class="section-heading">Hinnanpäätös kuuluu digitaaliseen ostopolkuun ennen checkoutia</h2>
+        <p class="section-intro commerce-intro">Verkkokauppa hoitaa jo auton löytämisen, tunnistamisen, sopimuksen ja maksamisen. Kopilotti Sales lisää puuttuvan vaiheen: asiakkaan tarjouksen, rajatun neuvottelun ja deterministisen hinnanpäätöksen.</p>
+
+        <div class="journey-comparison" aria-label="Nykyisen verkkokauppapolun ja Kopilotti Sales -polun vertailu">
+          <div class="journey-row">
+            <h3>Nykyinen digitaalinen polku</h3>
+            <ol class="journey-steps">
+              <li>Inventory</li>
+              <li>Kuntotieto</li>
+              <li><strong>Kiinteä verkkohinta</strong></li>
+              <li>Tunnistus</li>
+              <li>Sopimus</li>
+              <li>Maksu</li>
+            </ol>
+          </div>
+          <div class="journey-row is-kopilotti">
+            <h3>Kopilotti Sales</h3>
+            <ol class="journey-steps">
+              <li>Inventory</li>
+              <li>Kuntotieto</li>
+              <li><strong>Tarjous + neuvottelu</strong></li>
+              <li><strong>Deterministinen hinnanpäätös</strong></li>
+              <li>Checkout</li>
+              <li>Sopimus</li>
+              <li>Maksu</li>
+            </ol>
+          </div>
+        </div>
+
+        <p class="section-callout commerce-boundary">Kopilotti Sales muodostaa sovitun hinnan ja siirtää asiakkaan myyjäliikkeen omaan checkout-, sopimus- ja maksuprosessiin. Raha siirtyy suoraan asiakkaalta myyjäliikkeelle. Kopilotti ei vastaanota, säilytä eikä välitä varoja. Maksun vahvistaa myyjäliike.</p>
+      </div>
+    </section>
+
+    <section class="landing-section alt" id="vaihtoauto" aria-labelledby="vaihtoautoHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Vaihtoauto ja väliraha</p>
+        <h2 id="vaihtoautoHeading" class="section-heading">Vaihtoauto liittyy samaan deterministiseen kauppapäätökseen</h2>
+        <p class="section-intro">Trade-in V1 käsittelee vaihtoauton tunnistamisen, ulkoisesta arvonmäärityksestä saatavan arvion, tarjouksen ja välirahan erillisinä, jäljitettävinä vaiheina.</p>
+
+        <div class="trade-in-grid">
+          <ol class="trade-in-flow" aria-label="Vaihtoauton digitaalinen prosessi">
+            <li><span>1</span><strong>Rek.tunnus ja mittarilukema</strong></li>
+            <li><span>2</span><strong>Ajoneuvon tunnistus</strong></li>
+            <li><span>3</span><strong>Ulkoinen arvonmääritys</strong></li>
+            <li><span>4</span><strong>Deterministinen tarjous</strong></li>
+            <li><span>5</span><strong>Väliraha ja kauppayhteenveto</strong></li>
+          </ol>
+
+          <aside class="integration-status" aria-labelledby="visStatusHeading">
+            <p class="integration-status-label">VIS / Autovista</p>
+            <h3 id="visStatusHeading">Integraatiovalmis, ei vielä tuotantoon kytketty</h3>
+            <p><strong>Kopilotti Sales on VIS-integraatiovalmis — tuotantokytkentä odottaa rajapintasopimusta ja tunnuksia.</strong></p>
+            <ul>
+              <li>Providerista riippumaton domain-raja ja adapterirakenne ovat valmiina.</li>
+              <li>Puuttuva tai epäonnistuva arvonmääritys ohjataan manuaaliseen tarkistukseen — arvoa ei arvata.</li>
+              <li>Tuotantokytkentä vaatii lisensoidun sopimuksen, dokumentaation, tunnukset ja sopimustestauksen.</li>
+            </ul>
+          </aside>
+        </div>
+
+        <p class="product-status-note"><strong>Tuotantoraja:</strong> trade-in- ja DealSnapshot-rakenteet on toteutettu ja testattu, mutta vaihtoautopolku ei ole vielä osa tämän julkisen demon tuotantoliikennettä.</p>
+      </div>
+    </section>
+
     <section class="landing-section" aria-labelledby="vertailuHeading">
       <div class="landing-section-inner">
         <p class="section-eyebrow">Erottuvuus</p>
@@ -187,7 +254,7 @@
           <li class="step-card">
             <span class="step-number" aria-hidden="true">1</span>
             <h3>Autokohtainen Magic Link</h3>
-            <p>Linkissä on vain satunnainen, läpinäkymätön tunniste, esimerkiksi <code>sales.kopilotti.online/n/8F3KD91X</code>. Auton tiedot ja neuvottelusäännöt haetaan palvelimelta — minimi- tai tavoitehintaa ei koskaan lisätä URL-osoitteeseen.</p>
+            <p>Linkissä on vain satunnainen, läpinäkymätön tunniste. <strong>Esimerkkiosoite:</strong> <code>sales.kopilotti.online/n/8F3KD91X</code>. Auton tiedot ja neuvottelusäännöt haetaan palvelimelta — minimi- tai tavoitehintaa ei koskaan lisätä URL-osoitteeseen.</p>
           </li>
           <li class="step-card">
             <span class="step-number" aria-hidden="true">2</span>
@@ -206,14 +273,14 @@
           <div class="magic-link-preview-content">
             <span class="magic-link-button">Neuvottele hinnasta</span>
             <span class="magic-link-target">
-              <span class="magic-link-target-label">Painike avaa autokohtaisen neuvottelulinkin:</span>
+              <span class="magic-link-target-label">Esimerkkiosoite autokohtaiselle neuvottelulinkille:</span>
               <code>https://sales.kopilotti.online/n/8F3KD91X</code>
             </span>
           </div>
         </figure>
 
         <div class="section-callout payment-boundary">
-          <strong>Maksut pysyvät aina myyjäliikkeellä.</strong> Kopilotti Sales ei vastaanota, säilytä eikä välitä asiakkaan maksuja. Kun neuvottelutulos on hyväksytty, myyjäliike hoitaa koko kaupanteko- ja maksuprosessin omissa järjestelmissään ja valitsemansa maksupalvelun kautta.
+          <strong>Raha siirtyy suoraan asiakkaalta myyjäliikkeelle.</strong> Kopilotti ei vastaanota, säilytä eikä välitä varoja. Maksun vahvistaa myyjäliike.
         </div>
 
         <p class="section-callout">Pilotin työ autoliikkeelle: yhden linkin lisääminen auton sivulle. Ei pakollista DMS-, CRM- tai markkinapaikkaintegraatiota.</p>
@@ -277,10 +344,10 @@
       <div class="landing-section-inner">
         <p class="section-eyebrow">Demo</p>
         <h2 id="demoHeading" class="section-heading">Kokeile itse, miltä digitaalinen hintaneuvottelu tuntuu</h2>
-        <p class="section-intro">Demo näyttää asiakkaan näkökulmasta, miltä digitaalinen hintaneuvottelu voi tuntua. Demon auto, hinnat ja keskustelu ovat esimerkkitietoja.</p>
+        <p class="section-intro" id="demoNotice"><strong>Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.</strong> Demo näyttää asiakkaan näkökulmasta, miltä digitaalinen hintaneuvottelu voi tuntua. Auto, hinnat ja keskustelu ovat esimerkkitietoja.</p>
         <div class="demo-callout">
           <p><strong id="demoVehicleName">Demoajoneuvo</strong><br><span id="demoVehicleRegistration"></span> · <span id="demoVehiclePrice"></span></p>
-          <a class="btn btn-primary" href="vehicle.html">Avaa demo</a>
+          <a class="btn btn-primary" href="vehicle.html" aria-describedby="demoNotice">Avaa demo</a>
         </div>
       </div>
     </section>
@@ -307,6 +374,15 @@
       <ul class="site-footer-links">
         <li><a href="vehicle.html">Avaa demo</a></li>
         <li><a href="tietosuoja.html">Tietosuojaseloste</a></li>
+        <li>
+          <a
+            href="https://github.com/mikko-lab/kopilotti-sales-demo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub: julkinen tuote-esittely
+          </a>
+        </li>
       </ul>
     </div>
     <p class="site-footer-note">© 2026 Kopilotti Sales. Kaikki oikeudet pidätetään.</p>
