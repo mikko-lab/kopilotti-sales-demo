@@ -57,7 +57,7 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - Myyjäliikkeen hyväksytty ja hallitsema maksutili sekä palvelinlähtöinen, asiakkaan selaimesta muuttumaton maksutieto
 - Maksuohjeen vahva sitominen oikeaan myyjäliikkeeseen, kauppaan, sovittuun hintaan, laskunumeroon ja viitteeseen sekä riippumaton varmennus ennen kuin asiakkaalle näytetään maksukelpoinen IBAN
 - Oikea DMS-sopimusintegraatio konseptiasiakirjan tilalle
-- Tuotantokatselmus, jossa tenant-eristys, atomisuus, idempotenssi, tietovuodot ja asiakkaan mahdottomuus vahvistaa maksu todennetaan
+- Tuotantokatselmus, jossa todennetaan tenant-eristys, atomisuus ja idempotenssi sekä varmistetaan, ettei tietoja vuoda eikä asiakas voi vahvistaa maksua
 
 Täysi lasku–`PAID`-tuotantopolku on näihin asti **NO-GO**. Kun se aikanaan otetaan käyttöön, rahat siirtyvät suoraan asiakkaalta myyjäliikkeelle; Kopilotti ei vastaanota, säilytä eikä välitä rahaa.
 
