@@ -341,6 +341,19 @@ Deterministinen päätöksentekokerros tekee kaikki kaupalliset päätökset.
 
 Päätöksenteko ei perustu mallin mielipiteeseen, todennäköisyyteen tai vapaamuotoiseen tekstivastaukseen.
 
+## Rahoitus (portti, ei ominaisuus)
+
+Alusta sisältää rahoitusportin, joka on oletuksena pois käytöstä.
+Jos portti otetaan käyttöön, luottohakemus, tunnistautuminen ja
+luottopäätös tapahtuvat rahoitusyhtiön omassa ympäristössä.
+
+- Alusta ei vastaanota henkilötunnusta, tulo- tai velkatietoja
+  eikä luottotietorekisterin tietoja.
+- Alusta ei arvioi luottokelpoisuutta eikä anna asiakkaalle
+  henkilökohtaista rahoitussuositusta.
+- Myönteinen luottopäätös ei yksinään vapauta ajoneuvoa
+  luovutettavaksi.
+
 ---
 
 # Julkisen repositorion rooli ja rakenne
