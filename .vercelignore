@@ -36,6 +36,8 @@ node_modules/
 # Tests and docs — not part of the public product surface.
 tests/
 README.md
+README.fi.md
+docs/
 LICENSE
 
 # Editor/tooling directories.
