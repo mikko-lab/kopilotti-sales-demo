@@ -133,6 +133,16 @@
 .form-error { color: var(--error-text); font-size: var(--text-xs); min-height: 18px; margin-top: 4px; }
 .decision-actions { display: grid; gap: 8px; margin-top: var(--space-3); }
 
+.email-verification, .negotiation-locked, .offer-limit-reached { margin-top: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--border); }
+.email-verification h4, .negotiation-locked h4, .offer-limit-reached h4 { font-size: var(--text-sm); }
+.email-verification p, .negotiation-locked > p, .offer-limit-reached > p { color: var(--text2); font-size: var(--text-xs); margin-top: 6px; }
+.email-request-form, .email-verify-form { margin-top: var(--space-2); }
+.email-request-form label, .email-verify-form label { display: block; font-weight: 700; font-size: var(--text-sm); margin-bottom: 8px; }
+.email-request-form input, .email-verify-form input { width: 100%; min-height: 44px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; font: inherit; margin-bottom: 8px; }
+.email-verify-form.hidden { display: none; }
+#emailVerifySentNotice { color: var(--text2); font-size: var(--text-xs); margin-bottom: 8px; }
+.contact-seller-prompt { margin-top: var(--space-2); }
+
 .condition-report-body { padding: var(--space-3); }
 .condition-introduction { color: var(--text2); font-size: var(--text-sm); }
 .condition-status { margin-top: var(--space-3); padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface2); color: var(--text2); font-size: var(--text-xs); }
@@ -175,6 +185,11 @@
 .purchase-progress li.current span { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
 .purchase-status-panel { padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface2); font-size: var(--text-xs); line-height: 1.5; }
 .purchase-status-panel strong { display: block; font-size: var(--text-sm); margin-bottom: 3px; }
+/* A known, permanent demo limitation (no real payment/financing integration
+   configured) is not an error state - this uses the brand's own primary
+   accent, distinct from --error/--warning, so it never reads as a fault. */
+.purchase-status-panel.notice { border-color: var(--primary); background: var(--primary-light); }
+.purchase-status-panel.notice strong { color: var(--primary-dark); }
 .payment-methods, .demo-confirmation { display: grid; gap: 8px; margin-top: var(--space-3); }
 .payment-methods fieldset { display: grid; gap: 8px; border: 0; }
 .payment-methods legend { margin-bottom: 8px; font-weight: 700; }

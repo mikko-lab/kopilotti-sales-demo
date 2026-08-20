@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="128"
+     height="128"
+     viewBox="0 0 128 128"
+     fill="none"
+     role="img"
+     aria-labelledby="title desc">
+  <title id="title">Kopilotti-favicon</title>
+  <desc id="desc">Kopilotti K-symboli vaalealla pyöristetyllä taustalaatalla, jotta se pysyy tunnistettavana sekä vaaleassa että tummassa selainvälilehdessä.</desc>
+
+  <!-- Same K geometry as kopilotti-mark.svg, with a light rounded backing
+       plate baked in so the favicon is self-contained and legible
+       regardless of the browser's own light/dark tab-bar theme. -->
+  <rect x="4" y="4" width="120" height="120" rx="28" fill="#FFFFFF"/>
+  <rect x="20" y="16" width="24" height="96" rx="12" fill="#0B1F3A"/>
+  <path d="M43 64L91 20"
+        stroke="#1677FF"
+        stroke-width="22"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+  <path d="M43 64L93 108"
+        stroke="#1677FF"
+        stroke-width="22"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+  <path d="M57 51L87 24"
+        stroke="#8FD3FF"
+        stroke-width="4"
+        stroke-linecap="round"
+        opacity="0.92"/>
+</svg>

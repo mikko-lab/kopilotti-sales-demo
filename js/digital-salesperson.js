@@ -1,18 +1,55 @@
 import { CustomerNegotiationApi } from './negotiation-api.js';
 import { PurchaseFlowApi } from './purchase-flow-api.js';
+import { EmailVerificationApi } from './email-verification-api.js';
 import { DEMO_VEHICLE } from './demo-vehicle.js';
+import { magicLinkToken, loadMagicLinkVehicle } from './magic-link-vehicle.js';
 import { calculateDealSummary, formatSignedEuro, formatSignedPercent, parseEuroInput } from './deal-summary.js';
+import { formatLockExpiry } from './lock-expiry-format.js';
 
-const api = new CustomerNegotiationApi();
+// Magic Link pages are served at /n/{token} (see vercel.json's rewrite) —
+// the token never becomes a query string, it's read straight from
+// location.pathname (see magic-link-vehicle.js). Its presence is the ONE
+// branch point between the two entirely separate code paths this file
+// supports: the always-on canned demo (DEMO_VEHICLE, /api/digital-salesperson)
+// and a real per-dealer Magic Link negotiation
+// (/api/n/{token}, kopilotti-admin's actual pricing rules). There is no
+// fallback from the Magic Link path back to the demo path on any failure —
+// see loadVehicle() below.
+const api = new CustomerNegotiationApi(magicLinkToken ? { basePath: `/api/n/${magicLinkToken}` } : {});
 const purchaseApi = new PurchaseFlowApi();
-const state = { vehicle: null, negotiationStarted: false, preNegotiationReportOpened: false, conditionReturnFocus: null, purchasePath: null, latestCounterOffer: null, demoRun: 0 };
+const emailApi = new EmailVerificationApi(magicLinkToken ? { basePath: `/api/n/${magicLinkToken}` } : {});
+const state = { vehicle: null, negotiationStarted: false, preNegotiationReportOpened: false, conditionReturnFocus: null, purchasePath: null, latestCounterOffer: null, latestAgreedPrice: null, demoRun: 0, pendingOffer: null, pendingEmail: null };
 const PURCHASE_PATH = { DIRECT: 'DIRECT_LIST_PRICE', NEGOTIATED: 'NEGOTIATED_PRICE' };
 const DEMO_STEP_DELAY_MS = 1_500;
 const REDUCED_MOTION_DEMO_STEP_DELAY_MS = 120;
 
 async function loadVehicle() {
+  if (magicLinkToken) {
+    const vehicle = await loadMagicLinkVehicle(magicLinkToken, api.backendUrl);
+    if (!vehicle) {
+      renderVehicleUnavailable();
+      return;
+    }
+    state.vehicle = vehicle;
+    renderVehicle(state.vehicle);
+    return;
+  }
   state.vehicle = DEMO_VEHICLE;
   renderVehicle(state.vehicle);
+}
+
+// Same generic, safe wording regardless of why the vehicle view failed
+// (wrong/expired/revoked token, inactive policy, network error) — never
+// reveals which, matching the backend's own "one failure shape" convention
+// (see src/http/magic-link-negotiation-routes.js).
+function renderVehicleUnavailable() {
+  document.title = 'Neuvottelulinkki ei ole käytössä – Kopilotti Sales';
+  setText('vehicleTitle', 'Tämä neuvottelulinkki ei ole käytössä');
+  setText('vehicleSubtitle', 'Linkki voi olla vanhentunut, mitätöity tai virheellinen.');
+  setText('vehiclePrice', '');
+  setText('vehicleAvailability', '');
+  document.getElementById('digitalSalespersonCard')?.classList.add('hidden');
+  document.getElementById('digitalSalespersonFlow')?.classList.add('hidden');
 }
 
 function renderVehicle(vehicle) {
@@ -22,10 +59,20 @@ function renderVehicle(vehicle) {
   setText('vehicleSubtitle', vehicle.registration);
   setText('vehiclePrice', formatEuro(vehicle.listPrice));
   setText('vehicleMonthly', '');
-  setText('vehicleAvailability', 'Demoajoneuvo');
+  setText('vehicleAvailability', magicLinkToken ? 'Myynnissä' : 'Demoajoneuvo');
   const image = document.getElementById('vehicleImage');
   image.src = vehicle.image;
   image.alt = vehicle.imageAlt;
+  const campaignEl = document.getElementById('vehicleCampaignLabel');
+  if (campaignEl) {
+    if (vehicle.campaignLabel) {
+      campaignEl.textContent = vehicle.campaignLabel;
+      campaignEl.classList.remove('hidden');
+    } else {
+      campaignEl.textContent = '';
+      campaignEl.classList.add('hidden');
+    }
+  }
 
   setText('specMakeModel', vehicle.makeModel);
   setText('specRegistration', vehicle.registration);
@@ -104,10 +151,51 @@ function closeFlow() {
   document.getElementById('btnStartDigitalSalesperson').focus();
 }
 
-function startNegotiation() {
+// Opens (or restores) the negotiation session as soon as the customer
+// starts the flow, before ever showing the price form - previously this
+// only happened lazily on the first "Ehdota hintaa" submit, so a customer
+// who needed email verification (or hit a NEGOTIATION_LOCKED vehicle) typed
+// a price first and only then got redirected, having already invested the
+// effort. Checking eagerly means they see exactly the panel they need
+// (verification, lock, or the price form) on the very first screen, never
+// a form they can't actually use yet.
+async function startNegotiation() {
   if (state.negotiationStarted) return;
   state.negotiationStarted = true;
   document.getElementById('conversation').classList.remove('hidden');
+  document.getElementById('priceForm').classList.add('hidden');
+  const waitingMessage = addMessage('salesperson pending', 'Tarkistetaan, voidaanko hintaneuvottelu aloittaa.');
+  document.getElementById('messageList').focus();
+  try {
+    await api.ensureSession(state.vehicle.id);
+    waitingMessage.remove();
+    document.getElementById('priceForm').classList.remove('hidden');
+  } catch (error) {
+    waitingMessage.remove();
+    if (error.code === 'EMAIL_VERIFICATION_REQUIRED') {
+      showEmailVerificationRequired(Boolean(error.recoveryContext));
+    } else if (error.code === 'NEGOTIATION_LOCKED') {
+      showNegotiationLocked(error.message, error.expiresAt);
+    } else {
+      document.getElementById('priceForm').classList.remove('hidden');
+      addMessage('salesperson decision', offerErrorMessage(error));
+      renderDecisionActions('unavailable');
+    }
+  }
+}
+
+const OFFER_ERROR_MESSAGES = {
+  VEHICLE_ALREADY_RESERVED: 'Tämä auto on juuri varattu toiselle asiakkaalle. Yritä hetken kuluttua uudelleen.',
+  VERSION_CONFLICT: 'Neuvottelutilanne ehti muuttua sillä välin. Päivitä sivu ja yritä uudelleen.',
+  VEHICLE_MISMATCH: 'Tarjous ei täsmännyt valittuun autoon. Päivitä sivu ja yritä uudelleen.',
+  POLICY_UNAVAILABLE: 'Hinnoittelutietoja päivitetään juuri nyt. Ota yhteys myyjään tai yritä hetken kuluttua uudelleen.',
+  VEHICLE_NOT_FOUND: 'Ajoneuvon tietoja ei löytynyt. Päivitä sivu ja yritä uudelleen.',
+  INVALID_REQUEST: 'Pyyntöä ei voitu käsitellä. Päivitä sivu ja yritä uudelleen.',
+};
+
+function offerErrorMessage(error) {
+  return OFFER_ERROR_MESSAGES[error?.code]
+    ?? 'Hinnan tarkistaminen ei onnistunut juuri nyt. Kaupan tietoja ei muutettu. Yritä hetken kuluttua uudelleen.';
 }
 
 async function submitPrice(event) {
@@ -135,31 +223,216 @@ async function submitPrice(event) {
   // "display: none" while empty (.message-list:empty in vehicle.css), so
   // focusing it before it has content is a silent no-op.
   document.getElementById('messageList').focus();
+  const evidence = `Asiakkaan hintaehdotus on ${offerAmount} EUR.`;
   try {
-    const decision = await api.discussPrice({
-      vehicleId: state.vehicle.id,
-      offerAmount,
-      evidence: `Asiakkaan hintaehdotus on ${offerAmount} EUR.`,
-    });
+    const decision = await api.discussPrice({ vehicleId: state.vehicle.id, offerAmount, evidence });
     waitingMessage.remove();
     renderDecision(decision);
     form.classList.add('hidden');
   } catch (error) {
     waitingMessage.remove();
-    // TEMPORARY: surfaces the raw error code/message while diagnosing a live
-    // production failure that isn't reproducible outside the real browser/
-    // backend pair. Revert to the plain customer-facing copy once resolved.
-    const debugDetail = `${error?.code || 'NO_CODE'}: ${error?.message || 'no message'}`;
-    addMessage('salesperson decision', `Hinnan tarkistaminen ei onnistunut juuri nyt. Kaupan tietoja ei muutettu. Yritä hetken kuluttua uudelleen. [DEBUG: ${debugDetail}]`);
-    renderDecisionActions('unavailable');
+    // These three codes get their own dedicated UI (email verification,
+    // lock, offer-limit) instead of the generic offer-error message below -
+    // see the matching backend checks in negotiation-service.js's create()
+    // (Step 4/5) and submitOffer() (Step 5).
+    if (error.code === 'EMAIL_VERIFICATION_REQUIRED') {
+      state.pendingOffer = { offerAmount, evidence };
+      form.classList.add('hidden');
+      showEmailVerificationRequired(Boolean(error.recoveryContext));
+    } else if (error.code === 'SESSION_NOT_FOUND') {
+      // Only reachable for a session that already existed (see
+      // negotiation-api.js's discussPrice retry) - always framed as
+      // recovery, never as a first-time verification.
+      state.pendingOffer = { offerAmount, evidence };
+      form.classList.add('hidden');
+      showEmailVerificationRequired(true);
+    } else if (error.code === 'NEGOTIATION_LOCKED') {
+      form.classList.add('hidden');
+      showNegotiationLocked(error.message, error.expiresAt);
+    } else if (error.code === 'OFFER_LIMIT_REACHED') {
+      form.classList.add('hidden');
+      showOfferLimitReached(error.message, error.cooldownUntil);
+    } else {
+      addMessage('salesperson decision', offerErrorMessage(error));
+      renderDecisionActions('unavailable');
+    }
   } finally {
     submitButton.disabled = false;
   }
 }
 
+// --- Step 6: email verification, negotiation lock, and offer-limit UI ---
+
+const EMAIL_VERIFICATION_INTRO = {
+  firstTime: 'Vahvista sähköpostiosoitteesi ennen hintaneuvottelun aloittamista.',
+  // Shown only when a previously-working session just failed to re-validate
+  // (lost device cookie, see resolve-device.js's KNOWN LIMITATION) - never
+  // for a genuine first-time visitor. Framed as continuing, not restarting.
+  recovery: 'Vahvista sähköpostisi, jotta voimme palauttaa aiemman neuvottelusi.',
+};
+
+function showEmailVerificationRequired(recovery = false) {
+  const panel = document.getElementById('emailVerificationPanel');
+  setText('emailVerificationIntro', recovery ? EMAIL_VERIFICATION_INTRO.recovery : EMAIL_VERIFICATION_INTRO.firstTime);
+  document.getElementById('emailRequestForm').classList.remove('hidden');
+  document.getElementById('emailVerifyForm').classList.add('hidden');
+  panel.classList.remove('hidden');
+  panel.focus();
+}
+
+async function requestVerificationCode(event) {
+  event.preventDefault();
+  const input = document.getElementById('emailInput');
+  const errorElement = document.getElementById('emailRequestError');
+  const button = event.currentTarget.querySelector('button[type="submit"]');
+  errorElement.textContent = '';
+  const email = input.value.trim();
+  if (!email) {
+    errorElement.textContent = 'Kirjoita sähköpostiosoitteesi.';
+    input.focus();
+    return;
+  }
+  button.disabled = true;
+  try {
+    await emailApi.requestCode(email);
+    state.pendingEmail = email;
+    document.getElementById('emailRequestForm').classList.add('hidden');
+    const verifyForm = document.getElementById('emailVerifyForm');
+    verifyForm.classList.remove('hidden');
+    setText('emailVerifySentNotice', `Lähetimme vahvistuskoodin osoitteeseen ${email}. Koodi on voimassa vain vähän aikaa.`);
+    document.getElementById('codeInput').focus();
+  } catch (_error) {
+    errorElement.textContent = 'Koodin lähetys ei onnistunut juuri nyt. Yritä hetken kuluttua uudelleen.';
+    input.focus();
+  } finally {
+    button.disabled = false;
+  }
+}
+
+const EMAIL_VERIFY_ERROR_MESSAGES = {
+  CODE_MISMATCH: 'Koodi ei täsmää, tarkista ja yritä uudelleen.',
+  CODE_EXPIRED: 'Koodi on vanhentunut, pyydä uusi.',
+  TOO_MANY_ATTEMPTS: 'Liian monta yritystä. Pyydä uusi koodi.',
+};
+
+function emailVerifyErrorMessage(error) {
+  return EMAIL_VERIFY_ERROR_MESSAGES[error?.code] ?? 'Vahvistus ei onnistunut juuri nyt. Tarkista koodi ja yritä uudelleen.';
+}
+
+async function verifyEmailCode(event) {
+  event.preventDefault();
+  const input = document.getElementById('codeInput');
+  const errorElement = document.getElementById('emailVerifyError');
+  const button = event.currentTarget.querySelector('button[type="submit"]');
+  errorElement.textContent = '';
+  const code = input.value.trim();
+  if (!/^\d{6}$/.test(code)) {
+    errorElement.textContent = 'Koodi on kuusi numeroa.';
+    input.focus();
+    return;
+  }
+  button.disabled = true;
+  try {
+    await emailApi.verifyCode(state.pendingEmail, code);
+    document.getElementById('emailVerificationPanel').classList.add('hidden');
+    await retryPendingOffer();
+  } catch (error) {
+    errorElement.textContent = emailVerifyErrorMessage(error);
+    input.value = '';
+    input.focus();
+  } finally {
+    button.disabled = false;
+  }
+}
+
+// Runs the exact offer the customer already typed before verification
+// interrupted them - they should never have to re-type or re-click
+// "Ehdota hintaa" a second time. If verification instead happened eagerly,
+// right when the negotiation opened (startNegotiation), there is no typed
+// offer yet - just reveal the price form so the customer can make their
+// first offer now that they're verified.
+async function retryPendingOffer() {
+  const pending = state.pendingOffer;
+  state.pendingOffer = null;
+  const form = document.getElementById('priceForm');
+  if (!pending) {
+    form.classList.remove('hidden');
+    document.getElementById('priceInput').focus();
+    return;
+  }
+  form.classList.remove('hidden');
+  const waitingMessage = addMessage('salesperson pending', 'Tarkistan, voimmeko tehdä kaupat tällä hinnalla.');
+  document.getElementById('messageList').focus();
+  try {
+    const decision = await api.discussPrice({ vehicleId: state.vehicle.id, ...pending });
+    waitingMessage.remove();
+    renderDecision(decision);
+    form.classList.add('hidden');
+  } catch (error) {
+    waitingMessage.remove();
+    if (error.code === 'NEGOTIATION_LOCKED') {
+      form.classList.add('hidden');
+      showNegotiationLocked(error.message, error.expiresAt);
+    } else if (error.code === 'OFFER_LIMIT_REACHED') {
+      form.classList.add('hidden');
+      showOfferLimitReached(error.message, error.cooldownUntil);
+    } else {
+      addMessage('salesperson decision', offerErrorMessage(error));
+      renderDecisionActions('unavailable');
+    }
+  }
+}
+
+// Matches the existing btnContactSeller convention (see below): this demo
+// has no real backend endpoint to send a human-salesperson contact
+// request to, so leaving contact details is a UI gesture that ends in the
+// same honest, non-technical notice already used elsewhere in this file.
+function renderContactPrompt(container) {
+  container.replaceChildren();
+  container.append(createAction('Jätä yhteystiedot myyjälle', () => {
+    const note = document.createElement('p');
+    note.className = 'purchase-fineprint';
+    note.textContent = 'Tämä konseptidemo ei lähetä oikeaa yhteydenottopyyntöä. Myyjä voi auttaa poikkeustilanteissa ja lisäkysymyksissä.';
+    container.replaceChildren(note);
+  }, false));
+}
+
+// message is always the backend's own text (§12 of the feature spec) -
+// expiresAt is the only thing formatted client-side, from structured data,
+// never computed or guessed here (see lock-expiry-format.js).
+function showNegotiationLocked(message, expiresAt) {
+  const panel = document.getElementById('negotiationLockedPanel');
+  const fullMessage = expiresAt
+    ? `${message} Voit jatkaa neuvottelua aikaisintaan ${formatLockExpiry(expiresAt)}, ellei autoliike ota sinuun yhteyttä aiemmin.`
+    : message;
+  setText('negotiationLockedMessage', fullMessage);
+  renderContactPrompt(document.getElementById('negotiationLockedContact'));
+  panel.classList.remove('hidden');
+  panel.focus();
+}
+
+// COOLDOWN, not a real handoff to a human (2026-08-05 fix): message is the
+// backend's own honest text - it never claims the negotiation has already
+// been handed to the dealer, only that automated negotiation is paused.
+// cooldownUntil (structured data, same convention as showNegotiationLocked's
+// expiresAt) tells the customer exactly when a genuinely new negotiation
+// can start - reloading the page (or just trying again) after that time
+// gets a fresh session automatically, see negotiation-service.js's create().
+function showOfferLimitReached(message, cooldownUntil) {
+  const panel = document.getElementById('offerLimitPanel');
+  const fullMessage = cooldownUntil
+    ? `${message} Voit aloittaa uuden neuvottelun aikaisintaan ${formatLockExpiry(cooldownUntil)}.`
+    : message;
+  setText('offerLimitMessage', fullMessage);
+  renderContactPrompt(document.getElementById('offerLimitContact'));
+  panel.classList.remove('hidden');
+  panel.focus();
+}
+
 function renderDecision(decision) {
   if (decision.status === 'ACCEPT') {
     state.latestCounterOffer = null;
+    state.latestAgreedPrice = decision.approvedAmount;
     showAcceptedDealSummary(decision.approvedAmount);
     addMessage('salesperson decision', `Voimme tehdä kaupat hinnalla ${formatEuro(decision.approvedAmount)}. Jatketaan maksutavan valintaan.`);
     renderDecisionActions('reserve');
@@ -176,15 +449,22 @@ function renderDecision(decision) {
   }
 }
 
+const FINAL_ROUND_APPEAL = 'Myymme auton sinulle oikein mielellämme, mutta ehdotuksesi ei vielä riitä kauppaan asti. Ole ystävällinen ja tee viimeinen korkein ehdotuksesi.';
+
 function counterMessage(decision) {
   const price = formatEuro(decision.counterOffer);
+  let message;
   if (decision.messageCode === 'COUNTER_ROUND_1') {
-    return `Kiitos ehdotuksestasi. Tällä hinnalla emme vielä voi tehdä kauppaa. Voimme tulla vastaan hintaan ${price}. Haluatko hyväksyä hinnan vai tehdä uuden ehdotuksen?`;
+    message = `Kiitos ehdotuksestasi. Tällä hinnalla emme vielä voi tehdä kauppaa. Voimme tulla vastaan hintaan ${price}. Haluatko hyväksyä hinnan vai tehdä uuden ehdotuksen?`;
+  } else if (decision.messageCode === 'COUNTER_ROUND_2') {
+    message = `Olemme jo lähempänä. Voimme tarkistaa hinnan ${price.replace(' €', ' euroon')}. Haluatko hyväksyä hinnan vai jatkaa neuvottelua?`;
+  } else {
+    message = `Voimme tehdä vielä viimeisen tarkistuksen hintaan ${price}. Jos hyväksyt tämän hinnan, voimme jatkaa ostoprosessiin.`;
   }
-  if (decision.messageCode === 'COUNTER_ROUND_2') {
-    return `Olemme jo lähempänä. Voimme tarkistaa hinnan ${price.replace(' €', ' euroon')}. Haluatko hyväksyä hinnan vai jatkaa neuvottelua?`;
+  if (decision.isFinalAutomatedRound) {
+    message += ` ${FINAL_ROUND_APPEAL}`;
   }
-  return `Voimme tehdä vielä viimeisen tarkistuksen hintaan ${price}. Jos hyväksyt tämän hinnan, voimme jatkaa ostoprosessiin.`;
+  return message;
 }
 
 function renderDecisionActions(mode, decision = null) {
@@ -192,7 +472,15 @@ function renderDecisionActions(mode, decision = null) {
   container.classList.remove('hidden');
   container.replaceChildren();
   if (mode === 'reserve') {
-    container.append(createAction('Jatka ostoprosessiin', (event) => beginPurchaseFlow(PURCHASE_PATH.NEGOTIATED, event.currentTarget), true));
+    // 2026-08-05 follow-up to the purchase-flow handoff fix: this button no
+    // longer starts an "ostoprosessi" (purchase process) at all in the
+    // Magic Link context - beginPurchaseFlow() shows the handoff view
+    // directly, without ever calling the demo-only purchase-flow API (see
+    // its own comment). "Jatka ostoprosessiin" would be actively misleading
+    // there. The old internal demo (no magicLinkToken) really does continue
+    // into its own purchase process, so its label is unchanged.
+    const reserveLabel = magicLinkToken ? 'Viimeistele neuvottelu' : 'Jatka ostoprosessiin';
+    container.append(createAction(reserveLabel, (event) => beginPurchaseFlow(PURCHASE_PATH.NEGOTIATED, event.currentTarget), true));
   }
   if (mode === 'counter') {
     container.append(createAction(`Hyväksy ${formatEuro(decision.counterOffer)}`, acceptCounterOffer, true));
@@ -235,6 +523,7 @@ function prepareNewOffer() {
 function acceptCounterOffer(event) {
   const amount = state.latestCounterOffer;
   if (!Number.isSafeInteger(amount)) return;
+  state.latestAgreedPrice = amount;
   showAcceptedDealSummary(amount);
   document.getElementById('priceForm').classList.add('hidden');
   document.getElementById('decisionActions').classList.add('hidden');
@@ -269,6 +558,31 @@ function addMessage(className, text, speaker) {
 async function beginPurchaseFlow(purchasePath, trigger) {
   state.conditionReturnFocus = trigger || document.activeElement;
   state.purchasePath = purchasePath;
+  // 2026-08-05 hotfix (found during the first production Magic Link test,
+  // right after this PR's own vehicle-identity fix let a real negotiation
+  // reach ACCEPT for the first time): PurchaseFlowService's own vehicle
+  // lookup (purchase-flow-service.js's `this.inventory`, wired in
+  // bootstrap.js) only ever reads the static file-based demo catalog - it
+  // has no knowledge of kopilotti-admin's Postgres
+  // vehicle catalog that Magic Link vehicles actually live in. Every
+  // Magic Link vehicle id therefore fails this call with
+  // VEHICLE_NOT_AVAILABLE (409), shown to the customer as a generic
+  // "Ostoprosessia ei voitu aloittaa" error - regardless of purchasePath.
+  // For Kopilotti's own scope, a Magic Link ACCEPT (or an agreed list
+  // price) already IS the successful end state: the payment boundary
+  // (README's "Maksut pysyvät aina myyjäliikkeellä") means the dealership
+  // takes the deal from here in its own systems, not this page. Building a
+  // real Postgres-aware purchase/condition-report/payment path for Magic
+  // Link vehicles is a separate, larger piece of work - this fix only
+  // stops calling an API this path was never built to support, and shows
+  // the customer an accurate handoff message instead of a false error. The
+  // pre-existing internal demo (no magicLinkToken) is completely
+  // untouched - it still calls the real purchase-flow API exactly as
+  // before.
+  if (magicLinkToken) {
+    showMagicLinkPurchaseHandoff(purchasePath);
+    return;
+  }
   try {
     await purchaseApi.start({
       vehicleId: state.vehicle.id,
@@ -285,6 +599,34 @@ async function beginPurchaseFlow(purchasePath, trigger) {
     setPurchaseStatus('Ostoprosessia ei voitu aloittaa', 'Kaupan tietoja ei muutettu. Yritä uudelleen tai ota yhteys myyjään.');
     journey.focus();
   }
+}
+
+// Magic Link vehicles have no purchase/condition-report/payment session on
+// the backend (see the comment in beginPurchaseFlow above) - this never
+// calls purchaseApi or touches PurchaseFlowService at all. It only renders
+// the same "Kaupan eteneminen" panel the internal demo uses, showing the
+// price the customer and dealer just agreed on (or the list price, for the
+// DIRECT/"Jatka listahinnalla" path) and a clear handoff to the dealer's
+// own systems - never the demo's condition-report/payment-method/provider
+// steps, since none of those exist for this session.
+function showMagicLinkPurchaseHandoff(purchasePath) {
+  document.getElementById('digitalSalespersonFlow').classList.add('hidden');
+  document.querySelectorAll('.purchase-card').forEach((card) => card.classList.add('hidden'));
+  document.getElementById('conditionReportStep').classList.add('hidden');
+  document.getElementById('paymentMethods').classList.add('hidden');
+  document.getElementById('demoConfirmation').classList.add('hidden');
+  document.getElementById('dealAgreement').classList.add('hidden');
+  document.querySelector('.purchase-progress')?.classList.add('hidden');
+  const journey = document.getElementById('purchaseJourney');
+  journey.classList.remove('hidden');
+  const negotiated = purchasePath === PURCHASE_PATH.NEGOTIATED;
+  const price = negotiated ? state.latestAgreedPrice : state.vehicle.listPrice;
+  setText('purchaseJourneyTitle', negotiated ? 'Hinnasta sovittu' : 'Ostopolku jatkuu listahinnalla');
+  setPurchaseStatus(
+    `Hinnasta sovittu: ${formatEuro(price)}`,
+    'Myyjäliike viimeistelee kaupan kanssasi. Maksut, rahoitus ja ajoneuvon luovutus hoidetaan myyjäliikkeen omissa järjestelmissä.',
+  );
+  journey.focus();
 }
 
 function showDealAgreement(purchasePath) {
@@ -304,7 +646,7 @@ function showDealAgreement(purchasePath) {
   setText('agreementVehicle', vehicleIdentity(state.vehicle));
   setPurchaseStatus(
     negotiated ? 'Hinnasta sovittu' : 'Suora ostopolku',
-    `${vehicleIdentity(state.vehicle)}. Seuraavaksi tutustut auton kuntoraporttiin.`,
+    `${vehicleIdentity(state.vehicle)}. Kuntoraportti on saattanut päivittyä sen jälkeen kun tutustuit siihen — vahvista se vielä kertaalleen ennen maksua.`,
   );
   renderPurchaseProgress('price');
   journey.focus();
@@ -430,6 +772,20 @@ async function selectPayment(event) {
     // unrelated technical fault.
     if (error.code === 'AVAILABILITY_CHECK_UNAVAILABLE') {
       setPurchaseStatus('Saatavuutta ei voitu vahvistaa', 'Tämä auto vaatii dealer-kohtaisen saatavuusintegraation ennen kuin täysi ostoprosessi maksuun asti voi valmistua. Yritä hetken kuluttua uudelleen tai ota yhteys myyjään.');
+    } else if (error.code === 'PROVIDER_UNAVAILABLE') {
+      // Same reasoning as AVAILABILITY_CHECK_UNAVAILABLE above: this demo has
+      // no real payment/financing integration configured (see
+      // src/adapters/disabled-payment-provider.js and
+      // disabled-financing-provider.js - every attempt fails this same way,
+      // it is not a transient technical fault) - name the demo limitation
+      // instead of showing a generic "connection failed" text.
+      setPurchaseStatus(
+        method === 'PAYMENT' ? 'Demo ei sisällä oikeaa maksupalvelua' : 'Demo ei sisällä oikeaa rahoitusintegraatiota',
+        method === 'PAYMENT'
+          ? 'Tämä on ei-sitova esitys ostopolusta. Oikea maksu vaatii myyjäliikkeen maksupalveluintegraation, jota ei ole kytketty tähän demoon.'
+          : 'Tämä on ei-sitova esitys ostopolusta. Oikea rahoitushakemus vaatii myyjäliikkeen rahoitusyhtiöintegraation, jota ei ole kytketty tähän demoon.',
+        'notice',
+      );
     } else {
       const message = method === 'PAYMENT'
         ? 'Maksupalveluun ei saatu yhteyttä. Maksua ei ole vahvistettu.'
@@ -496,13 +852,14 @@ function renderConfirmedStatus(session) {
   );
 }
 
-function setPurchaseStatus(title, message) {
+function setPurchaseStatus(title, message, tone) {
   const panel = document.getElementById('purchaseStatus');
   const heading = document.createElement('strong');
   const text = document.createElement('span');
   heading.textContent = title;
   text.textContent = message;
   panel.replaceChildren(heading, text);
+  panel.classList.toggle('notice', tone === 'notice');
   if (!document.getElementById('purchaseJourney').classList.contains('hidden')) panel.focus();
 }
 
@@ -623,6 +980,8 @@ document.getElementById('btnRunDemo').addEventListener('click', runDemo);
 document.getElementById('btnReviewCondition').addEventListener('click', continueToConditionReport);
 document.getElementById('priceForm').addEventListener('submit', submitPrice);
 document.getElementById('priceInput').addEventListener('input', updateDealSummary);
+document.getElementById('emailRequestForm').addEventListener('submit', requestVerificationCode);
+document.getElementById('emailVerifyForm').addEventListener('submit', verifyEmailCode);
 document.getElementById('conditionAcknowledgement').addEventListener('change', (event) => {
   document.getElementById('btnProceedAfterCondition').disabled = !event.currentTarget.checked;
 });

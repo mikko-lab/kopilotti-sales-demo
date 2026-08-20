@@ -46,6 +46,17 @@ LICENSE
 .git/
 .gitignore
 .vercelignore
+.gitattributes
+
+# README-only diagram/screenshot/favicon assets - kept for GitHub display
+# (README.md/README.fi.md link to these) but not part of the production
+# Vercel deploy, which ships its own current versions of the equivalent
+# assets (kopilotti-favicon.svg, screenshot-landing.jpg) synced from the
+# private repo's production build.
+assets/favicon.svg
+assets/kopilotti-sales-flow-en.svg
+assets/kopilotti-sales-flow.svg
+assets/screenshot-landing-2026-08.jpg
 
 # Config for the `serve` CLI used only for local static-demo testing
 # (scripts/serve-static-demo.js is the real local dev server); Vercel's own

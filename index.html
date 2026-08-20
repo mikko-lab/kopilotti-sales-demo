@@ -19,7 +19,7 @@
   <meta name="twitter:title" content="Kopilotti Sales – digitaalinen automyyjä hintaneuvotteluun">
   <meta name="twitter:description" content="Kopilotti Sales neuvottelee auton hinnasta asiakkaan kanssa 24/7 autoliikkeen määrittämien rajojen sisällä ja voidaan integroida nykyiseen myyntiprosessiin.">
   <meta name="twitter:image" content="https://app.kopilotti.online/assets/screenshot-negotiation-card.jpg">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/kopilotti-favicon.svg">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles/landing.css">
 </head>
@@ -28,19 +28,14 @@
 
   <header class="site-header">
     <a class="site-brand" href="index.html" aria-label="Kopilotti Sales, etusivu">
-      <span class="logo-mark" aria-hidden="true">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.7"/><circle cx="12" cy="12" r="2.1" fill="white"/>
-          <path d="M12 3v4.3M12 16.7V21M3 12h4.3M16.7 12H21" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
+      <img class="logo-mark" src="assets/kopilotti-mark-on-dark.svg" alt="" aria-hidden="true">
+      <span><strong>Kopilotti Sales</strong><small>Digitaalinen automyyjä</small></span>
     </a>
     <div class="header-controls">
       <nav class="lang-switch" aria-label="Kielivalinta">
         <ul>
-          <li><a href="index.html" lang="fi" hreflang="fi" aria-current="page" aria-label="Suomeksi">FI</a></li>
-          <li><a href="en/index.html" lang="en" hreflang="en" aria-label="In English">EN</a></li>
+          <li><a href="/index.html" lang="fi" hreflang="fi" aria-current="page" aria-label="Suomeksi">FI</a></li>
+          <li><a href="/en/index.html" lang="en" hreflang="en" aria-label="In English">EN</a></li>
         </ul>
       </nav>
       <button type="button" class="site-nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Valikko">
@@ -53,6 +48,8 @@
           <li><a href="#kaupankaynti">Kaupankäynti</a></li>
           <li><a href="#vaihtoauto">Vaihtoauto</a></li>
           <li><a href="#integraatiot">Käyttöönotto</a></li>
+          <li><a href="#turvallisuus">Turvallisuus</a></li>
+          <li><a href="#pilotointi">Pilotointi</a></li>
           <li><a href="#demo">Demo</a></li>
         </ul>
       </nav>
@@ -60,20 +57,35 @@
   </header>
 
   <main id="mainContent" tabindex="-1">
-    <section class="hero">
+    <section class="hero hero-showroom">
+      <div class="hero-grid">
       <div class="hero-inner">
         <p class="hero-eyebrow">Kopilotti Sales</p>
-        <h1>Digitaalinen automyyjä, joka neuvottelee hinnasta 24/7</h1>
-        <p class="hero-lede">Kopilotti Sales antaa asiakkaalle vastauksen silloin, kun ostohalu on korkeimmillaan. Autoliike määrittää neuvottelun rajat, ja järjestelmä toimii vain niiden sisällä.</p>
+        <h1>Yksi linkki. Kaupanteko jatkuu.</h1>
+        <p class="hero-lede">Autoliike määrittää neuvottelun rajat etukäteen. Kopilotti Sales vastaa asiakkaalle myös silloin, kun myyjä ei ole tavoitettavissa.</p>
+        <p class="hero-tagline">LLM keskustelee. Backend päättää.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="vehicle.html" aria-describedby="heroDemoNotice">Kokeile hintaneuvottelua</a>
-          <a class="btn btn-outline" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Keskustellaan pilotista</a>
+          <a class="btn btn-outline-inverse" href="#miten-se-toimii">Näin se toimii</a>
         </div>
-        <p class="hero-note" id="heroDemoNotice"><strong>Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.</strong> Auto, hinnat ja keskustelu ovat esimerkkitietoja; demo ei käsittele oikeita maksuja.</p>
-        <figure class="hero-media">
-          <img src="assets/screenshot-negotiation-card.jpg" width="1287" height="622" loading="eager" alt="Kopilotti Salesin digitaalisen hintaneuvottelun käyttöliittymä esimerkkiajoneuvolla verkkosivustolla">
-          <figcaption>Esimerkkinäkymä demosta. Auto, hinnat ja teksti kuvassa ovat esimerkkitietoja.</figcaption>
-        </figure>
+        <p class="hero-note" id="heroDemoNotice"><strong>Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.</strong> Maksut, rahoitus ja ajoneuvon luovutus hoidetaan aina myyjäliikkeen omissa järjestelmissä.</p>
+      </div>
+      <picture class="hero-visual" aria-hidden="true">
+        <source media="(min-width: 900px)" type="image/avif" srcset="assets/hero-car-desktop-600.avif 600w, assets/hero-car-desktop-1000.avif 1000w, assets/hero-car-desktop-1520.avif 1520w" sizes="(min-width: 1180px) 520px, 45vw">
+        <source media="(min-width: 900px)" type="image/webp" srcset="assets/hero-car-desktop-600.webp 600w, assets/hero-car-desktop-1000.webp 1000w, assets/hero-car-desktop-1520.webp 1520w" sizes="(min-width: 1180px) 520px, 45vw">
+        <source media="(min-width: 900px)" srcset="assets/hero-car-desktop-600.jpg 600w, assets/hero-car-desktop-1000.jpg 1000w, assets/hero-car-desktop-1520.jpg 1520w" sizes="(min-width: 1180px) 520px, 45vw">
+        <source type="image/avif" srcset="assets/hero-car-mobile-640.avif 640w, assets/hero-car-mobile-1080.avif 1080w, assets/hero-car-mobile-1620.avif 1620w" sizes="100vw">
+        <source type="image/webp" srcset="assets/hero-car-mobile-640.webp 640w, assets/hero-car-mobile-1080.webp 1080w, assets/hero-car-mobile-1620.webp 1620w" sizes="100vw">
+        <img
+          src="assets/hero-car-mobile-1080.jpg"
+          srcset="assets/hero-car-mobile-640.jpg 640w, assets/hero-car-mobile-1080.jpg 1080w, assets/hero-car-mobile-1620.jpg 1620w"
+          sizes="100vw"
+          width="1620" height="911"
+          alt=""
+          fetchpriority="high"
+          loading="eager"
+          decoding="async">
+      </picture>
       </div>
     </section>
 
@@ -169,8 +181,8 @@
           <div class="journey-row">
             <h3>Nykyinen digitaalinen polku</h3>
             <ol class="journey-steps">
-              <li>Inventory</li>
-              <li>Kuntotieto</li>
+              <li>Autovalikoima</li>
+              <li>Kuntoraportti</li>
               <li><strong>Kiinteä verkkohinta</strong></li>
               <li>Tunnistus</li>
               <li>Sopimus</li>
@@ -180,8 +192,8 @@
           <div class="journey-row is-kopilotti">
             <h3>Kopilotti Sales</h3>
             <ol class="journey-steps">
-              <li>Inventory</li>
-              <li>Kuntotieto</li>
+              <li>Autovalikoima</li>
+              <li>Kuntoraportti</li>
               <li><strong>Tarjous + neuvottelu</strong></li>
               <li><strong>Deterministinen hinnanpäätös</strong></li>
               <li>Checkout</li>
@@ -203,16 +215,16 @@
 
         <div class="trade-in-grid">
           <ol class="trade-in-flow" aria-label="Vaihtoauton digitaalinen prosessi">
-            <li><span>1</span><strong>Rek.tunnus ja mittarilukema</strong></li>
-            <li><span>2</span><strong>Ajoneuvon tunnistus</strong></li>
-            <li><span>3</span><strong>Ulkoinen arvonmääritys</strong></li>
-            <li><span>4</span><strong>Deterministinen tarjous</strong></li>
-            <li><span>5</span><strong>Väliraha ja kauppayhteenveto</strong></li>
+            <li><span aria-hidden="true">1</span><strong>Rek.tunnus ja mittarilukema</strong></li>
+            <li><span aria-hidden="true">2</span><strong>Ajoneuvon tunnistus</strong></li>
+            <li><span aria-hidden="true">3</span><strong>Ulkoinen arvonmääritys</strong></li>
+            <li><span aria-hidden="true">4</span><strong>Deterministinen tarjous</strong></li>
+            <li><span aria-hidden="true">5</span><strong>Väliraha ja kauppayhteenveto</strong></li>
           </ol>
 
           <aside class="integration-status" aria-labelledby="visStatusHeading">
             <p class="integration-status-label">VIS / Autovista</p>
-            <h3 id="visStatusHeading">Integraatiovalmis, ei vielä tuotantoon kytketty</h3>
+            <h3 id="visStatusHeading">Integraatiovalmis, ei aktiivista tuotantoyhteyttä</h3>
             <p><strong>Kopilotti Sales on VIS-integraatiovalmis — tuotantokytkentä odottaa rajapintasopimusta ja tunnuksia.</strong></p>
             <ul>
               <li>Providerista riippumaton domain-raja ja adapterirakenne ovat valmiina.</li>
@@ -222,7 +234,7 @@
           </aside>
         </div>
 
-        <p class="product-status-note"><strong>Tuotantoraja:</strong> trade-in- ja DealSnapshot-rakenteet on toteutettu ja testattu, mutta vaihtoautopolku ei ole vielä osa tämän julkisen demon tuotantoliikennettä.</p>
+        <p class="product-status-note"><strong>Tuotantoraja:</strong> Trade-in V1 ja DealSnapshot on toteutettu ja testattu erillisessä toteutuksessa, mutta vaihtoautopolku ei ole vielä osa tämän julkisen demon tuotantoliikennettä.</p>
       </div>
     </section>
 
@@ -265,7 +277,7 @@
           <li class="step-card">
             <span class="step-number" aria-hidden="true">1</span>
             <h3>Autokohtainen Magic Link</h3>
-            <p>Linkissä on vain satunnainen, läpinäkymätön tunniste. <strong>Esimerkkiosoite:</strong> <code>sales.kopilotti.online/n/8F3KD91X</code>. Auton tiedot ja neuvottelusäännöt haetaan palvelimelta — minimi- tai tavoitehintaa ei koskaan lisätä URL-osoitteeseen.</p>
+            <p>Linkissä on vain satunnainen, läpinäkymätön tunniste, esimerkiksi <code>sales.kopilotti.online/n/8F3KD91X</code>. Auton tiedot ja neuvottelusäännöt haetaan palvelimelta — minimi- tai tavoitehintaa ei koskaan lisätä URL-osoitteeseen.</p>
           </li>
           <li class="step-card">
             <span class="step-number" aria-hidden="true">2</span>
@@ -284,15 +296,11 @@
           <div class="magic-link-preview-content">
             <span class="magic-link-button">Neuvottele hinnasta</span>
             <span class="magic-link-target">
-              <span class="magic-link-target-label">Esimerkkiosoite autokohtaiselle neuvottelulinkille:</span>
+              <span class="magic-link-target-label">Painike avaa autokohtaisen neuvottelulinkin:</span>
               <code>https://sales.kopilotti.online/n/8F3KD91X</code>
             </span>
           </div>
         </figure>
-
-        <div class="section-callout payment-boundary">
-          <strong>Raha siirtyy suoraan asiakkaalta myyjäliikkeelle.</strong> Kopilotti ei vastaanota, säilytä eikä välitä varoja. Maksun vahvistaa myyjäliike.
-        </div>
 
         <p class="section-callout">Pilotin työ autoliikkeelle: yhden linkin lisääminen auton sivulle. Ei pakollista DMS-, CRM- tai markkinapaikkaintegraatiota.</p>
       </div>
@@ -345,8 +353,8 @@
           <li>Seurataan keskusteluja ja tuloksia.</li>
           <li>Laajennetaan vasta kontrolloidun testauksen jälkeen.</li>
         </ol>
-        <div class="hero-actions" style="margin-top: var(--space-4);">
-          <a class="btn btn-primary" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Keskustellaan pilotista</a>
+        <div class="hero-actions pilot-cta" style="margin-top: var(--space-4);">
+          <a class="btn btn-primary" href="mailto:hello@kopilotti.online?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Keskustellaan pilotista</a>
         </div>
       </div>
     </section>
@@ -369,8 +377,9 @@
         <h2 id="yhteysHeading" class="section-heading">Voisiko Kopilotti Sales toimia teidän autokaupassanne?</h2>
         <p class="section-intro">Pilotissa ratkaisu sovitetaan autoliikkeen nykyiseen myyntiprosessiin, hinnoittelumalliin ja järjestelmäympäristöön.</p>
         <div class="contact-card">
-          <p>Kerro lyhyesti autoliikkeestänne ja siitä, mitä haluaisitte kokeilla — vastaamme henkilökohtaisesti.</p>
-          <a class="btn btn-primary" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Ota yhteyttä</a>
+          <h3 class="contact-card-heading">Kiinnostaako rajattu pilotti?</h3>
+          <p>Kerro lyhyesti autoliikkeestäsi. Sovitaan yhdessä pilotin laajuus ja seuraavat vaiheet.</p>
+          <a class="btn btn-primary" href="mailto:hello@kopilotti.online?subject=Kopilotti%20Sales%20%E2%80%93%20pilotti">Ota yhteyttä</a>
         </div>
       </div>
     </section>
@@ -387,11 +396,26 @@
         <li><a href="tietosuoja.html">Tietosuojaseloste</a></li>
         <li>
           <a
+            class="site-footer-icon-link"
             href="https://github.com/mikko-lab/kopilotti-sales-demo"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="GitHub: julkinen tuote-esittely"
           >
-            GitHub: julkinen tuote-esittely
+            <svg
+              class="site-footer-icon"
+              viewBox="0 0 16 16"
+              width="20"
+              height="20"
+              fill="currentColor"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+              ></path>
+            </svg>
           </a>
         </li>
       </ul>

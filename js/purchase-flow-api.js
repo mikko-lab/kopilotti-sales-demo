@@ -1,6 +1,10 @@
+import { getCsrfToken, captureCsrfToken } from './csrf.js';
+
+// See negotiation-api.js for why this moved off onrender.com (2026-08-02
+// same-registrable-domain migration).
 const DEFAULT_BACKEND_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
   ? 'http://localhost:3001'
-  : 'https://kopilotti-sales-backend.onrender.com';
+  : 'https://api.kopilotti.online';
 
 export class PurchaseFlowApi {
   constructor({ backendUrl = DEFAULT_BACKEND_URL, fetchImpl = globalThis.fetch.bind(globalThis) } = {}) {
@@ -77,10 +81,30 @@ export class PurchaseFlowApi {
   assetUrl(value) { return new URL(value, this.backendUrl).href; }
 
   async request(path, options) {
+    // Missing until 2026-08-02: this class never sent X-CSRF-Token at all,
+    // unlike negotiation-api.js/email-verification-api.js. It went
+    // unnoticed because the CSRF check (src/security/csrf.js) only enforces
+    // once a device cookie already exists -- and that cookie was itself
+    // unreliable cross-site (see resolve-device.js's KNOWN LIMITATION), so
+    // this path was silently skipped for most requests. Fixing the
+    // cross-site cookie problem (same-registrable-domain migration) made
+    // the device cookie arrive reliably, which in turn made this CSRF gap
+    // start reliably rejecting every purchase-sessions call with 403
+    // CSRF_TOKEN_INVALID.
+    const csrfToken = getCsrfToken();
     const response = await this.fetchImpl(`${this.backendUrl}${path}`, {
       ...options,
-      headers: { 'Content-Type': 'application/json', 'X-Correlation-Id': crypto.randomUUID() },
+      // See the matching comment in negotiation-api.js: the device-identity
+      // cookie is cross-site (Render backend vs. Vercel frontend) and needs
+      // this to be sent/stored at all.
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Correlation-Id': crypto.randomUUID(),
+        ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {}),
+      },
     });
+    captureCsrfToken(response);
     const body = await response.json().catch(() => ({}));
     if (!response.ok) {
       const error = new Error(body.error?.message || 'Palvelu ei ole juuri nyt käytettävissä');

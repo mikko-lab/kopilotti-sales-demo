@@ -19,28 +19,23 @@
   <meta name="twitter:title" content="Kopilotti Sales – controlled digital transaction layer for automotive retail">
   <meta name="twitter:description" content="Kopilotti Sales helps automotive marketplaces, dealer platforms and dealer groups move customers from interest to an agreed transaction while the dealer retains control of pricing, stock and delivery.">
   <meta name="twitter:image" content="https://app.kopilotti.online/assets/screenshot-negotiation-card.jpg">
-  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
-  <link rel="stylesheet" href="../styles.css">
-  <link rel="stylesheet" href="../styles/landing.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/kopilotti-favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles/landing.css">
 </head>
 <body class="landing-page">
   <a href="#mainContent" class="skip-link">Skip to main content</a>
 
   <header class="site-header">
-    <a class="site-brand" href="index.html" aria-label="Kopilotti Sales, homepage">
-      <span class="logo-mark" aria-hidden="true">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.7"/><circle cx="12" cy="12" r="2.1" fill="white"/>
-          <path d="M12 3v4.3M12 16.7V21M3 12h4.3M16.7 12H21" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
+    <a class="site-brand" href="/en/index.html" aria-label="Kopilotti Sales, homepage">
+      <img class="logo-mark" src="/assets/kopilotti-mark-on-dark.svg" alt="" aria-hidden="true">
+      <span><strong>Kopilotti Sales</strong><small>Digital car salesperson</small></span>
     </a>
     <div class="header-controls">
       <nav class="lang-switch" aria-label="Language switch">
         <ul>
-          <li><a href="../index.html" lang="fi" hreflang="fi" aria-label="Suomeksi">FI</a></li>
-          <li><a href="index.html" lang="en" hreflang="en" aria-current="page" aria-label="In English">EN</a></li>
+          <li><a href="/index.html" lang="fi" hreflang="fi" aria-label="Suomeksi">FI</a></li>
+          <li><a href="/en/index.html" lang="en" hreflang="en" aria-current="page" aria-label="In English">EN</a></li>
         </ul>
       </nav>
       <button type="button" class="site-nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Menu">
@@ -53,6 +48,8 @@
           <li><a href="#transaction-layer">Transaction flow</a></li>
           <li><a href="#trade-in">Trade-in</a></li>
           <li><a href="#onboarding">Getting started</a></li>
+          <li><a href="#safety">Safety</a></li>
+          <li><a href="#pilot">Pilot</a></li>
           <li><a href="#demo">Demo</a></li>
         </ul>
       </nav>
@@ -60,20 +57,35 @@
   </header>
 
   <main id="mainContent" tabindex="-1">
-    <section class="hero">
+    <section class="hero hero-showroom">
+      <div class="hero-grid">
       <div class="hero-inner">
         <p class="hero-eyebrow">Kopilotti Sales</p>
         <h1>Controlled digital car sales, beyond the lead.</h1>
         <p class="hero-lede">Kopilotti Sales helps dealers and automotive platforms progress customers from interest and negotiation toward a verified transaction, while commercial decisions remain under dealer control.</p>
+        <p class="hero-tagline">The LLM converses. The backend decides.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#demo">Explore the demonstrator</a>
-          <a class="btn btn-outline" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20partnership">Discuss a partnership</a>
+          <a class="btn btn-primary" href="#demo" aria-describedby="heroDemoNotice">Explore the demonstrator</a>
+          <a class="btn btn-outline-inverse" href="#how-it-works">Discuss a partnership</a>
         </div>
-        <p class="hero-note">Concept demonstrator, built for a Finnish dealer transaction. See <a href="#demo">Demo</a> for scope and language notes.</p>
-        <figure class="hero-media">
-          <img src="../assets/screenshot-negotiation-card.jpg" width="1287" height="622" loading="eager" alt="Kopilotti Sales digital price-negotiation interface on a sample vehicle listing">
-          <figcaption>Sample screen from the demonstrator. The vehicle, prices and dialogue shown are example data.</figcaption>
-        </figure>
+        <p class="hero-note" id="heroDemoNotice"><strong>Concept demonstrator – does not require strong identity verification and does not create a binding offer.</strong> Payments, financing and vehicle handover are always handled in the dealer's own systems.</p>
+      </div>
+      <picture class="hero-visual" aria-hidden="true">
+        <source media="(min-width: 900px)" type="image/avif" srcset="/assets/hero-car-desktop-600.avif 600w, /assets/hero-car-desktop-1000.avif 1000w, /assets/hero-car-desktop-1520.avif 1520w" sizes="(min-width: 1180px) 520px, 45vw">
+        <source media="(min-width: 900px)" type="image/webp" srcset="/assets/hero-car-desktop-600.webp 600w, /assets/hero-car-desktop-1000.webp 1000w, /assets/hero-car-desktop-1520.webp 1520w" sizes="(min-width: 1180px) 520px, 45vw">
+        <source media="(min-width: 900px)" srcset="/assets/hero-car-desktop-600.jpg 600w, /assets/hero-car-desktop-1000.jpg 1000w, /assets/hero-car-desktop-1520.jpg 1520w" sizes="(min-width: 1180px) 520px, 45vw">
+        <source type="image/avif" srcset="/assets/hero-car-mobile-640.avif 640w, /assets/hero-car-mobile-1080.avif 1080w, /assets/hero-car-mobile-1620.avif 1620w" sizes="100vw">
+        <source type="image/webp" srcset="/assets/hero-car-mobile-640.webp 640w, /assets/hero-car-mobile-1080.webp 1080w, /assets/hero-car-mobile-1620.webp 1620w" sizes="100vw">
+        <img
+          src="/assets/hero-car-mobile-1080.jpg"
+          srcset="/assets/hero-car-mobile-640.jpg 640w, /assets/hero-car-mobile-1080.jpg 1080w, /assets/hero-car-mobile-1620.jpg 1620w"
+          sizes="100vw"
+          width="1620" height="911"
+          alt=""
+          fetchpriority="high"
+          loading="eager"
+          decoding="async">
+      </picture>
       </div>
     </section>
 
@@ -83,36 +95,54 @@
         <h2 id="problemHeading" class="section-heading">Interest peaks when no one is there to answer it</h2>
         <ul class="problem-list">
           <li>Buyers browse cars in the evenings, at night and on weekends — outside dealer opening hours.</li>
-          <li>Today's digital car buying journey often stalls at a lead form, a manual price negotiation, or a handoff to separate financing and contract systems.</li>
           <li>Interest is highest at the exact moment a salesperson or trade-in manager is unreachable.</li>
+          <li>Price negotiation easily stalls waiting for manual approval.</li>
           <li>That delay can break the buying decision entirely.</li>
+          <li>Kopilotti Sales gives the customer an immediate, controlled next response.</li>
         </ul>
-        <p class="section-callout">Kopilotti Sales is built to shorten the time between a customer's offer and the dealer's controlled response.</p>
+        <p class="section-callout">The goal is to shorten the time between a customer's offer and the dealer's response.</p>
       </div>
     </section>
 
-    <section class="landing-section alt" aria-labelledby="solutionHeading">
+    <section class="landing-section alt" aria-labelledby="evidenceHeading">
       <div class="landing-section-inner">
-        <p class="section-eyebrow">Solution</p>
-        <h2 id="solutionHeading" class="section-heading">One connected path from interest to a verified transaction</h2>
-        <div class="journey-comparison" aria-label="Kopilotti Sales transaction flow">
-          <div class="journey-row is-kopilotti">
-            <h3>Kopilotti Sales flow</h3>
-            <ol class="journey-steps">
-              <li>Interest</li>
-              <li><strong>Controlled negotiation</strong></li>
-              <li><strong>Agreed transaction</strong></li>
-              <li>Trade-in and financing handoff</li>
-              <li>Contract and payment progression</li>
-              <li>Verified delivery readiness</li>
-            </ol>
-          </div>
-        </div>
-        <p class="section-callout">The conversational interface interacts with the customer. Dealer-defined rules and verified external states control the transaction.</p>
+        <p class="section-eyebrow">Researched buying behaviour</p>
+        <h2 id="evidenceHeading" class="section-heading">The buyer is already online when the deal gets decided</h2>
+        <p class="section-intro evidence-intro">The used-car buying journey most often starts online. 90% of buyers research online, and price influences the choice for 72%. Almost a third are ready to complete the purchase digitally. Yet price negotiation still often waits for a salesperson or trade-in manager.</p>
+        <ul class="evidence-grid">
+          <li class="evidence-card">
+            <strong>90%</strong>
+            <span>research the car online</span>
+          </li>
+          <li class="evidence-card">
+            <strong>72%</strong>
+            <span>say price influences the choice</span>
+          </li>
+          <li class="evidence-card">
+            <strong>Almost 1/3</strong>
+            <span>complete the purchase digitally</span>
+          </li>
+        </ul>
+        <p class="source-note">Source: Car-buying process study 4/2026, Alma Mobility, Nettiauto and Autotalli, n=712 (Finland).</p>
+        <p class="section-callout">Kopilotti Sales brings this last manual step into the same digital buying journey.</p>
       </div>
     </section>
 
-    <section class="landing-section" id="audiences" aria-labelledby="audiencesHeading">
+    <section class="landing-section" aria-labelledby="notAuctionHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">Normal car retail</p>
+        <h2 id="notAuctionHeading" class="section-heading">Digital price negotiation doesn't turn car retail into an auction</h2>
+        <p class="section-intro">Not an auction. Not dynamic pricing. A digital price negotiation within the market price.</p>
+        <div class="consumer-commerce-body">
+          <p>Kopilotti Sales is intended for the normal retail sale of used vehicles. It is not an auction, a bidding competition, or an automated clearance channel.</p>
+          <p>The vehicle is still sold at the market price and on the same terms the dealer has set, as in ordinary car retail. Digital price negotiation only operates within the dealer's own pre-defined business rules.</p>
+          <p>Before negotiating, the customer has access to the listing and the dealer's own condition report. The sale is ordinary consumer retail, subject to consumer-protection rights the same way as any other dealer consumer sale.</p>
+          <p>Digital price negotiation doesn't change the terms of the sale. It only removes unnecessary waiting when a decision can be made safely within the dealer's business rules.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section alt" id="audiences" aria-labelledby="audiencesHeading">
       <div class="landing-section-inner">
         <p class="section-eyebrow">Built for</p>
         <h2 id="audiencesHeading" class="section-heading">A transaction layer for the platforms and groups around the dealer</h2>
@@ -133,7 +163,7 @@
       </div>
     </section>
 
-    <section class="landing-section alt" id="how-it-works" aria-labelledby="howHeading">
+    <section class="landing-section" id="how-it-works" aria-labelledby="howHeading">
       <div class="landing-section-inner">
         <p class="section-eyebrow">Process</p>
         <h2 id="howHeading" class="section-heading">How it works</h2>
@@ -167,11 +197,12 @@
         <p class="section-eyebrow">Transaction layer</p>
         <h2 id="transactionHeading" class="section-heading">Price decisions belong in the digital journey, before checkout</h2>
         <p class="section-intro commerce-intro">E-commerce already handles vehicle discovery, identification, contracting and payment. Kopilotti Sales adds the missing step: the customer's offer, a bounded negotiation, and a deterministic price decision.</p>
+
         <div class="journey-comparison" aria-label="Comparison of the current digital path and the Kopilotti Sales path">
           <div class="journey-row">
             <h3>Current digital path</h3>
             <ol class="journey-steps">
-              <li>Inventory</li>
+              <li>Vehicle selection</li>
               <li>Condition report</li>
               <li><strong>Fixed online price</strong></li>
               <li>Identification</li>
@@ -182,7 +213,7 @@
           <div class="journey-row is-kopilotti">
             <h3>Kopilotti Sales</h3>
             <ol class="journey-steps">
-              <li>Inventory</li>
+              <li>Vehicle selection</li>
               <li>Condition report</li>
               <li><strong>Offer + negotiation</strong></li>
               <li><strong>Deterministic price decision</strong></li>
@@ -192,6 +223,7 @@
             </ol>
           </div>
         </div>
+
         <p class="section-callout commerce-boundary">Kopilotti Sales forms the agreed price and hands the customer to the dealer's own checkout, contract and payment process. Funds move directly from the customer to the dealer. Kopilotti does not receive, hold or transfer funds. The dealer confirms payment.</p>
       </div>
     </section>
@@ -201,17 +233,19 @@
         <p class="section-eyebrow">Trade-in and settlement</p>
         <h2 id="tradeInHeading" class="section-heading">Trade-in is part of the same deterministic transaction decision</h2>
         <p class="section-intro">Trade-in V1 handles vehicle identification, an external valuation estimate, an offer, and the settlement amount as separate, traceable steps.</p>
+
         <div class="trade-in-grid">
           <ol class="trade-in-flow" aria-label="Digital trade-in process">
-            <li><span>1</span><strong>Registration and odometer reading</strong></li>
-            <li><span>2</span><strong>Vehicle identification</strong></li>
-            <li><span>3</span><strong>External valuation</strong></li>
-            <li><span>4</span><strong>Deterministic offer</strong></li>
-            <li><span>5</span><strong>Settlement and deal summary</strong></li>
+            <li><span aria-hidden="true">1</span><strong>Registration and odometer reading</strong></li>
+            <li><span aria-hidden="true">2</span><strong>Vehicle identification</strong></li>
+            <li><span aria-hidden="true">3</span><strong>External valuation</strong></li>
+            <li><span aria-hidden="true">4</span><strong>Deterministic offer</strong></li>
+            <li><span aria-hidden="true">5</span><strong>Settlement and deal summary</strong></li>
           </ol>
+
           <aside class="integration-status" aria-labelledby="visStatusHeading">
             <p class="integration-status-label">Vehicle valuation provider</p>
-            <h3 id="visStatusHeading">Designed to support provider integration, not yet connected in production</h3>
+            <h3 id="visStatusHeading">Integration-ready, no active production connection</h3>
             <p><strong>The trade-in flow is designed for a provider-hosted vehicle valuation integration; the production connection is subject to a partner agreement and credentials.</strong></p>
             <ul>
               <li>A provider-independent domain boundary and adapter structure are in place.</li>
@@ -220,7 +254,8 @@
             </ul>
           </aside>
         </div>
-        <p class="product-status-note"><strong>Production boundary:</strong> the trade-in and deal-summary structures are implemented and tested, but the trade-in path is not yet part of this public demonstrator's production traffic.</p>
+
+        <p class="product-status-note"><strong>Production boundary:</strong> Trade-in V1 and DealSnapshot are implemented and tested in a separate implementation, but the trade-in path is not yet part of this public demonstrator's production traffic.</p>
       </div>
     </section>
 
@@ -258,11 +293,12 @@
         <p class="section-eyebrow">Lightweight onboarding</p>
         <h2 id="onboardingHeading" class="section-heading">A pilot starts with a single link</h2>
         <p class="section-intro">Kopilotti Sales can go live without a multi-week integration project. The dealer adds one <strong>Negotiate the price</strong> link to a vehicle page, and deeper integrations are built only once the model has proven its value.</p>
+
         <ol class="steps-grid rollout-grid">
           <li class="step-card">
             <span class="step-number" aria-hidden="true">1</span>
             <h3>Vehicle-specific magic link</h3>
-            <p>The link carries only a random, opaque token. <strong>Example address:</strong> <code>sales.kopilotti.online/n/8F3KD91X</code>. Vehicle data and negotiation rules are fetched from the server — a floor or target price is never added to the URL.</p>
+            <p>The link carries only a random, opaque token, for example <code>sales.kopilotti.online/n/8F3KD91X</code>. Vehicle data and negotiation rules are fetched from the server — a floor or target price is never added to the URL.</p>
           </li>
           <li class="step-card">
             <span class="step-number" aria-hidden="true">2</span>
@@ -275,9 +311,19 @@
             <p>Once the model is validated, link creation can be automated through DMS, e-commerce and CRM integrations, and through marketplaces' own APIs and partnership terms.</p>
           </li>
         </ol>
-        <div class="section-callout payment-boundary">
-          <strong>Funds move directly from the customer to the dealer.</strong> Kopilotti does not receive, hold or transfer funds. The dealer confirms payment.
-        </div>
+
+        <figure class="magic-link-preview">
+          <figcaption>Example of the button added to a vehicle page</figcaption>
+          <div class="magic-link-preview-content">
+            <span class="magic-link-button">Negotiate the price</span>
+            <span class="magic-link-target">
+              <span class="magic-link-target-label">The button opens a vehicle-specific negotiation link:</span>
+              <code>https://sales.kopilotti.online/n/8F3KD91X</code>
+            </span>
+          </div>
+        </figure>
+
+        <p class="section-callout">Pilot workload for the dealer: adding one link to a vehicle page. No mandatory DMS, CRM or marketplace integration.</p>
       </div>
     </section>
 
@@ -300,18 +346,20 @@
 
     <section class="landing-section alt" id="safety" aria-labelledby="safetyHeading">
       <div class="landing-section-inner">
-        <p class="section-eyebrow">Safety and responsibility boundaries</p>
+        <p class="section-eyebrow">Safety and control</p>
         <h2 id="safetyHeading" class="section-heading">AI can support the conversation. Verified rules and provider states control the transaction.</h2>
         <ul class="security-list">
-          <li>The dealer controls the commercial rules — price boundaries and counter-offer logic are configured by the dealer, not inferred by the language model.</li>
-          <li>The system does not independently grant credit or make financing decisions.</li>
-          <li>Financing applications are intended to be handled by the financing provider, in the provider's own environment.</li>
-          <li>Financing approval is not the same as contract completion or delivery authorization.</li>
-          <li>The service does not receive, hold or transfer customer funds.</li>
-          <li>Regulated steps — identity verification, credit assessment, payment execution — are handed to the responsible external provider.</li>
-          <li>Unresolved or exceptional cases are stopped or escalated to a person rather than resolved by guesswork.</li>
-          <li>Customer-facing AI output cannot override verified transaction states.</li>
+          <li>The language model does not decide price boundaries.</li>
+          <li>The dealer's rules are processed server-side.</li>
+          <li>The browser must never know internal boundaries.</li>
+          <li>Exceptional cases can be routed to a person.</li>
+          <li>The customer's identity is verified before the actual price negotiation begins.</li>
+          <li>The number of automated negotiation rounds is limited, and the negotiation moves to the dealer when needed.</li>
           <li>Commercial decisions and their basis are recorded traceably.</li>
+          <li>An unclear or incomplete situation does not automatically result in a price promise.</li>
+          <li>The dealer retains control over pricing.</li>
+          <li>The system does not independently grant credit or make financing decisions; financing applications are intended to be handled by the financing provider, in the provider's own environment.</li>
+          <li>The service does not receive, hold or transfer customer funds.</li>
         </ul>
       </div>
     </section>
@@ -328,8 +376,8 @@
           <li>Monitor conversations and outcomes.</li>
           <li>Expand only after controlled testing.</li>
         </ol>
-        <div class="hero-actions" style="margin-top: var(--space-4);">
-          <a class="btn btn-primary" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20partnership">Discuss a partnership</a>
+        <div class="hero-actions pilot-cta" style="margin-top: var(--space-4);">
+          <a class="btn btn-primary" href="mailto:hello@kopilotti.online?subject=Kopilotti%20Sales%20%E2%80%93%20partnership">Discuss a partnership</a>
         </div>
       </div>
     </section>
@@ -338,11 +386,11 @@
       <div class="landing-section-inner">
         <p class="section-eyebrow">Demo</p>
         <h2 id="demoHeading" class="section-heading">See what a controlled digital price negotiation feels like</h2>
-        <p class="section-intro"><strong>Concept demonstrator – does not require strong identity verification and does not create a binding offer.</strong> The demonstrator shows, from the customer's side, what a digital price negotiation can feel like. The vehicle, prices and dialogue are example data.</p>
+        <p class="section-intro" id="demoNotice"><strong>Concept demonstrator – does not require strong identity verification and does not create a binding offer.</strong> The demonstrator shows, from the customer's side, what a digital price negotiation can feel like. The vehicle, prices and dialogue are example data.</p>
         <p class="section-callout">The current demonstrator models a Finnish dealer transaction. Market-specific financing, consumer-law, payment and vehicle-registration integrations would need to be implemented separately for each country. The interactive negotiation interface itself is presented in Finnish, reflecting that current scope.</p>
         <div class="demo-callout">
-          <p><strong>Demo vehicle</strong><br>Alfa Romeo Giulia Quadrifoglio · XYZ-123 · 95,000 €</p>
-          <a class="btn btn-primary" href="../vehicle.html" lang="fi" hreflang="fi">Open the demo (Finnish interface)</a>
+          <p><strong id="demoVehicleName">Demo vehicle</strong><br><span id="demoVehicleRegistration"></span> · <span id="demoVehiclePrice"></span></p>
+          <a class="btn btn-primary" href="/vehicle.html" aria-describedby="demoNotice" lang="fi" hreflang="fi">Open the demo (Finnish interface)</a>
         </div>
       </div>
     </section>
@@ -353,8 +401,9 @@
         <h2 id="contactHeading" class="section-heading">Could Kopilotti Sales fit your platform or dealer network?</h2>
         <p class="section-intro">In a pilot, the flow is matched to the partner's existing sales process, pricing model and system environment.</p>
         <div class="contact-card">
-          <p>Tell us briefly about your marketplace, platform or dealer group and what you'd like to try — we reply personally.</p>
-          <a class="btn btn-primary" href="mailto:mikkotark@protonmail.com?subject=Kopilotti%20Sales%20%E2%80%93%20partnership">Get in touch</a>
+          <h3 class="contact-card-heading">Interested in a bounded pilot?</h3>
+          <p>Tell us briefly about your marketplace, platform or dealer group. We'll agree on the pilot's scope and next steps together.</p>
+          <a class="btn btn-primary" href="mailto:hello@kopilotti.online?subject=Kopilotti%20Sales%20%E2%80%93%20partnership">Get in touch</a>
         </div>
       </div>
     </section>
@@ -367,15 +416,30 @@
         <p class="site-footer-desc">A controlled digital transaction layer for automotive retail.</p>
       </div>
       <ul class="site-footer-links">
-        <li><a href="../vehicle.html" lang="fi" hreflang="fi">Open demo (Finnish)</a></li>
-        <li><a href="privacy.html">Privacy notice</a></li>
+        <li><a href="/vehicle.html" lang="fi" hreflang="fi">Open demo (Finnish)</a></li>
+        <li><a href="/en/privacy.html">Privacy notice</a></li>
         <li>
           <a
+            class="site-footer-icon-link"
             href="https://github.com/mikko-lab/kopilotti-sales-demo"
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="GitHub: public product overview"
           >
-            GitHub: public product overview
+            <svg
+              class="site-footer-icon"
+              viewBox="0 0 16 16"
+              width="20"
+              height="20"
+              fill="currentColor"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+              ></path>
+            </svg>
           </a>
         </li>
       </ul>
@@ -383,7 +447,8 @@
     <p class="site-footer-note">© 2026 Kopilotti Sales. All rights reserved.</p>
   </footer>
 
-  <script type="module" src="../js/landing-nav.js"></script>
+  <script type="module" src="/js/demo-landing.js"></script>
+  <script type="module" src="/js/landing-nav.js"></script>
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>

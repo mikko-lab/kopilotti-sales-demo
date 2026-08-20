@@ -6,6 +6,13 @@
   throughout. Ratios recorded here so the reasoning is auditable in source.
 
   --primary #1F4DB8:  7.47:1 on white, 6.96:1 on --bg (raw color OK as text)
+  --accent-blue #1677FF: 4.10:1 on white, 3.82:1 on --bg, 4.11:1 on
+                       --header-bg. Below the 4.5:1 normal-text floor, so
+                       this token is scoped to non-text decorative use only
+                       (the ::before bullet dot in .problem-list) - must not
+                       be used for text or as the sole conveyor of a state.
+                       Matches assets/kopilotti-mark.svg's accent stroke
+                       color; replaces the retired brand orange.
   --success #16A34A:  3.30:1 on white — fails 4.5:1 normal-text AA, passes 3:1
                        UI-component/large-text. Use raw only for icons/large
                        elements/borders; use --success-text (#117F3A, 5.10:1
@@ -53,10 +60,11 @@
   --primary-dark: #163A8C;
   --primary-light: #EDF1F9;
 
-  /* Orange demoted to a small accent only (per spec: "brand orange only for highlights") */
-  --orange: #E85D00;
-  --orange-dark: #A03D00;
-  --orange-light: #FFF0E8;
+  /* Brand orange retired (2026-08-16 logo unification): the mark and every
+     decorative brand accent now use the unified Kopilotti mark's own blue
+     instead. Kept as a single token, not repeated per-component, so a
+     future adjustment only touches one place. */
+  --accent-blue: #1677FF;
 
   /* Semantic */
   --success: #16A34A;
@@ -148,18 +156,14 @@ body {
   padding: var(--space-2) 0;
 }
 
+/* Unified Kopilotti mark (assets/kopilotti-mark.svg) - the element is now
+   an <img>, not a text-filled circle, so this only sizes/positions it.
+   No background/border-radius: the mark's own artwork is self-contained
+   (transparent canvas, not designed to be circle-cropped). */
 .logo-mark {
   width: 34px;
   height: 34px;
-  background: var(--orange);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 700;
-  font-size: var(--text-md);
-  letter-spacing: -0.5px;
+  display: block;
   flex-shrink: 0;
 }
 

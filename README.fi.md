@@ -1,4 +1,4 @@
-[English](README.md) | Suomeksi
+[English](README.md) | **Suomi**
 
 # Kopilotti Sales
 
