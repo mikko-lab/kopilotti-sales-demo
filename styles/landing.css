@@ -957,3 +957,46 @@
 }
 .legal-content p { margin-top: var(--space-3); color: var(--text2); line-height: 1.6; }
 .legal-content .section-callout { margin-top: var(--space-4); }
+
+/* ============ Partner-pages hero (kumppanit.html / en/partners.html) ============
+   Scoped to .partner-hero only - .hero-showroom and every other
+   .landing-section instance are untouched. The generic .hero-actions rule
+   is built for two other contexts: the two-column hero-showroom grid, and
+   the narrow pilot-steps list (.pilot-cta). Neither applies here - at
+   >=900px plain .hero-actions is a block-level flex row that fills the
+   full .landing-section-inner width (its width:auto still stretches to
+   the containing block, same as any block box), so justify-content:
+   flex-start lands the button against .landing-section-inner's own left
+   edge, not against the narrower, centered .section-intro column above
+   it - the button reads as stranded to the left of the copy. Giving both
+   the intro and the CTA the same explicit max-width + margin-inline:auto
+   makes their computed left edges coincide instead. */
+.partner-hero {
+  padding-bottom: clamp(24px, 4vw, 40px);
+}
+.partner-hero .section-intro {
+  max-width: 780px;
+}
+.partner-hero .hero-actions.partner-hero-cta {
+  max-width: 780px;
+  margin-top: var(--space-4);
+}
+@media (min-width: 900px) {
+  .partner-hero .section-intro {
+    text-align: left;
+  }
+  .partner-hero .hero-actions.partner-hero-cta {
+    margin-inline: auto;
+  }
+}
+@media (max-width: 899px) {
+  .partner-hero .section-eyebrow,
+  .partner-hero .section-heading,
+  .partner-hero .section-intro {
+    text-align: left;
+    margin-inline: 0;
+  }
+  .partner-hero .hero-actions.partner-hero-cta .btn {
+    width: 100%;
+  }
+}

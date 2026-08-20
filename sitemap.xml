@@ -25,4 +25,16 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/privacy.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/tietosuoja.html"/>
   </url>
+  <url>
+    <loc>https://app.kopilotti.online/kumppanit.html</loc>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/kumppanit.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/partners.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/kumppanit.html"/>
+  </url>
+  <url>
+    <loc>https://app.kopilotti.online/en/partners.html</loc>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/kumppanit.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/partners.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/kumppanit.html"/>
+  </url>
 </urlset>
