@@ -2,9 +2,9 @@
 
 # Kopilotti Sales
 
-A controlled digital transaction layer for automotive retail.
+Dealer-controlled price-negotiation software for automotive digital retail.
 
-Kopilotti Sales helps automotive marketplaces, dealer platforms and dealer groups move customers from interest to an agreed transaction while the dealer retains control of pricing, stock and delivery.
+Kopilotti Sales helps used-car dealers, dealer groups, automotive marketplaces and dealer platforms move online buyers from vehicle interest to an agreed transaction — 24/7. AI handles the customer conversation; deterministic rules keep pricing authority with the dealer.
 
 This public repository presents the product concept, demonstrator and external operating principles. It does not contain the private transaction engine, dealer-specific commercial rules, production integrations or other protected implementation details.
 
@@ -105,7 +105,7 @@ The current demonstrator models a Finnish dealer transaction. Market-specific fi
 
 Kopilotti Sales is designed for a lightweight pilot: a dealer adds one negotiation link to a vehicle page, without a multi-week integration project. Deeper integrations — DMS, e-commerce, CRM, or a marketplace's own API — are a later, deliberate step once the model has shown its value, and are always subject to a partner agreement.
 
-If you represent an automotive marketplace, a dealer-software platform, or a dealer group and want to discuss a pilot or an integration, get in touch: [mikkotark@protonmail.com](mailto:mikkotark@protonmail.com).
+If you represent an automotive marketplace, a dealer-software platform, or a dealer group and want to discuss a pilot or an integration, get in touch: [hello@kopilotti.online](mailto:hello@kopilotti.online).
 
 ## Finnish version
 
