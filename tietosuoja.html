@@ -7,11 +7,15 @@
   <title>Tietosuojaseloste – Kopilotti Sales</title>
   <meta name="description" content="Kopilotti Salesin demosivuston tietosuojaseloste: mitä tietoa kerätään, mihin tarkoitukseen, ja ettei demo käsittele oikeita henkilötietoja tai maksuja.">
   <link rel="canonical" href="https://app.kopilotti.online/tietosuoja.html">
+  <link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/tietosuoja.html">
+  <link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/privacy.html">
+  <link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/tietosuoja.html">
   <meta property="og:title" content="Tietosuojaseloste – Kopilotti Sales">
   <meta property="og:description" content="Mitä tietoa Kopilotti Salesin demosivusto kerää ja mihin tarkoitukseen.">
   <meta property="og:type" content="website">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/vehicle.css">
   <link rel="stylesheet" href="styles/landing.css">
 </head>
 <body class="landing-page">
@@ -27,7 +31,15 @@
       </span>
       <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
     </a>
-    <a class="store-back" href="index.html">← Etusivulle</a>
+    <div class="header-controls">
+      <nav class="lang-switch" aria-label="Kielivalinta">
+        <ul>
+          <li><a href="tietosuoja.html" lang="fi" hreflang="fi" aria-current="page" aria-label="Suomeksi">FI</a></li>
+          <li><a href="en/privacy.html" lang="en" hreflang="en" aria-label="In English">EN</a></li>
+        </ul>
+      </nav>
+      <a class="store-back" href="index.html">← Etusivulle</a>
+    </div>
   </header>
 
   <main id="mainContent" tabindex="-1">
@@ -37,10 +49,10 @@
         <p class="section-intro">Tämä sivu koskee Kopilotti Salesin esittely- ja demosivustoa (app.kopilotti.online).</p>
 
         <h2>Mitä tietoa kerätään</h2>
-        <p>Sivusto käyttää Vercel Web Analyticsiä kävijämäärien ja sivulatausten seurantaan. Palvelu ei käytä evästeitä eikä kerää tietoja, jotka yhdistäisivät käynnin tiettyyn henkilöön — se kerää anonyymejä tilastoja (esim. sivulatausten määrä, käytetty selain/laite karkealla tasolla). Kävijätunniste lasketaan pyynnöstä eikä sitä säilytetä yli 24 tuntia.</p>
+        <p>Sivusto käyttää Vercel Web Analyticsiä kävijämäärien ja sivulatausten seurantaan. Palvelu ei käytä evästeitä eikä muodosta pysyvää, yksittäiseen henkilöön yhdistettävää profiilia. Vercel Web Analytics voi käsitellä muun muassa sivun osoitteen, viittaavan sivuston (referrer), suodatettuja URL-parametreja sekä karkean maantieteellisen sijainnin (esim. maa) ja selain-, käyttöjärjestelmä- ja laitetiedot. Kävijätunniste lasketaan pyynnöstä eikä sitä säilytetä yli 24 tuntia.</p>
 
         <h2>Käyttötarkoitus</h2>
-        <p>Tietoa käytetään yksinomaan sivuston toimivuuden ja suosion ymmärtämiseen. Tietoa ei myydä, jaeta eikä käytetä markkinointiin.</p>
+        <p>Tietoa käytetään yksinomaan sivuston toimivuuden ja suosion ymmärtämiseen. Tiedot käsittelee Vercel Inc. sivuston analytiikkapalveluna; tietoa ei myydä eikä käytetä markkinointiin.</p>
 
         <h2>Demo ja henkilötiedot</h2>
         <p>Tämän sivuston hintaneuvotteludemo (vehicle.html) on havainnollistava esimerkki. Se ei käsittele oikeita henkilötietoja, oikeita maksutapahtumia eikä johda oikeaan kaupantekoon. Demossa syötettävää tietoa (esim. hintaehdotus) ei tallenneta pysyvästi eikä yhdistetä käyttäjän henkilöllisyyteen.</p>
@@ -48,7 +60,7 @@
         <h2>Yhteydenotot</h2>
         <p>Tietosuojaan liittyvissä kysymyksissä voit ottaa yhteyttä: <a href="mailto:mikkotark@protonmail.com">mikkotark@protonmail.com</a></p>
 
-        <p class="section-callout">Päivitetty 29.7.2026.</p>
+        <p class="section-callout">Päivitetty 20.8.2026.</p>
       </div>
     </section>
   </main>

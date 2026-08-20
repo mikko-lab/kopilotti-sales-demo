@@ -195,7 +195,11 @@
 
 @media (max-width: 639px) {
   .store-back { font-size: 0; }
+  /* Fallback content for the shrunk mobile back-link; :lang(en) is needed
+     because en/privacy.html reuses .store-back and this pseudo-content
+     doesn't otherwise follow the page's html[lang]. */
   .store-back::after { content: '← Autot'; font-size: var(--text-xs); }
+  :lang(en) .store-back::after { content: '← Back'; }
   .vehicle-heading { flex-direction: column; }
   .vehicle-heading-price { text-align: left; }
   .vehicle-spec-grid { grid-template-columns: 1fr; }

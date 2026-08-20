@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://app.kopilotti.online/</loc>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/"/>
   </url>
   <url>
     <loc>https://app.kopilotti.online/tietosuoja.html</loc>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/tietosuoja.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/tietosuoja.html"/>
+  </url>
+  <url>
+    <loc>https://app.kopilotti.online/en/</loc>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/"/>
+  </url>
+  <url>
+    <loc>https://app.kopilotti.online/en/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/tietosuoja.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/tietosuoja.html"/>
   </url>
 </urlset>

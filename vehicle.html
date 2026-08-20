@@ -19,6 +19,12 @@
   <!-- Fictional demo vehicle's negotiation view - would be misleading to
        show up in Google as a real listing. -->
   <meta name="robots" content="noindex, nofollow">
+  <!-- The live negotiation demo talks to a Finnish-language backend (see
+       js/negotiation-api.js) and has no English equivalent to alternate
+       to; the EN link below goes to the demo-introduction section on the
+       English homepage instead of a nonexistent en/vehicle.html. -->
+  <link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/vehicle.html">
+  <link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/vehicle.html">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles/vehicle.css">
   <link rel="stylesheet" href="styles/landing.css">
@@ -36,7 +42,15 @@
       </span>
       <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
     </a>
-    <a class="store-back" href="index.html">← Takaisin autoihin</a>
+    <div class="header-controls">
+      <nav class="lang-switch" aria-label="Kielivalinta">
+        <ul>
+          <li><a href="vehicle.html" lang="fi" hreflang="fi" aria-current="page" aria-label="Suomeksi">FI</a></li>
+          <li><a href="en/index.html#demo" lang="en" hreflang="en" aria-label="In English">EN</a></li>
+        </ul>
+      </nav>
+      <a class="store-back" href="index.html">← Takaisin autoihin</a>
+    </div>
   </header>
 
   <main class="vehicle-shell" id="vehicleMain">
