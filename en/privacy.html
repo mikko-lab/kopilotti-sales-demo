@@ -1,0 +1,118 @@
+<!-- Copyright (c) 2026 Mikko Tarkiainen. All rights reserved. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy notice – Kopilotti Sales</title>
+  <meta name="description" content="Privacy notice for the Kopilotti Sales demonstration site: what data is collected, for what purpose, and how the interactive negotiation demo handles real personal data.">
+  <link rel="canonical" href="https://app.kopilotti.online/en/privacy.html">
+  <link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/tietosuoja.html">
+  <link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/privacy.html">
+  <link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/tietosuoja.html">
+  <meta property="og:title" content="Privacy notice – Kopilotti Sales">
+  <meta property="og:description" content="What data the Kopilotti Sales demonstration site collects, and why.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="/assets/kopilotti-favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles/landing.css">
+</head>
+<body class="landing-page">
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+  <header class="store-header">
+    <a class="store-brand" href="/en/index.html" aria-label="Kopilotti Sales, homepage">
+      <img class="logo-mark" src="/assets/kopilotti-mark-on-dark.svg" alt="" aria-hidden="true">
+      <span><strong>Kopilotti Sales</strong></span>
+    </a>
+    <div class="header-controls">
+      <nav class="lang-switch" aria-label="Language switch">
+        <ul>
+          <li><a href="/tietosuoja.html" lang="fi" hreflang="fi" aria-label="Suomeksi">FI</a></li>
+          <li><a href="/en/privacy.html" lang="en" hreflang="en" aria-current="page" aria-label="In English">EN</a></li>
+        </ul>
+      </nav>
+      <a class="store-back" href="/en/index.html">← Back to homepage</a>
+    </div>
+  </header>
+
+  <main id="mainContent" tabindex="-1">
+    <section class="landing-section legal-content">
+      <div class="landing-section-inner">
+        <h1 class="section-heading">Privacy notice</h1>
+        <p class="section-intro">This page covers the Kopilotti Sales presentation and demonstration site (app.kopilotti.online).</p>
+
+        <h2>What data is collected</h2>
+        <p>The site uses Vercel Web Analytics to track visitor numbers and page views. The service does not use cookies and does not build a persistent profile linked to a specific individual. Vercel Web Analytics may process, among other things, the page URL, the referring site, filtered URL query parameters, a coarse geographic location (for example, country), and browser, operating-system and device information. A visitor identifier is computed per request and is not retained for more than 24 hours.</p>
+        <p>The price-negotiation demo (vehicle.html), on the other hand, is a functional purchase journey, not just an illustration, and it processes real, personally identifiable data when it is used:</p>
+        <ul>
+          <li>an email address and the verification code sent to it, to confirm identity before the price negotiation begins;</li>
+          <li>a device identifier in a browser cookie, used to recognize the same negotiation again from the same device;</li>
+          <li>the offer made in the conversation and the short, customer-written rationale attached to it;</li>
+          <li>a technical security signal (IP address as a hash, not in plain text) to detect abuse.</li>
+        </ul>
+        <p>An event history is also kept of the negotiation's steps and the responses given to them (e.g. offers made and how they were handled), so the process can be verified afterward if needed — for example in a customer-service or dispute situation.</p>
+        <p>The email address and IP address are always stored as an encrypted hash, never as plain text, on the server.</p>
+
+        <h2>AI in the conversation — who ultimately decides the price</h2>
+        <p>The price-negotiation conversation is conducted by an AI-based assistant (Anthropic Claude). The assistant talks with the customer and extracts a structured offer proposal from the conversation (amount, any condition, a short rationale). <strong>The AI itself does not accept, reject or counter-offer a price.</strong> Every offer is checked in a separate backend system that follows rules the dealer has defined in advance, and that system makes the final decision (acceptance, counter-offer, rejection, or transfer to the dealer). The AI therefore never independently decides the final price.</p>
+        <p>Some situations (for example exceptional offers or technical conflicts) are always routed to the dealer's staff instead of an automated decision.</p>
+
+        <h2>Trade-in vehicle data</h2>
+        <p>A separate trade-in vehicle processing path (registration number, odometer reading, condition declaration) has been built into the system, and it connects to the same price negotiation and any resulting deal summary. This functionality is implemented and tested, but is not currently part of this public demonstrator's production traffic. If/when it is enabled on the public demonstrator, this notice will be updated first.</p>
+
+        <h2>Abuse prevention</h2>
+        <p>Email-, device- and IP-level technical identifiers are used to limit a single customer's/device's repeated offer attempts on the same vehicle (e.g. a cap on the number of offers and a short cool-down once it's reached), and to detect automated abuse. These identifiers are not used for marketing, individual price formation, or behavioural profiling — they serve solely the security of the negotiation and the service.</p>
+
+        <h2>Price is not based on a customer profile</h2>
+        <p>The offered price is not based on the customer's identifying data, prior behaviour in other negotiations, conversational style, or an estimated willingness to pay. The commercial decision is based on the dealer's pre-defined rules and the data belonging to that specific transaction.</p>
+
+        <h2>Data retention</h2>
+        <p>Some demo data (e.g. the technical code used for email verification) expires automatically after a short time. <strong>A comprehensive retention-period policy covering all data has not yet been implemented</strong> — this is a recognized, open item, not a hidden gap. Until it is implemented, data may technically be stored for longer than usual. You can request deletion of your own data using the contact details below.</p>
+
+        <h2>Your rights as a data subject</h2>
+        <p>Under applicable data-protection law, you have the right to, among other things, obtain information about data stored about you, request its correction or deletion, and object to its processing. Requests concerning these rights are currently handled manually via the contact details below — automated self-service is not yet available.</p>
+
+        <h2>Purpose of use</h2>
+        <p>Data is used to carry out the price negotiation, for service security, and to understand the site's functioning and popularity. Data is not sold and is not used for marketing.</p>
+
+        <h2>Service providers</h2>
+        <p>The demo uses the following external services to process data: Anthropic (the AI conversation), Resend (sending email), and Vercel (site publishing and Web Analytics). Each processes only the data it needs for its own specific purpose.</p>
+
+        <h2>Contact</h2>
+        <p>For questions about privacy, or to exercise the rights described above, contact: <a href="mailto:hello@kopilotti.online">hello@kopilotti.online</a></p>
+
+        <p class="section-callout">Updated 20 August 2026.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>
+        <p class="site-footer-brand">Kopilotti Sales</p>
+        <p class="site-footer-desc">A controlled digital transaction layer for automotive retail.</p>
+      </div>
+      <ul class="site-footer-links">
+        <li><a href="/vehicle.html" lang="fi" hreflang="fi">Open demo (Finnish)</a></li>
+        <li><a href="/en/privacy.html">Privacy notice</a></li>
+        <li>
+          <a
+            href="https://github.com/mikko-lab/kopilotti-sales-demo"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            GitHub: public product overview
+          </a>
+        </li>
+      </ul>
+    </div>
+    <p class="site-footer-note">© 2026 Kopilotti Sales. All rights reserved.</p>
+  </footer>
+
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

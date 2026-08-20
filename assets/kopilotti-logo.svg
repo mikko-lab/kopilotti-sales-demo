@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="456"
+     height="128"
+     viewBox="0 0 456 128"
+     fill="none"
+     role="img"
+     aria-labelledby="title desc">
+  <title id="title">Kopilotti-logo</title>
+  <desc id="desc">Geometrinen sininen K-symboli ja Kopilotti-wordmark vaakasuunnassa.</desc>
+
+  <!-- K mark -->
+  <g aria-hidden="true">
+    <rect x="20" y="16" width="24" height="96" rx="12" fill="#0B1F3A"/>
+    <path d="M43 64L91 20"
+          stroke="#1677FF"
+          stroke-width="22"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M43 64L93 108"
+          stroke="#1677FF"
+          stroke-width="22"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
+    <path d="M57 51L87 24"
+          stroke="#8FD3FF"
+          stroke-width="4"
+          stroke-linecap="round"
+          opacity="0.92"/>
+  </g>
+
+  <!-- Custom geometric wordmark; paths only, so no external font is required. -->
+  <g aria-hidden="true"
+     fill="none"
+     stroke="#0B1F3A"
+     stroke-width="8"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+    <!-- K -->
+    <path d="M132 43V87M132 66L157 43M132 66L158 87"/>
+    <!-- o -->
+    <path d="M177 57C166 57 162 64 162 72C162 81 167 87 177 87C187 87 192 81 192 72C192 63 187 57 177 57Z"/>
+    <!-- p -->
+    <path d="M204 58V99M204 64C208 59 212 57 218 57C228 57 233 63 233 72C233 81 228 87 218 87C212 87 208 84 204 80"/>
+    <!-- i -->
+    <path d="M247 59V87"/>
+    <!-- l -->
+    <path d="M263 42V80C263 85 266 87 270 87"/>
+    <!-- o -->
+    <path d="M291 57C280 57 276 64 276 72C276 81 281 87 291 87C301 87 306 81 306 72C306 63 301 57 291 57Z"/>
+    <!-- t -->
+    <path d="M320 48V79C320 85 324 87 330 87M313 59H330"/>
+    <!-- t -->
+    <path d="M345 48V79C345 85 349 87 355 87M338 59H355"/>
+    <!-- i -->
+    <path d="M369 59V87"/>
+  </g>
+
+  <!-- Bright-blue i dots tie the wordmark back to the symbol. -->
+  <circle cx="247" cy="45" r="5" fill="#1677FF"/>
+  <circle cx="369" cy="45" r="5" fill="#1677FF"/>
+</svg>

@@ -113,6 +113,7 @@
 /* ============ Shared section layout ============ */
 .landing-section {
   padding: clamp(48px, 9vw, 96px) var(--space-3);
+  scroll-margin-top: 64px;
 }
 .landing-section-inner {
   max-width: 1080px;
@@ -178,18 +179,61 @@
   font-size: var(--text-sm);
   max-width: 62ch;
 }
+/* Extra breathing room above the "Tarkoitus..." callout in the Haaste
+   section only - scoped via the .problem-list precursor (unique to this
+   section) so no other .section-callout instance is affected. Box size,
+   text, and colors are untouched; only margin-top changes. */
+.problem-list + .section-callout {
+  margin-top: 24px;
+}
+@media (min-width: 900px) {
+  .problem-list + .section-callout { margin-top: 32px; }
+}
 
 /* ============ Hero ============ */
-.hero {
-  padding: clamp(56px, 12vw, 112px) var(--space-3) clamp(48px, 8vw, 88px);
+/* Dark, premium showroom-evening hero - visual direction from the approved
+   "Yksi linkki. Kaupanteko jatkuu." LinkedIn image. That reference image
+   itself is never used directly: it bakes its headline/CTA/copy into the
+   raster image, which isn't responsive, isn't selectable, and isn't read
+   correctly by screen readers or search engines. Every word here is real
+   HTML; the image (hero-car-*) is a separately commissioned, text-free
+   piece built to the same art direction (dark #00091C showroom-evening
+   mood, a generic car, a blue light trail leading to a lit dealership) -
+   no car brand, model badge, UI-card mockup, or legible plate anywhere
+   in it.
+   Two-column layout: text column first in DOM (so mobile, which stacks
+   to one column, shows text before the image, per spec), image column
+   second - the image is its own grid item, never a background sitting
+   behind the text, so text contrast never depends on image content at
+   all. The section's own solid background is #00091C (the image's own
+   base tone) at every breakpoint, and reuses --header-text/
+   --header-text-muted - the same tokens styles.css already documents as
+   AA/AAA against the header's #101B3D, itself darker still against
+   #00091C. */
+.hero-showroom {
+  position: relative;
+  background: #00091C;
+  padding: clamp(56px, 10vw, 104px) var(--space-3);
 }
-.hero-inner {
-  max-width: 1080px;
+.hero-grid {
+  max-width: 1180px;
   margin: 0 auto;
   display: grid;
+  grid-template-columns: 1fr;
   gap: clamp(32px, 6vw, 56px);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .hero-grid { grid-template-columns: 1.05fr 1fr; }
+}
+.hero-inner {
+  display: grid;
+  gap: clamp(18px, 3vw, 24px);
   text-align: center;
   justify-items: center;
+}
+@media (min-width: 900px) {
+  .hero-inner { text-align: left; justify-items: start; }
 }
 .hero-eyebrow {
   display: inline-flex;
@@ -197,24 +241,34 @@
   gap: 8px;
   padding: 6px 14px;
   border-radius: 100px;
-  background: var(--primary-light);
-  color: var(--primary-dark);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: var(--header-text);
   font-size: var(--text-2xs);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .06em;
 }
 .hero h1 {
-  font-size: clamp(32px, 6.4vw, 54px);
+  color: var(--header-text);
+  font-size: clamp(32px, 5.2vw, 50px);
   line-height: 1.08;
   letter-spacing: -0.03em;
-  max-width: 18ch;
+  max-width: 16ch;
 }
 .hero-lede {
-  color: var(--text2);
-  font-size: clamp(var(--text-md), 2.4vw, var(--text-lg));
+  color: var(--header-text-muted);
+  font-size: clamp(var(--text-md), 2vw, var(--text-lg));
   line-height: 1.6;
-  max-width: 56ch;
+  max-width: 48ch;
+}
+.hero-tagline {
+  color: var(--header-text);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: 6px 16px;
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 100px;
 }
 .hero-actions {
   display: flex;
@@ -223,31 +277,65 @@
   gap: var(--space-3);
   width: 100%;
 }
+@media (min-width: 900px) {
+  .hero-actions { justify-content: flex-start; width: auto; }
+}
 .hero-actions .btn {
   min-height: 48px;
   padding: 12px 24px;
   font-size: var(--text-sm);
   flex: 0 1 auto;
 }
+/* Pilot CTA (Käyttöönotto section) reuses .hero-actions purely for its
+   button-sizing cascade (.hero-actions .btn above) - color and size are
+   untouched. Only the container's own width/alignment is overridden here
+   so the button centers under the pilot-steps list instead of inheriting
+   the hero's two-column left-aligned desktop layout. The compound
+   selector's higher specificity wins over both the base .hero-actions
+   rule and its 900px override regardless of source order; centering
+   itself comes from the existing .landing-section-inner > * auto-margin
+   rule, which this element already qualifies for once its width is
+   content-sized instead of 100%. */
+.hero-actions.pilot-cta {
+  width: max-content;
+  max-width: 100%;
+}
+.btn-outline-inverse {
+  background: transparent;
+  color: var(--header-text);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+.btn-outline-inverse:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.7); }
+/* #00091C is at least as dark as --header-bg everywhere in the hero (it's
+   a flat color, not variable artwork behind text), so the page's default
+   blue focus ring (--primary, tuned for light backgrounds) would still
+   have too little contrast here - a visible focus state inside the hero
+   must not depend on that. */
+.hero-showroom :focus-visible {
+  outline-color: #FFFFFF;
+}
 .hero-note {
-  color: var(--muted);
+  color: var(--header-text-muted);
   font-size: var(--text-xs);
 }
-.hero-media {
-  width: min(1040px, 100%);
-  border: 1px solid var(--border);
+.hero-visual {
+  display: block;
+  width: 100%;
   border-radius: var(--radius-lg);
-  background: var(--white);
-  box-shadow: var(--shadow-lg);
   overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+  /* The mobile crop (1620x911) and the desktop crop (1520x855) are both
+     16:9 - the same landscape composition at every breakpoint, so a
+     single ratio covers the <picture> element's source switch in
+     index.html without needing a matching breakpoint override here. */
+  aspect-ratio: 16 / 9;
 }
-.hero-media img { display: block; width: 100%; height: auto; }
-.hero-media figcaption {
-  padding: 10px 16px;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: var(--text-2xs);
-  text-align: left;
+.hero-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ============ Problem section ============ */
@@ -272,10 +360,22 @@
   height: 8px;
   margin-top: 8px;
   border-radius: 50%;
-  background: var(--orange);
+  background: var(--accent-blue);
 }
 
 /* ============ Market evidence (research-backed stats) ============ */
+/* This section's own .section-intro runs noticeably longer (4 sentences)
+   than every other section-intro on this page - centered text over that
+   many lines reads worse (uneven ragged edges on both sides), especially on
+   mobile. Left-aligning it here is scoped to this one paragraph only via
+   its own class, not a change to the shared .section-intro rule - every
+   other, shorter section-intro elsewhere stays centered. Applies at every
+   viewport width, not just mobile (confirmed with the requester it should
+   also apply on desktop) - the block itself stays centered as a column
+   (inherited max-width/margin-inline:auto from .section-intro), only the
+   text's own alignment changes. */
+.evidence-intro { text-align: left; }
+.commerce-intro { text-align: left; }
 .evidence-grid {
   margin-top: var(--space-5);
   display: grid;
@@ -310,18 +410,6 @@
   font-size: var(--text-2xs);
   text-align: center;
 }
-
-/* This section's own .section-intro runs noticeably longer (4 sentences)
-   than every other section-intro on this page - centered text over that
-   many lines reads worse (uneven ragged edges on both sides), especially on
-   mobile. Left-aligning it here is scoped to this one paragraph only via
-   its own class, not a change to the shared .section-intro rule - every
-   other, shorter section-intro elsewhere stays centered. Applies at every
-   viewport width, not just mobile - the block itself stays centered as a
-   column (inherited max-width/margin-inline:auto from .section-intro),
-   only the text's own alignment changes. */
-.evidence-intro { text-align: left; }
-.commerce-intro { text-align: left; }
 
 /* ============ Consumer commerce (not an auction) ============ */
 .consumer-commerce-body {
@@ -421,15 +509,15 @@
   font-size: var(--text-xs);
   overflow-wrap: anywhere;
 }
+/* No color overrides here - falls back to .section-callout's own blue
+   (border-left: var(--primary), background: var(--primary-light), color:
+   var(--primary-dark)), same as every other blue callout on this page.
+   Class kept for semantic identification (tests, future targeting). */
 .payment-boundary {
   margin-top: var(--space-4);
   max-width: 760px;
-  border-left-color: var(--success-text);
-  background: var(--success-light);
-  color: var(--text);
   font-weight: 400;
 }
-.payment-boundary strong { color: var(--success-text); }
 
 /* ============ Commerce layer ============ */
 .journey-comparison {
@@ -462,7 +550,9 @@
   gap: 24px;
   list-style: none;
 }
-.journey-row.is-kopilotti .journey-steps { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.journey-row.is-kopilotti .journey-steps {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
 .journey-steps li {
   position: relative;
   min-height: 68px;
@@ -789,6 +879,12 @@
   box-shadow: var(--shadow-lg);
   text-align: left;
 }
+.contact-card-heading {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.contact-card p { color: var(--text2); font-size: var(--text-sm); max-width: 46ch; }
 .contact-card .btn { min-height: 48px; margin-top: var(--space-4); }
 
 /* ============ Footer ============ */
@@ -816,6 +912,8 @@
 }
 .site-footer-links a { color: var(--header-text-muted); text-decoration: none; }
 .site-footer-links a:hover, .site-footer-links a:focus-visible { color: var(--header-text); }
+.site-footer-icon-link { display: inline-flex; align-items: center; }
+.site-footer-icon { display: block; }
 .site-footer-note { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--header-border); font-size: var(--text-2xs); max-width: 1080px; margin-inline: auto; }
 
 /* ============ Responsive ============ */

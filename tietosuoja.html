@@ -7,10 +7,13 @@
   <title>Tietosuojaseloste – Kopilotti Sales</title>
   <meta name="description" content="Kopilotti Salesin demosivuston tietosuojaseloste: mitä tietoa kerätään, mihin tarkoitukseen, ja ettei demo käsittele oikeita henkilötietoja tai maksuja.">
   <link rel="canonical" href="https://app.kopilotti.online/tietosuoja.html">
+  <link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/tietosuoja.html">
+  <link rel="alternate" hreflang="en" href="https://app.kopilotti.online/en/privacy.html">
+  <link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/tietosuoja.html">
   <meta property="og:title" content="Tietosuojaseloste – Kopilotti Sales">
   <meta property="og:description" content="Mitä tietoa Kopilotti Salesin demosivusto kerää ja mihin tarkoitukseen.">
   <meta property="og:type" content="website">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="assets/kopilotti-favicon.svg">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles/landing.css">
 </head>
@@ -19,15 +22,18 @@
 
   <header class="store-header">
     <a class="store-brand" href="index.html" aria-label="Kopilotti Sales, etusivu">
-      <span class="logo-mark" aria-hidden="true">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.7"/><circle cx="12" cy="12" r="2.1" fill="white"/>
-          <path d="M12 3v4.3M12 16.7V21M3 12h4.3M16.7 12H21" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
+      <img class="logo-mark" src="assets/kopilotti-mark-on-dark.svg" alt="" aria-hidden="true">
+      <span><strong>Kopilotti Sales</strong></span>
     </a>
-    <a class="store-back" href="index.html">← Etusivulle</a>
+    <div class="header-controls">
+      <nav class="lang-switch" aria-label="Kielivalinta">
+        <ul>
+          <li><a href="/tietosuoja.html" lang="fi" hreflang="fi" aria-current="page" aria-label="Suomeksi">FI</a></li>
+          <li><a href="/en/privacy.html" lang="en" hreflang="en" aria-label="In English">EN</a></li>
+        </ul>
+      </nav>
+      <a class="store-back" href="index.html">← Etusivulle</a>
+    </div>
   </header>
 
   <main id="mainContent" tabindex="-1">
@@ -37,18 +43,46 @@
         <p class="section-intro">Tämä sivu koskee Kopilotti Salesin esittely- ja demosivustoa (app.kopilotti.online).</p>
 
         <h2>Mitä tietoa kerätään</h2>
-        <p>Sivusto käyttää Vercel Web Analyticsiä kävijämäärien ja sivulatausten seurantaan. Palvelu ei käytä evästeitä eikä kerää tietoja, jotka yhdistäisivät käynnin tiettyyn henkilöön — se kerää anonyymejä tilastoja (esim. sivulatausten määrä, käytetty selain/laite karkealla tasolla). Kävijätunniste lasketaan pyynnöstä eikä sitä säilytetä yli 24 tuntia.</p>
+        <p>Sivusto käyttää Vercel Web Analyticsiä kävijämäärien ja sivulatausten seurantaan. Palvelu ei käytä evästeitä eikä muodosta pysyvää, yksittäiseen henkilöön yhdistettävää profiilia. Vercel Web Analytics voi käsitellä muun muassa sivun osoitteen, viittaavan sivuston (referrer), suodatettuja URL-parametreja sekä karkean maantieteellisen sijainnin (esim. maa) ja selain-, käyttöjärjestelmä- ja laitetiedot. Kävijätunniste lasketaan pyynnöstä eikä sitä säilytetä yli 24 tuntia.</p>
+        <p>Hintaneuvottelun demo (vehicle.html) puolestaan on toiminnallinen ostopolku, ei pelkkä havainnollistus, ja se käsittelee todellista, henkilöön yhdistettävää tietoa silloin kun sitä käytetään:</p>
+        <ul>
+          <li>sähköpostiosoite ja siihen lähetetty vahvistuskoodi identiteetin vahvistamiseksi ennen hintaneuvottelun aloittamista;</li>
+          <li>laitetunniste selaimen evästeessä, jolla sama neuvottelu tunnistetaan uudelleen samalta laitteelta;</li>
+          <li>keskustelussa esitetty tarjous ja siihen liittyvä lyhyt, asiakkaan itse kirjoittama perustelu;</li>
+          <li>tekninen turvasignaali (IP-osoite tiivisteenä, ei selväkielisenä) väärinkäytösten havaitsemiseksi.</li>
+        </ul>
+        <p>Neuvottelun vaiheista ja niihin annetuista vastauksista (esim. tehdyt tarjoukset ja niiden käsittely) jää myös tapahtumahistoria, jotta prosessi on tarvittaessa jälkikäteen todennettavissa esimerkiksi asiakaspalvelu- tai riitatilanteessa.</p>
+        <p>Sähköpostiosoite ja IP-osoite tallennetaan aina salattuna tiivisteenä (hash), ei koskaan selväkielisenä tekstinä palvelimella.</p>
+
+        <h2>Tekoäly keskustelussa — kuka lopulta päättää hinnan</h2>
+        <p>Hintaneuvottelun keskustelun käy tekoälypohjainen avustin (Anthropic Claude). Avustin keskustelee asiakkaan kanssa ja poimii keskustelusta rakenteellisen tarjousehdotuksen (summa, mahdollinen ehto, lyhyt perustelu). <strong>Tekoäly ei itse hyväksy, hylkää tai vastatarjoa hintaa.</strong> Jokainen tarjous tarkistetaan erillisessä, autoliikkeen etukäteen määrittelemiä sääntöjä noudattavassa taustajärjestelmässä, joka tekee lopullisen päätöksen (hyväksyntä, vastatarjous, hylkäys, tai siirto myyjän käsiteltäväksi). Tekoäly ei siis koskaan itsenäisesti päätä lopullista hintaa.</p>
+        <p>Osa tilanteista (esimerkiksi poikkeukselliset tarjoukset tai tekniset ristiriidat) ohjataan aina autoliikkeen henkilökunnan käsiteltäväksi automaattisen päätöksen sijaan.</p>
+
+        <h2>Vaihtoauton tiedot</h2>
+        <p>Järjestelmään on rakennettu erillinen vaihtoauton käsittelypolku (rekisteritunnus, mittarilukema, kunto-ilmoitus), joka yhdistyy samaan hintaneuvotteluun ja mahdolliseen kauppayhteenvetoon. Tämä toiminnallisuus on toteutettu ja testattu, mutta se ei tällä hetkellä ole osa tämän julkisen demon tuotantoliikennettä. Jos/kun se otetaan käyttöön julkisessa demossa, tämä seloste päivitetään ennen sitä.</p>
+
+        <h2>Väärinkäytösten esto</h2>
+        <p>Sähköposti-, laite- ja IP-tason teknisiä tunnisteita käytetään rajoittamaan yhden asiakkaan/laitteen peräkkäisiä tarjousyrityksiä samasta ajoneuvosta (esim. tarjousmäärän yläraja ja lyhyt jäähdytysaika sen täyttyessä) sekä havaitsemaan automatisoitua väärinkäyttöä. Näitä tunnisteita ei käytetä markkinointiin, yksilöllisen hinnan muodostamiseen eikä käyttäytymisen profilointiin — ne palvelevat yksinomaan neuvottelun ja palvelun turvallisuutta.</p>
+
+        <h2>Hinta ei perustu asiakasprofiiliin</h2>
+        <p>Tarjottava hinta ei perustu asiakkaan tunnistetietoihin, aiempaan käyttäytymiseen muissa neuvotteluissa, keskustelutyyliin eikä arvioituun maksuhalukkuuteen. Kaupallinen päätös perustuu autoliikkeen ennalta määrittämiin sääntöihin ja kyseiseen kauppaan kuuluviin tietoihin.</p>
+
+        <h2>Tietojen säilytys</h2>
+        <p>Osa demon tiedoista (esim. sähköpostivahvistuksen tekninen koodi) vanhenee automaattisesti lyhyessä ajassa. <strong>Kattavaa, kaikkia tietoja koskevaa säilytysaikakäytäntöä ei ole vielä otettu käyttöön</strong> — tämä on tunnistettu, avoin kehityskohde, ei salattu puute. Kunnes se on toteutettu, tietoja voi olla teknisesti tallennettuna tavanomaista pidempään. Voit pyytää oman tietosi poistamista alla olevasta yhteystiedosta.</p>
+
+        <h2>Rekisteröidyn oikeudet</h2>
+        <p>Sinulla on soveltuvan tietosuojalainsäädännön mukaan oikeus muun muassa saada tietoa sinusta tallennetuista tiedoista, pyytää niiden oikaisua tai poistoa, sekä vastustaa käsittelyä. Näitä oikeuksia koskevat pyynnöt käsitellään toistaiseksi manuaalisesti alla olevan yhteystiedon kautta — automaattista itsepalvelua ei vielä ole.</p>
 
         <h2>Käyttötarkoitus</h2>
-        <p>Tietoa käytetään yksinomaan sivuston toimivuuden ja suosion ymmärtämiseen. Tietoa ei myydä, jaeta eikä käytetä markkinointiin.</p>
+        <p>Tietoa käytetään hintaneuvottelun toteuttamiseen, palvelun turvallisuuteen sekä sivuston toimivuuden ja suosion ymmärtämiseen. Tietoa ei myydä eikä käytetä markkinointiin.</p>
 
-        <h2>Demo ja henkilötiedot</h2>
-        <p>Tämän sivuston hintaneuvotteludemo (vehicle.html) on havainnollistava esimerkki. Se ei käsittele oikeita henkilötietoja, oikeita maksutapahtumia eikä johda oikeaan kaupantekoon. Demossa syötettävää tietoa (esim. hintaehdotus) ei tallenneta pysyvästi eikä yhdistetä käyttäjän henkilöllisyyteen.</p>
+        <h2>Palveluntarjoajat</h2>
+        <p>Demo käyttää seuraavia ulkopuolisia palveluja tietojen käsittelyyn: Anthropic (tekoälykeskustelu), Resend (sähköpostin lähetys), Vercel (sivuston julkaisu ja Web Analytics). Kukin käsittelee vain sille kuuluvaa, tähän tarkoitukseen tarvittavaa tietoa.</p>
 
         <h2>Yhteydenotot</h2>
-        <p>Tietosuojaan liittyvissä kysymyksissä voit ottaa yhteyttä: <a href="mailto:mikkotark@protonmail.com">mikkotark@protonmail.com</a></p>
+        <p>Tietosuojaan liittyvissä kysymyksissä tai edellä mainittujen oikeuksien käyttämiseksi voit ottaa yhteyttä: <a href="mailto:hello@kopilotti.online">hello@kopilotti.online</a></p>
 
-        <p class="section-callout">Päivitetty 29.7.2026.</p>
+        <p class="section-callout">Päivitetty 20.8.2026.</p>
       </div>
     </section>
   </main>

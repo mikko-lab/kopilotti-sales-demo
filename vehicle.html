@@ -15,33 +15,54 @@
   <meta name="twitter:title" content="Alfa Romeo Giulia Quadrifoglio · XYZ-123 – Kopilotti Sales">
   <meta name="twitter:description" content="Listahinta 95 000 €. Ei-sitova ostopolkudemo.">
   <meta name="twitter:image" content="https://app.kopilotti.online/assets/cars/demo-vehicle-alfa-romeo-giulia.jpg">
+  <!-- Self-referencing, not per-token: this exact file also serves every
+       Magic Link (/n/{token} -> vehicle.html, see vercel.json's rewrite).
+       If a Magic Link URL were ever indexed despite the noindex signals
+       below/in robots-guard.js, this canonical points crawlers back to the
+       safe public demo URL instead of treating the opaque token URL as its
+       own indexable page. -->
   <link rel="canonical" href="https://app.kopilotti.online/vehicle.html">
-  <!-- Fictional demo vehicle's negotiation view - would be misleading to
-       show up in Google as a real listing. -->
+  <!-- Static, unconditional - covers both this file's always-on internal
+       demo (a fictional vehicle; would be misleading to show up in Google
+       as a real listing) and every Magic Link instance it also serves.
+       robots-guard.js's own document.write below only fires for /n/ paths
+       and stays as an extra layer for those; this tag is not conditional
+       on that and applies regardless of how this page was reached. -->
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="styles/vehicle.css">
-  <link rel="stylesheet" href="styles/landing.css">
+  <!-- The live negotiation demo talks to a Finnish-language backend and
+       has no English equivalent to alternate to (email verification,
+       abuse-prevention and negotiation copy are all Finnish-only); the EN
+       link below goes to the demo-introduction section on the English
+       homepage instead of a nonexistent en/vehicle.html. -->
+  <link rel="alternate" hreflang="fi" href="https://app.kopilotti.online/vehicle.html">
+  <link rel="alternate" hreflang="x-default" href="https://app.kopilotti.online/vehicle.html">
+  <link rel="icon" type="image/svg+xml" href="/assets/kopilotti-favicon.svg">
+  <script src="/js/robots-guard.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles/vehicle.css">
+  <link rel="stylesheet" href="/styles/landing.css">
 </head>
 <body class="vehicle-page">
   <a href="#vehicleMain" class="skip-link">Siirry ajoneuvon tietoihin</a>
   <header class="store-header">
-    <a class="store-brand" href="index.html" aria-label="Kopilotti Sales, etusivu">
-      <span class="logo-mark" aria-hidden="true">
-        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="9" stroke="white" stroke-width="1.7"/>
-          <circle cx="12" cy="12" r="2.1" fill="white"/>
-          <path d="M12 3v4.3M12 16.7V21M3 12h4.3M16.7 12H21" stroke="white" stroke-width="1.7" stroke-linecap="round"/>
-        </svg>
-      </span>
-      <span><strong>Kopilotti Sales</strong><small>Digital Car Salesperson</small></span>
+    <a class="store-brand" href="/index.html" aria-label="Kopilotti Sales, etusivu">
+      <img class="logo-mark" src="/assets/kopilotti-mark-on-dark.svg" alt="" aria-hidden="true">
+      <span><strong>Kopilotti Sales</strong></span>
     </a>
-    <a class="store-back" href="index.html">← Takaisin autoihin</a>
+    <div class="header-controls">
+      <nav class="lang-switch" aria-label="Kielivalinta">
+        <ul>
+          <li><a href="/vehicle.html" lang="fi" hreflang="fi" aria-current="page" aria-label="Suomeksi">FI</a></li>
+          <li><a href="/en/index.html#demo" lang="en" hreflang="en" aria-label="In English">EN</a></li>
+        </ul>
+      </nav>
+      <a class="store-back" href="/index.html">← Takaisin autoihin</a>
+    </div>
   </header>
 
   <main class="vehicle-shell" id="vehicleMain">
     <nav class="vehicle-breadcrumb" aria-label="Murupolku">
-      <a href="index.html">Autot</a><span aria-hidden="true">/</span><span id="breadcrumbVehicle">Ajoneuvo</span>
+      <a href="/index.html">Autot</a><span aria-hidden="true">/</span><span id="breadcrumbVehicle">Ajoneuvo</span>
     </nav>
 
     <div class="vehicle-layout">
@@ -56,9 +77,10 @@
             <strong id="vehiclePrice">95 000 €</strong><span id="vehicleMonthly"></span>
           </div>
         </div>
+        <p id="vehicleCampaignLabel" class="vehicle-campaign-label hidden"></p>
 
         <figure class="vehicle-hero">
-          <img id="vehicleImage" alt="Punainen Alfa Romeo Giulia -mallinen ajoneuvo tiellä" src="assets/cars/demo-vehicle-alfa-romeo-giulia.jpg">
+          <img id="vehicleImage" alt="Punainen Alfa Romeo Giulia -mallinen ajoneuvo tiellä" src="/assets/cars/demo-vehicle-alfa-romeo-giulia.jpg">
           <figcaption>Esimerkkikuva — ei kuva myytävästä yksittäisestä ajoneuvosta</figcaption>
         </figure>
 
@@ -78,7 +100,7 @@
       </section>
 
       <aside class="purchase-column" aria-label="Hintaehdotus ja ostopolku">
-        <section class="purchase-card digital-salesperson-card" aria-labelledby="digitalSalespersonTitle">
+        <section class="purchase-card digital-salesperson-card" id="digitalSalespersonCard" aria-labelledby="digitalSalespersonTitle">
           <div class="service-heading">
             <span class="service-mark" aria-hidden="true">✦</span>
             <div><p class="purchase-eyebrow">Digitaalinen automyyjä</p><h2 id="digitalSalespersonTitle">Digitaalinen hintaneuvottelu</h2></div>
@@ -91,6 +113,7 @@
           <p class="ai-disclosure-note"><strong>Keskustelet tekoälyjärjestelmän kanssa, ei ihmismyyjän kanssa.</strong></p>
           <p class="decision-basis-note">Päätökset perustuvat myyjäliikkeen liiketoimintasääntöihin. Poikkeustapaukset ohjataan automaattisesti ihmiselle.</p>
           <p class="availability-note">Demo havainnollistaa digitaalisen hintaneuvottelun. Tuotantoversiossa ostoprosessi jatkuu maksuun ja ajoneuvon luovutukseen myyjäliikkeen järjestelmäintegraatioiden kautta.</p>
+          <p class="technical-transparency-note">Tekninen huomio: voit avata selaimen kehittäjätyökalut (F12) ja seurata verkkoliikennettä — jokainen ehdotus käsitellään oikeasti palvelimella.</p>
         </section>
 
         <section class="salesperson-flow hidden" id="digitalSalespersonFlow" aria-labelledby="flowTitle" tabindex="-1">
@@ -103,7 +126,7 @@
             <div class="negotiation-workspace">
               <aside class="deal-summary" aria-labelledby="dealSummaryTitle">
                 <h3 id="dealSummaryTitle">Kaupan yhteenveto</h3>
-                <img class="deal-summary-image" id="dealSummaryImage" src="assets/cars/demo-vehicle-alfa-romeo-giulia.jpg" alt="Esimerkkikuva demoautosta">
+                <img class="deal-summary-image" id="dealSummaryImage" src="/assets/cars/demo-vehicle-alfa-romeo-giulia.jpg" alt="Esimerkkikuva demoautosta">
                 <div class="deal-summary-vehicle">
                   <strong id="dealSummaryVehicle">Alfa Romeo Giulia Quadrifoglio</strong>
                   <span id="dealSummaryRegistration">XYZ-123</span>
@@ -128,6 +151,36 @@
                   <p id="priceHelp">Digitaalinen automyyjä tarkistaa, voidaanko kaupat tehdä ehdottamallasi hinnalla.</p>
                   <p class="form-error" id="priceError" role="alert"></p>
                 </form>
+
+                <section class="email-verification hidden" id="emailVerificationPanel" aria-labelledby="emailVerificationTitle" tabindex="-1">
+                  <h4 id="emailVerificationTitle">Vahvista sähköpostiosoitteesi</h4>
+                  <p id="emailVerificationIntro">Vahvista sähköpostiosoitteesi ennen hintaneuvottelun aloittamista.</p>
+                  <form class="email-request-form" id="emailRequestForm">
+                    <label for="emailInput">Sähköpostiosoite</label>
+                    <input id="emailInput" name="email" type="email" autocomplete="email" required aria-describedby="emailRequestError">
+                    <button class="btn btn-primary" type="submit">Lähetä vahvistuskoodi</button>
+                    <p class="form-error" id="emailRequestError" role="alert"></p>
+                  </form>
+                  <form class="email-verify-form hidden" id="emailVerifyForm">
+                    <p id="emailVerifySentNotice" role="status" aria-live="polite"></p>
+                    <label for="codeInput">Vahvistuskoodi (6 numeroa)</label>
+                    <input id="codeInput" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required aria-describedby="emailVerifyError">
+                    <button class="btn btn-primary" type="submit">Vahvista</button>
+                    <p class="form-error" id="emailVerifyError" role="alert"></p>
+                  </form>
+                </section>
+
+                <section class="negotiation-locked hidden" id="negotiationLockedPanel" role="alert" aria-labelledby="negotiationLockedTitle" tabindex="-1">
+                  <h4 id="negotiationLockedTitle">Neuvottelu on tilapäisesti estetty</h4>
+                  <p id="negotiationLockedMessage"></p>
+                  <div class="contact-seller-prompt" id="negotiationLockedContact"></div>
+                </section>
+
+                <section class="offer-limit-reached hidden" id="offerLimitPanel" role="alert" aria-labelledby="offerLimitTitle" tabindex="-1">
+                  <h4 id="offerLimitTitle">Neuvottelu on tauolla</h4>
+                  <p id="offerLimitMessage"></p>
+                  <div class="contact-seller-prompt" id="offerLimitContact"></div>
+                </section>
               </div>
             </div>
             <div class="decision-actions hidden" id="decisionActions"></div>
@@ -148,7 +201,7 @@
               <li data-demo-step="counter-one"><span aria-hidden="true">○</span>Ensimmäinen hintatarkistus</li>
               <li data-demo-step="offer-two"><span aria-hidden="true">○</span>Uusi hintaehdotus</li>
               <li data-demo-step="counter-two"><span aria-hidden="true">○</span>Toinen hintatarkistus</li>
-              <li data-demo-step="agreement"><span aria-hidden="true">○</span><span id="journeyDemoAgreedPrice">Hinnasta sovittu · 94 200 €</span></li>
+              <li data-demo-step="agreement"><span aria-hidden="true">○</span><span id="journeyDemoAgreedPrice">Hinnasta sovittu · 94 500 €</span></li>
               <li data-demo-step="payment"><span aria-hidden="true">○</span>Maksutapa valittu</li>
               <li data-demo-step="waiting"><span aria-hidden="true">○</span>Maksu odottaa vahvistusta</li>
               <li data-demo-step="confirmed"><span aria-hidden="true">○</span>Maksu vahvistettu</li>
@@ -210,7 +263,7 @@
               <h3 id="dealAgreementTitle">Hinnasta sovittu</h3>
               <strong class="agreement-price" id="agreementPrice">—</strong>
               <p class="agreement-vehicle" id="agreementVehicle">—</p>
-              <button class="btn btn-primary purchase-button" id="btnReviewCondition" type="button">Tutustu kuntoraporttiin</button>
+              <button class="btn btn-primary purchase-button" id="btnReviewCondition" type="button">Vahvista kuntoraportti ennen maksua</button>
             </section>
             <ol class="purchase-progress" aria-label="Ostopolun vaiheet">
               <li data-progress="price"><span>1</span>Hinta</li>
@@ -242,8 +295,8 @@
         <p class="site-footer-desc">Digitaalinen automyyjä autokaupan hintaneuvotteluun.</p>
       </div>
       <ul class="site-footer-links">
-        <li><a href="index.html">Etusivu</a></li>
-        <li><a href="tietosuoja.html">Tietosuojaseloste</a></li>
+        <li><a href="/index.html">Etusivu</a></li>
+        <li><a href="/tietosuoja.html">Tietosuojaseloste</a></li>
         <li>
           <a
             href="https://github.com/mikko-lab/kopilotti-sales-demo"
@@ -267,10 +320,7 @@
     </div>
   </dialog>
 
-  <script type="module" src="js/digital-salesperson.js"></script>
-  <script>
-    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-  </script>
-  <script defer src="/_vercel/insights/script.js"></script>
+  <script type="module" src="/js/digital-salesperson.js"></script>
+  <script src="/js/vercel-analytics-loader.js"></script>
 </body>
 </html>
