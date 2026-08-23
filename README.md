@@ -20,6 +20,13 @@ This public repository presents the product concept, demonstrator and external o
 
 [![Kopilotti Sales digital price negotiation](assets/screenshot-negotiation-card.jpg)](https://app.kopilotti.online/vehicle.html)
 
+## 2. Product overview / Tuote-esittely
+
+- [Suomenkielinen tuote-esittely (PDF)](docs/kopilotti-sales-overview-fi.pdf)
+- [English product overview (PDF)](docs/kopilotti-sales-overview-en.pdf)
+- [Saavutettava suomenkielinen tekstiversio](docs/kopilotti-sales-overview-fi.md)
+- [Accessible English text version](docs/kopilotti-sales-overview-en.md)
+
 ## How it works
 
 ![How Kopilotti Sales works: the LLM converses and the backend makes the deterministic price decision](assets/kopilotti-sales-flow-en.svg)

@@ -7,3 +7,5 @@
 # runtime logic is JavaScript/HTML. This has no effect on rendering,
 # builds, or deployment — only on the Linguist language bar.
 *.css linguist-detectable=false
+docs/kopilotti-sales-overview-fi.pdf binary
+docs/kopilotti-sales-overview-en.pdf binary
