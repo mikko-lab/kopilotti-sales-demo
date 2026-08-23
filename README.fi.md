@@ -38,6 +38,13 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 [![Kopilotti Salesin digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)](https://app.kopilotti.online/vehicle.html)
 
+## 2. Product overview / Tuote-esittely
+
+- [Suomenkielinen tuote-esittely (PDF)](docs/kopilotti-sales-overview-fi.pdf)
+- [English product overview (PDF)](docs/kopilotti-sales-overview-en.pdf)
+- [Saavutettava suomenkielinen tekstiversio](docs/kopilotti-sales-overview-fi.md)
+- [Accessible English text version](docs/kopilotti-sales-overview-en.md)
+
 ## Näin Kopilotti Sales toimii
 
 ![Kopilotti Salesin toimintaperiaate: LLM keskustelee ja backend tekee deterministisen hintapäätöksen](assets/kopilotti-sales-flow.svg)
