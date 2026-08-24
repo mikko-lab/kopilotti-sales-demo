@@ -1,0 +1,21 @@
+# Pinned Python dependencies for scripts/generate_linkedin_overview_pdfs.py
+# and scripts/test_source_guard_canaries.py.
+#
+# Install into a disposable virtualenv, never into the system/Homebrew
+# Python (which blocks global installs by design - PEP 668):
+#
+#   python3 -m venv /tmp/kopilotti-docs-venv
+#   /tmp/kopilotti-docs-venv/bin/pip install -r scripts/requirements-docs.txt
+#   PYTHONDONTWRITEBYTECODE=1 /tmp/kopilotti-docs-venv/bin/python scripts/generate_linkedin_overview_pdfs.py
+#
+# Verify: /tmp/kopilotti-docs-venv/bin/python scripts/test_source_guard_canaries.py
+#
+# Additional system dependency, NOT installable via pip: a local
+# Chromium-family browser with `--headless --print-to-pdf` tagged-PDF
+# support. Verified against:
+#   HeadlessChrome/151.0.0.0, Producer "Skia/PDF m151"
+# Any reasonably recent Chrome/Chromium (>= ~105) is expected to work; the
+# generator fails closed with a clear error if no such browser is found on
+# PATH or at the standard macOS Google Chrome.app location.
+
+pikepdf==10.12.0

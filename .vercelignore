@@ -37,6 +37,7 @@ node_modules/
 tests/
 README.md
 README.fi.md
+README.en.md
 docs/
 LICENSE
 
@@ -49,7 +50,7 @@ LICENSE
 .gitattributes
 
 # README-only diagram/screenshot/favicon assets - kept for GitHub display
-# (README.md/README.fi.md link to these) but not part of the production
+# (README.md/README.en.md/README.fi.md link to these) but not part of the production
 # Vercel deploy, which ships its own current versions of the equivalent
 # assets (kopilotti-favicon.svg, screenshot-landing.jpg) synced from the
 # private repo's production build.
