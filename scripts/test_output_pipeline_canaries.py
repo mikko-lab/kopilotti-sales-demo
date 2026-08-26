@@ -42,6 +42,8 @@ import pikepdf  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 REAL_FI_PDF = ROOT / "docs" / "kopilotti-sales-overview-fi-linkedin.pdf"
 REAL_EN_PDF = ROOT / "docs" / "kopilotti-sales-overview-en-linkedin.pdf"
+REAL_FI_A4_PDF = ROOT / "docs" / "kopilotti-sales-overview-fi.pdf"
+REAL_EN_A4_PDF = ROOT / "docs" / "kopilotti-sales-overview-en.pdf"
 REAL_CHROME = gen.find_chrome()
 
 
@@ -218,6 +220,29 @@ def canary_a9_baseline_still_passes(tmp):
             gen.validate_pdf_structure(REAL_FI_PDF, "fi", real_expected_pages("fi")),
             gen.validate_pdf_structure(REAL_EN_PDF, "en", real_expected_pages("en")),
         ),
+    )
+
+
+def canary_a10_a4_baseline_still_passes(tmp):
+    def validate(lang, path):
+        _, expected_pages = gen.build_a4_document(lang)
+        link_count = sum(len(page["links"]) for page in expected_pages)
+        gen.validate_pdf_structure(
+            path,
+            lang,
+            expected_pages,
+            page_w=gen.A4_W_PT,
+            page_h=gen.A4_H_PT,
+            expected_h1_count=1,
+            expected_h2_count=14,
+            expected_link_count=link_count,
+            allow_split_link_annotations=True,
+            expect_visible_link_urls=False,
+        )
+
+    expect_ok(
+        "A10. baseline: real FI/EN A4 outputs still validate cleanly",
+        lambda: (validate("fi", REAL_FI_A4_PDF), validate("en", REAL_EN_A4_PDF)),
     )
 
 
@@ -440,6 +465,7 @@ CANARIES = [
     canary_a7_missing_link,
     canary_a8_corrupted_pdf,
     canary_a9_baseline_still_passes,
+    canary_a10_a4_baseline_still_passes,
     canary_b1_exit0_no_output_file,
     canary_b2_exit_nonzero_partial_file,
     canary_b3_process_dies_mid_render,

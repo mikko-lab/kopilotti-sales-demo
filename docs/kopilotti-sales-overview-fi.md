@@ -35,11 +35,13 @@ Kaupallinen päätös tehdään LLM:stä erotetussa palvelinpuolen sääntömoot
 
 PostgreSQL-malli sallii vain yhden aktiivisen varauksen samalle jälleenmyyjälle ja ajoneuvolle tietokannan pakottaman uniikki-indeksin avulla. Hyväksytty päätös, varaus, session tilasiirtymä ja auditointitapahtuma kuuluvat samaan transaktioon. Jos jokin vaihe epäonnistuu, kokonaisuus perutaan.
 
-Persistenssi ja varausmekanismit on toteutettu ja testattu, mutta niitä ei ole tässä yhteydessä tuotantovarmennettu.
+Varausmekanismit on toteutettu ja testattu, mutta niitä ei ole tässä yhteydessä tuotantovarmennettu.
 
 ## 6. Persistenssi ja sovelluksen auditointihistoria
 
-Neuvottelu- ja ostosessioille, idempotenssitiedoille, päätöksille ja auditointitapahtumille on toteutettu PostgreSQL-persistenssipolut. Sovelluksen auditointihistoria on järjestetty jälleenmyyjäkohtaisesti ja hash-ketjutettu. Sovelluspolku on append-only, ja tietokantatriggerit estävät auditointitapahtumien päivityksen ja poiston.
+Julkaistun demon tuotantobackend tallentaa neuvottelusessiot pysyvästi PostgreSQL:ään. Session käyttö on tenant-rajattu sovellusrajalla, ja tenant-suhteiden eheys pakotetaan tietokantarajoitteilla.
+
+Ostosessioiden, idempotenssitietojen, päätösten ja auditointitapahtumien persistenssipolut sekä sovelluksen auditointihistoria ja append-only-sovelluspolku on toteutettu ja testattu, mutta ne eivät kuulu tämän rajatun tuotantovarmennuksen piiriin.
 
 Tämä on kuvaus repon sovellus- ja tietokantakäyttäytymisestä. Se ei ole väite muuttumattomasta ulkoisesta ledgeristä, event sourcing -arkkitehtuurista tai tuotantovarmennuksesta.
 
@@ -61,13 +63,30 @@ Live DDN -varmennus, allekirjoittajan autentikointi, quorum ja trust profile, ju
 
 ## 9. Production-readiness-status
 
-Tila: **not production-verified**.
+Tila: **rajattu tuotantovarmennus 26.8.2026**.
 
-Readiness- ja skeemavarmennusportit on toteutettu ja testattu. Hyväksytyt RTO/RPO-tavoitteet, todennettu backup/restore, nimetyt operatiiviset omistajat ja tuotantohälytysten reititys ovat erillisiä päätösportteja.
+Julkaistun demon tuotantobackendissa varmennettiin neuvottelusessioiden pysyvä PostgreSQL-tallennus, tenant-rajattu session käyttö ja tenant-suhteiden tietokantatason eheys. Tuore backup/restore-testi sekä skeema- ja readiness-portit läpäistiin ennen julkaisua.
+
+Tämä on rajattu tuotantovarmennus, ei koko tuotteen yleinen production-ready-väite. Varaus- ja auditointimekanismit, maksukelpoinen kauppapolku, live DDN -todennus ja VIS-tuotantoyhteys säilyvät omissa jäljempänä kuvatuissa rajoissaan.
 
 Julkisesti kuvattu nykyinen laajuus ja tuotantorajat löytyvät [Kopilotti Salesin julkisesta README-tiedostosta](https://github.com/mikko-lab/kopilotti-sales-demo#current-scope).
 
-## 10. Toteutettu ja testattu
+## 10. Rajatusti tuotantovarmennettu 26.8.2026
+
+<!-- sales-claim id="postgres-session-persistence" status="production-verified-scope" -->
+- neuvottelusessioiden pysyvä PostgreSQL-tallennus tuotannossa
+<!-- sales-claim id="tenant-scoped-negotiation-session-access" status="production-verified-scope" -->
+- tenant-rajattu neuvottelusession käyttö
+<!-- sales-claim id="database-enforced-tenant-relationship-integrity" status="production-verified-scope" -->
+- tenant-suhteiden tietokantatason eheys
+<!-- sales-claim id="readiness-schema-verification-gates" status="production-verified-scope" -->
+- tuotannon skeema- ja readiness-portit
+<!-- sales-claim id="verified-backup-restore" status="production-verified-scope" -->
+- ennen julkaisua läpäisty backup/restore-testi
+
+Varmennus koskee vain yllä kuvattua rajattua tuotantolaajuutta.
+
+## 11. Toteutettu ja testattu
 
 <!-- sales-claim id="digital-price-negotiation" status="implemented-tested" -->
 - digitaalinen hintaneuvottelu
@@ -82,24 +101,20 @@ Julkisesti kuvattu nykyinen laajuus ja tuotantorajat löytyvät [Kopilotti Sales
 <!-- sales-claim id="safe-local-receipt-link-boundary" status="implemented-tested" -->
 - turvallisen kuittilinkin paikallinen muodostus- ja näyttöraja
 
-## 11. Ei tuotantovarmennettu
+## 12. Ei tuotantovarmennettu
 
 <!-- sales-claim id="atomic-vehicle-reservation" status="implemented-not-production-verified" -->
 - atominen ajoneuvon varaus
 <!-- sales-claim id="database-enforced-double-booking-prevention" status="implemented-not-production-verified" -->
 - tietokantarajoitteeseen perustuva aktiivisten tuplavarausten esto
-<!-- sales-claim id="postgres-session-persistence" status="implemented-not-production-verified" -->
-- neuvottelu- ja ostosessioiden PostgreSQL-persistenssi
 <!-- sales-claim id="application-audit-history-hash-chain" status="implemented-not-production-verified" -->
 - sovelluksen auditointihistoria ja hash-ketju
 <!-- sales-claim id="append-only-audit-application-path" status="implemented-not-production-verified" -->
 - auditointitapahtumien append-only-sovelluspolku
-<!-- sales-claim id="readiness-schema-verification-gates" status="implemented-not-production-verified" -->
-- readiness- ja skeemavarmennusportit
 
-Persistenssi ja varausmekanismit on toteutettu ja testattu, mutta niitä ei ole tässä yhteydessä tuotantovarmennettu.
+Varaus- ja auditointimekanismit on toteutettu ja testattu, mutta niitä ei ole tässä yhteydessä tuotantovarmennettu.
 
-## 12. Roadmap ja tutkimussuunnat
+## 13. Roadmap ja tutkimussuunnat
 
 <!-- sales-claim id="live-ddn-verification" status="roadmap-research" -->
 - live DDN -varmennus
@@ -119,14 +134,12 @@ Persistenssi ja varausmekanismit on toteutettu ja testattu, mutta niitä ei ole 
 - zero-knowledge proofs
 <!-- sales-claim id="approved-rto-rpo-targets" status="roadmap-research" -->
 - hyväksytyt RTO/RPO-tavoitteet
-<!-- sales-claim id="verified-backup-restore" status="roadmap-research" -->
-- todennettu backup/restore
 <!-- sales-claim id="named-operational-owners-response-times" status="roadmap-research" -->
 - nimetyt operatiiviset omistajat ja vasteajat
 
 Nämä ovat tavoite- tai tutkimussuuntia, eivät nykyisiä ominaisuuksia.
 
-## 13. Demo ja lisätiedot
+## 14. Demo ja lisätiedot
 
 - [Avaa demo](https://app.kopilotti.online)
 - [English product overview](kopilotti-sales-overview-en.md)

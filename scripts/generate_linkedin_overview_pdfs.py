@@ -1,8 +1,8 @@
-"""Deterministic, tagged-PDF generator for the LinkedIn/media-optimized
-Kopilotti Sales overview PDFs.
+"""Deterministic, tagged-PDF generator for Kopilotti Sales overview PDFs.
 
-Produces docs/kopilotti-sales-overview-{fi,en}-linkedin.pdf: landscape 4:3,
-large type, one topic per page, genuinely tagged for accessibility.
+Produces four validated outputs: FI/EN landscape 4:3 LinkedIn carousels and
+FI/EN A4 documents built from the approved Markdown sources. All outputs are
+genuinely tagged for accessibility.
 
 Rendering engine
 -----------------
@@ -282,40 +282,46 @@ def load_claims(md_path):
 #            "production-ready", "roadmap" -> "implemented").
 
 EVIDENCE_HEADER_MARKERS = {
+    "prodverified": {
+        "fi": {
+            "required": ["rajatusti tuotantovarmennettu", "rajattu tuotantovarmennus"],
+            "forbidden": ["toteutettu ja testattu", "ei tuotantovarmennettu", "not production-verified", "roadmap", "tutkimussuunt"],
+        },
+        "en": {
+            "required": ["production-verified scope", "limited production verification"],
+            "forbidden": ["implemented and tested", "not production-verified", "roadmap", "research direction"],
+        },
+    },
     "tested": {
         "fi": {
             "required": ["toteutettu ja testattu"],
-            "forbidden": ["ei tuotantovarmennettu", "not production-verified", "roadmap", "tutkimussuunt"],
+            "forbidden": ["rajatusti tuotantovarmennettu", "rajattu tuotantovarmennus", "ei tuotantovarmennettu", "not production-verified", "roadmap", "tutkimussuunt"],
         },
         "en": {
             "required": ["implemented and tested"],
-            "forbidden": ["not production-verified", "roadmap", "research direction"],
+            "forbidden": ["production-verified scope", "limited production verification", "not production-verified", "roadmap", "research direction"],
         },
     },
     "notprod": {
-        # FI accepts both the Finnish phrase used on the page headers ("ei
-        # tuotantovarmennettu") and the source's own literal English term
-        # ("not production-verified", used as-is inside the FI source
-        # sentence "Tila: not production-verified.") - both are genuinely
-        # approved-source phrasing for this evidence class, just used in
-        # different places (page header vs. title-page status line).
+        # FI accepts both the Finnish phrase used on the page headers and the
+        # literal English term retained in status identifiers and guard tests.
         "fi": {
             "required": ["ei tuotantovarmennettu", "not production-verified"],
-            "forbidden": ["toteutettu ja testattu", "roadmap", "tutkimussuunt"],
+            "forbidden": ["rajatusti tuotantovarmennettu", "rajattu tuotantovarmennus", "toteutettu ja testattu", "roadmap", "tutkimussuunt"],
         },
         "en": {
             "required": ["not production-verified"],
-            "forbidden": ["implemented and tested", "roadmap", "research direction"],
+            "forbidden": ["production-verified scope", "limited production verification", "implemented and tested", "roadmap", "research direction"],
         },
     },
     "roadmap": {
         "fi": {
             "required": ["roadmap", "tutkimussuunt"],
-            "forbidden": ["toteutettu ja testattu", "ei tuotantovarmennettu", "not production-verified"],
+            "forbidden": ["rajatusti tuotantovarmennettu", "rajattu tuotantovarmennus", "toteutettu ja testattu", "ei tuotantovarmennettu", "not production-verified"],
         },
         "en": {
             "required": ["roadmap", "research direction"],
-            "forbidden": ["implemented and tested", "not production-verified"],
+            "forbidden": ["production-verified scope", "limited production verification", "implemented and tested", "not production-verified"],
         },
     },
 }
@@ -432,6 +438,7 @@ class SourceGuard:
 
 
 STATUS_FOR_EVIDENCE_CLASS = {
+    "prodverified": "production-verified-scope",
     "tested": "implemented-tested",
     "notprod": "implemented-not-production-verified",
     "roadmap": "roadmap-research",
@@ -448,13 +455,18 @@ TESTED_IDS = [
     "deterministic-canonicalization-hashes",
     "safe-local-receipt-link-boundary",
 ]
+PRODVERIFIED_IDS = [
+    "postgres-session-persistence",
+    "tenant-scoped-negotiation-session-access",
+    "database-enforced-tenant-relationship-integrity",
+    "readiness-schema-verification-gates",
+    "verified-backup-restore",
+]
 NOTPROD_IDS = [
     "atomic-vehicle-reservation",
     "database-enforced-double-booking-prevention",
-    "postgres-session-persistence",
     "application-audit-history-hash-chain",
     "append-only-audit-application-path",
-    "readiness-schema-verification-gates",
 ]
 ROADMAP_IDS_1 = [
     "live-ddn-verification",
@@ -468,12 +480,18 @@ ROADMAP_IDS_2 = [
     "proof-gated-execution",
     "zero-knowledge-proofs",
     "approved-rto-rpo-targets",
-    "verified-backup-restore",
     "named-operational-owners-response-times",
 ]
 
 TEXT = {
     "fi": {
+        "prodverified": {
+            "postgres-session-persistence": "neuvottelusessioiden pysyvä PostgreSQL-tallennus tuotannossa",
+            "tenant-scoped-negotiation-session-access": "tenant-rajattu neuvottelusession käyttö",
+            "database-enforced-tenant-relationship-integrity": "tenant-suhteiden tietokantatason eheys",
+            "readiness-schema-verification-gates": "tuotannon skeema- ja readiness-portit",
+            "verified-backup-restore": "ennen julkaisua läpäisty backup/restore-testi",
+        },
         "tested": {
             "digital-price-negotiation": "digitaalinen hintaneuvottelu",
             "llm-isolated-commercial-decision": "LLM:stä erotettu palvelinpuolen kaupallinen päätös",
@@ -485,10 +503,8 @@ TEXT = {
         "notprod": {
             "atomic-vehicle-reservation": "atominen ajoneuvon varaus",
             "database-enforced-double-booking-prevention": "tietokantarajoitteeseen perustuva aktiivisten tuplavarausten esto",
-            "postgres-session-persistence": "neuvottelu- ja ostosessioiden PostgreSQL-persistenssi",
             "application-audit-history-hash-chain": "sovelluksen auditointihistoria ja hash-ketju",
             "append-only-audit-application-path": "auditointitapahtumien append-only-sovelluspolku",
-            "readiness-schema-verification-gates": "readiness- ja skeemavarmennusportit",
         },
         "roadmap": {
             "live-ddn-verification": "live DDN -varmennus",
@@ -500,15 +516,14 @@ TEXT = {
             "proof-gated-execution": "proof-gated execution",
             "zero-knowledge-proofs": "zero-knowledge proofs",
             "approved-rto-rpo-targets": "hyväksytyt RTO/RPO-tavoitteet",
-            "verified-backup-restore": "todennettu backup/restore",
             "named-operational-owners-response-times": "nimetyt operatiiviset omistajat ja vasteajat",
         },
         "title": "Kopilotti Sales",
         "tagline": "Kopilotti Sales digitalisoi käytetyn ajoneuvon hintaneuvottelun.",
         "quote": "LLM keskustelee. Backend päättää.",
         "policy": "Jälleenmyyjä määrittää säännöt. Järjestelmä soveltaa niitä johdonmukaisesti.",
-        "status_core": "Tila: not production-verified.",
-        "status_suffix": " — ks. tarkat rajaukset.",
+        "status_core": "Tila: rajattu tuotantovarmennus 26.8.2026.",
+        "status_suffix": " — ks. rajaus.",
         "cta": "Kokeile demoa",
         "how_header": "Miten Kopilotti Sales toimii",
         "how_bullets": [
@@ -519,9 +534,11 @@ TEXT = {
             "Hyväksytty tulos voi varata ajoneuvon samassa tietokantatransaktiossa päätöksen, session tilasiirtymän ja auditointitapahtuman kanssa.",
             "Asiakas jatkaa jälleenmyyjän omassa viimeistelyprosessissa, tai eskaloitu tapaus siirtyy ihmiselle.",
         ],
+        "prodverified_header": "Rajatusti tuotantovarmennettu 26.8.2026",
+        "prodverified_caveat": "Varmennus koskee vain yllä kuvattua rajattua tuotantolaajuutta.",
         "tested_header": "Toteutettu ja testattu",
         "notprod_header": "Rakennettu ja testattu, ei tuotantovarmennettu",
-        "notprod_caveat": "Persistenssi ja varausmekanismit on toteutettu ja testattu, mutta niitä ei ole tässä yhteydessä tuotantovarmennettu.",
+        "notprod_caveat": "Varaus- ja auditointimekanismit on toteutettu ja testattu, mutta niitä ei ole tässä yhteydessä tuotantovarmennettu.",
         "roadmap1_header": "Roadmap ja tutkimussuunnat (1/2)",
         "roadmap2_header": "Roadmap ja tutkimussuunnat (2/2)",
         "roadmap_caveat": "Nämä ovat tavoite- tai tutkimussuuntia, eivät nykyisiä ominaisuuksia.",
@@ -548,11 +565,18 @@ TEXT = {
             ("Englanninkielinen README", f"{REPO}/blob/main/README.en.md"),
             ("License", f"{REPO}/blob/main/LICENSE"),
         ],
-        "footer_brand": "Kopilotti Sales — ei tuotantovarmennettu",
+        "footer_brand": "Kopilotti Sales — rajattu tuotantovarmennus",
         "pdf_title": "Kopilotti Sales - tuote-esittely (LinkedIn)",
         "pdf_subject": "Yritysneutraali suomenkielinen tuote-esittely - LinkedIn-optimoitu versio",
     },
     "en": {
+        "prodverified": {
+            "postgres-session-persistence": "durable PostgreSQL storage of negotiation sessions in production",
+            "tenant-scoped-negotiation-session-access": "tenant-scoped negotiation-session access",
+            "database-enforced-tenant-relationship-integrity": "database-enforced integrity for tenant relationships",
+            "readiness-schema-verification-gates": "production schema and readiness gates",
+            "verified-backup-restore": "backup-and-restore test passed before release",
+        },
         "tested": {
             "digital-price-negotiation": "digital price negotiation",
             "llm-isolated-commercial-decision": "a server-side commercial decision isolated from the LLM",
@@ -564,10 +588,8 @@ TEXT = {
         "notprod": {
             "atomic-vehicle-reservation": "atomic vehicle reservation",
             "database-enforced-double-booking-prevention": "database-enforced prevention of concurrent active reservations",
-            "postgres-session-persistence": "PostgreSQL persistence for negotiation and purchase sessions",
             "application-audit-history-hash-chain": "application audit history and hash chain",
             "append-only-audit-application-path": "append-only application path for audit events",
-            "readiness-schema-verification-gates": "readiness and schema-verification gates",
         },
         "roadmap": {
             "live-ddn-verification": "live DDN verification",
@@ -579,15 +601,14 @@ TEXT = {
             "proof-gated-execution": "proof-gated execution",
             "zero-knowledge-proofs": "zero-knowledge proofs",
             "approved-rto-rpo-targets": "approved RTO/RPO targets",
-            "verified-backup-restore": "verified backup and restore",
             "named-operational-owners-response-times": "named operational owners and response times",
         },
         "title": "Kopilotti Sales",
         "tagline": "Kopilotti Sales digitizes used-vehicle price negotiation.",
         "quote": "The LLM converses. The backend decides.",
         "policy": "The dealer defines the policy. The system applies it consistently.",
-        "status_core": "Status: not production-verified.",
-        "status_suffix": " — see exact scope.",
+        "status_core": "Status: limited production verification completed on 26 August 2026.",
+        "status_suffix": " — see scope.",
         "cta": "Try the demo",
         "how_header": "How Kopilotti Sales works",
         "how_bullets": [
@@ -598,9 +619,11 @@ TEXT = {
             "An accepted outcome may reserve the vehicle in the same database transaction as the decision, session transition, and audit event.",
             "The customer continues in the dealer's own completion process, or a person handles an escalated case.",
         ],
+        "prodverified_header": "Production-verified scope - 26 August 2026",
+        "prodverified_caveat": "The verification applies only to the limited production scope listed above.",
         "tested_header": "Implemented and tested",
         "notprod_header": "Built and tested, not production-verified",
-        "notprod_caveat": "Persistence and reservation mechanisms are implemented and tested but have not been production-verified in this review.",
+        "notprod_caveat": "Reservation and audit mechanisms are implemented and tested but have not been production-verified in this review.",
         "roadmap1_header": "Roadmap and research directions (1/2)",
         "roadmap2_header": "Roadmap and research directions (2/2)",
         "roadmap_caveat": "These are target or research directions, not current capabilities.",
@@ -627,13 +650,13 @@ TEXT = {
             ("English README", f"{REPO}/blob/main/README.en.md"),
             ("License", f"{REPO}/blob/main/LICENSE"),
         ],
-        "footer_brand": "Kopilotti Sales — not production-verified",
+        "footer_brand": "Kopilotti Sales — limited production verification",
         "pdf_title": "Kopilotti Sales - product overview (LinkedIn)",
         "pdf_subject": "Company-neutral English product overview - LinkedIn-optimized version",
     },
 }
 
-TOTAL_PAGES = 9
+TOTAL_PAGES = 10
 
 PAGE_CSS = f"""
 @page {{ size: {PAGE_W_PT}pt {PAGE_H_PT}pt; margin: 0; }}
@@ -759,6 +782,7 @@ def build_document(lang, guard):
     re-derived) so output validation checks exactly what was approved."""
     t = TEXT[lang]
     status = {
+        "prodverified": "production-verified-scope",
         "tested": "implemented-tested",
         "notprod": "implemented-not-production-verified",
         "roadmap": "roadmap-research",
@@ -772,18 +796,24 @@ def build_document(lang, guard):
         guard.assert_verbatim(lang, b)
     for b in t["security_bullets"]:
         guard.assert_verbatim(lang, b)
+    guard.assert_verbatim(lang, t["prodverified_caveat"])
     guard.assert_verbatim(lang, t["notprod_caveat"])
     guard.assert_verbatim(lang, t["roadmap_caveat"])
 
     # assert_section_binding ties each section's visible header to the same
     # evidence class/status as the claims rendered under it (P2.1) - not just
     # to the header's own wording in isolation.
+    guard.assert_section_binding(lang, "prodverified", t["prodverified_header"], status["prodverified"])
     guard.assert_section_binding(lang, "tested", t["tested_header"], status["tested"])
     guard.assert_section_binding(lang, "notprod", t["notprod_header"], status["notprod"])
     guard.assert_section_binding(lang, "roadmap", t["roadmap1_header"], status["roadmap"])
     guard.assert_section_binding(lang, "roadmap", t["roadmap2_header"], status["roadmap"])
-    guard.assert_evidence_header(lang, "notprod", t["status_core"])  # title-page status line (no claim group)
+    guard.assert_evidence_header(lang, "prodverified", t["status_core"])  # title-page status line (no claim group)
 
+    prodverified_bullets = [
+        guard.assert_claim(lang, cid, status["prodverified"], t["prodverified"][cid])
+        for cid in PRODVERIFIED_IDS
+    ]
     tested_bullets = [
         guard.assert_claim(lang, cid, status["tested"], t["tested"][cid]) for cid in TESTED_IDS
     ]
@@ -803,6 +833,7 @@ def build_document(lang, guard):
         {"header": t["title"], "bullets": [t["tagline"]] + title_bullets, "links": []},
         {"header": t["how_header"], "bullets": t["how_bullets"], "links": []},
         {"header": t["tested_header"], "bullets": tested_bullets, "links": []},
+        {"header": t["prodverified_header"], "bullets": prodverified_bullets + [t["prodverified_caveat"]], "links": []},
         {"header": t["notprod_header"], "bullets": notprod_bullets + [t["notprod_caveat"]], "links": []},
         {"header": t["roadmap1_header"], "bullets": roadmap1_bullets, "links": []},
         {"header": t["roadmap2_header"], "bullets": roadmap2_bullets + [t["roadmap_caveat"]], "links": []},
@@ -815,12 +846,13 @@ def build_document(lang, guard):
         title_page_html(lang, 1),
         bullet_page_html(lang, 2, t["how_header"], t["how_bullets"]),
         bullet_page_html(lang, 3, t["tested_header"], tested_bullets),
-        bullet_page_html(lang, 4, t["notprod_header"], notprod_bullets, t["notprod_caveat"]),
-        bullet_page_html(lang, 5, t["roadmap1_header"], roadmap1_bullets),
-        bullet_page_html(lang, 6, t["roadmap2_header"], roadmap2_bullets, t["roadmap_caveat"]),
-        bullet_page_html(lang, 7, t["security_header"], t["security_bullets"]),
-        links_page_html(lang, 8, t["links1_header"], t["links1"]),
-        links_page_html(lang, 9, t["links2_header"], t["links2"]),
+        bullet_page_html(lang, 4, t["prodverified_header"], prodverified_bullets, t["prodverified_caveat"]),
+        bullet_page_html(lang, 5, t["notprod_header"], notprod_bullets, t["notprod_caveat"]),
+        bullet_page_html(lang, 6, t["roadmap1_header"], roadmap1_bullets),
+        bullet_page_html(lang, 7, t["roadmap2_header"], roadmap2_bullets, t["roadmap_caveat"]),
+        bullet_page_html(lang, 8, t["security_header"], t["security_bullets"]),
+        links_page_html(lang, 9, t["links1_header"], t["links1"]),
+        links_page_html(lang, 10, t["links2_header"], t["links2"]),
     ]
     assert len(pages_html) == TOTAL_PAGES == len(expected_pages)
 
@@ -834,6 +866,214 @@ def build_document(lang, guard):
 <body>
 {''.join(pages_html)}
 </body>
+</html>"""
+    return html, expected_pages
+
+
+# --- A4 overview built directly from the approved Markdown sources ---------
+
+A4_W_PT = 595.276
+A4_H_PT = 841.89
+A4_PAGE_GROUPS = [
+    [0, 1],
+    [2, 3],
+    [4, 5],
+    [6, 7],
+    [8, 9],
+    [10, 11],
+    [12],
+    [13],
+]
+
+A4_CSS = f"""
+@page {{ size: {A4_W_PT}pt {A4_H_PT}pt; margin: 0; }}
+* {{ box-sizing: border-box; }}
+html, body {{ margin: 0; padding: 0; }}
+body {{
+  font-family: Helvetica, Arial, sans-serif;
+  color: #10243d;
+  -webkit-print-color-adjust: exact;
+}}
+section.a4-page {{
+  position: relative;
+  width: {A4_W_PT}pt;
+  height: {A4_H_PT}pt;
+  padding: 42pt 48pt 48pt;
+  break-after: page;
+  overflow: hidden;
+}}
+section.a4-page:last-child {{ break-after: auto; }}
+h1 {{ font-size: 24pt; line-height: 1.15; margin: 0 0 12pt; }}
+.lead p {{ font-size: 11.5pt; line-height: 1.45; margin: 0 0 14pt; }}
+h2 {{ font-size: 15pt; line-height: 1.2; margin: 14pt 0 7pt; break-after: avoid; }}
+p {{ font-size: 10.5pt; line-height: 1.38; margin: 0 0 7pt; }}
+ul, ol {{ margin: 0 0 8pt 18pt; padding: 0; }}
+li {{ font-size: 10.3pt; line-height: 1.34; margin: 0 0 4pt; }}
+code {{ font-family: "Courier New", monospace; font-size: 0.92em; }}
+a {{ color: #1559c7; text-decoration: underline; }}
+footer {{
+  position: absolute;
+  left: 48pt;
+  right: 48pt;
+  bottom: 18pt;
+  display: flex;
+  justify-content: space-between;
+  font-size: 8.5pt;
+  color: #657387;
+}}
+"""
+
+
+def public_document_href(url):
+    if url.startswith("https://") or url.startswith("http://"):
+        return url
+    if url.startswith("../"):
+        return f"{REPO}/blob/main/{url[3:]}"
+    if url.startswith("/") or ":" in url:
+        raise GenerationError(f"unsupported non-public A4 link target: {url!r}")
+    return f"{REPO}/blob/main/docs/{url}"
+
+
+def render_inline_markdown_with_links(raw):
+    """Restricted inline renderer that preserves approved Markdown links."""
+    out = []
+    pos = 0
+    for match in _MD_LINK_RE.finditer(raw):
+        out.append(render_inline_markdown(raw[pos : match.start()]))
+        label, url = match.group(1), match.group(2)
+        if "[" in label or "]" in label or any(ch in url for ch in '<>"'):
+            raise GenerationError(f"unsupported Markdown link in A4 source: {match.group(0)!r}")
+        out.append(f'<a href="{esc(public_document_href(url))}">{render_inline_markdown(label)}</a>')
+        pos = match.end()
+    out.append(render_inline_markdown(raw[pos:]))
+    return "".join(out)
+
+
+def plain_inline_markdown(raw):
+    text = _MD_LINK_RE.sub(lambda m: m.group(1), raw)
+    text = re.sub(r"`([^`]+)`", r"\1", text)
+    text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
+    text = re.sub(r"(?<!\*)\*([^*]+)\*(?!\*)", r"\1", text)
+    text = re.sub(r"_([^_]+)_", r"\1", text)
+    return normalize(text)
+
+
+def parse_markdown_blocks(raw):
+    """Return semantic HTML plus approved visible text and links."""
+    lines = raw.splitlines()
+    html = []
+    visible = []
+    links = []
+    paragraph = []
+    list_kind = None
+    list_items = []
+
+    def collect_links(text):
+        for match in _MD_LINK_RE.finditer(text):
+            links.append((plain_inline_markdown(match.group(1)), public_document_href(match.group(2))))
+
+    def flush_paragraph():
+        if not paragraph:
+            return
+        text = " ".join(part.strip() for part in paragraph)
+        collect_links(text)
+        html.append(f"<p>{render_inline_markdown_with_links(text)}</p>")
+        visible.append(plain_inline_markdown(text))
+        paragraph.clear()
+
+    def flush_list():
+        nonlocal list_kind
+        if not list_items:
+            return
+        tag = "ol" if list_kind == "ol" else "ul"
+        rendered = []
+        for item in list_items:
+            collect_links(item)
+            rendered.append(f"<li>{render_inline_markdown_with_links(item)}</li>")
+            visible.append(plain_inline_markdown(item))
+        html.append(f"<{tag}>{''.join(rendered)}</{tag}>")
+        list_items.clear()
+        list_kind = None
+
+    for line in lines + [""]:
+        stripped = line.strip()
+        if not stripped:
+            flush_paragraph()
+            flush_list()
+            continue
+        numbered = re.match(r"^\d+\.\s+(.*)$", stripped)
+        bulleted = re.match(r"^-\s+(.*)$", stripped)
+        if numbered or bulleted:
+            flush_paragraph()
+            kind = "ol" if numbered else "ul"
+            if list_kind and list_kind != kind:
+                flush_list()
+            list_kind = kind
+            list_items.append((numbered or bulleted).group(1))
+            continue
+        flush_list()
+        paragraph.append(stripped)
+
+    return "".join(html), visible, links
+
+
+def parse_a4_source(lang):
+    source = DOCS_DIR / f"kopilotti-sales-overview-{lang}.md"
+    text = re.sub(r"<!--\s*sales-claim.*?-->", "", source.read_text(encoding="utf-8"))
+    lines = text.splitlines()
+    if not lines or not lines[0].startswith("# "):
+        raise GenerationError(f"A4 source is missing its H1 title: {source}")
+    title = lines[0][2:].strip()
+    intro_lines = []
+    sections = []
+    current = None
+    for line in lines[1:]:
+        if line.startswith("## "):
+            current = {"title": line[3:].strip(), "lines": []}
+            sections.append(current)
+        elif current is None:
+            intro_lines.append(line)
+        else:
+            current["lines"].append(line)
+    if len(sections) != 14:
+        raise GenerationError(f"expected 14 A4 source sections for {lang}, found {len(sections)}")
+    return title, "\n".join(intro_lines).strip(), sections
+
+
+def build_a4_document(lang):
+    title, intro, sections = parse_a4_source(lang)
+    total_pages = len(A4_PAGE_GROUPS)
+    pages_html = []
+    expected_pages = []
+    for page_no, group in enumerate(A4_PAGE_GROUPS, start=1):
+        chunks = []
+        visible = []
+        links = []
+        if page_no == 1:
+            intro_html, intro_visible, intro_links = parse_markdown_blocks(intro)
+            chunks.append(f"<h1>{esc(title)}</h1><div class=\"lead\">{intro_html}</div>")
+            visible.extend(intro_visible)
+            links.extend(intro_links)
+        for index in group:
+            section = sections[index]
+            body_html, body_visible, body_links = parse_markdown_blocks("\n".join(section["lines"]))
+            chunks.append(f"<h2>{esc(section['title'])}</h2>{body_html}")
+            visible.append(section["title"])
+            visible.extend(body_visible)
+            links.extend(body_links)
+        header = title if page_no == 1 else sections[group[0]]["title"]
+        expected_pages.append({"header": header, "bullets": visible, "links": links})
+        pages_html.append(
+            f'<section class="a4-page" lang="{lang}">{"".join(chunks)}'
+            f'<footer aria-hidden="true" role="presentation"><span>Kopilotti Sales</span>'
+            f'<span>{page_no}/{total_pages}</span></footer></section>'
+        )
+
+    title_meta = "Kopilotti Sales - tuote-esittely" if lang == "fi" else "Kopilotti Sales - product overview"
+    html = f"""<!doctype html>
+<html lang="{lang}">
+<head><meta charset="utf-8"><title>{esc(title_meta)}</title><style>{A4_CSS}</style></head>
+<body>{''.join(pages_html)}</body>
 </html>"""
     return html, expected_pages
 
@@ -1053,7 +1293,22 @@ def extract_page_texts(pdf_path):
     return pages
 
 
-def validate_pdf_structure(pdf_path, lang, expected_pages):
+def validate_pdf_structure(
+    pdf_path,
+    lang,
+    expected_pages,
+    *,
+    page_w=PAGE_W_PT,
+    page_h=PAGE_H_PT,
+    expected_h1_count=None,
+    expected_h2_count=None,
+    expected_link_count=10,
+    allow_split_link_annotations=False,
+    expect_visible_link_urls=True,
+):
+    total_pages = len(expected_pages)
+    if expected_h1_count is None:
+        expected_h1_count = total_pages
     raw = Path(pdf_path).read_bytes()
     for marker in DANGEROUS_MARKERS:
         if marker in raw:
@@ -1068,14 +1323,14 @@ def validate_pdf_structure(pdf_path, lang, expected_pages):
         if not re.match(r"^\d\.\d$", pdf.pdf_version):
             raise GenerationError(f"unexpected PDF version string: {pdf.pdf_version!r}")
 
-        if len(pdf.pages) != TOTAL_PAGES:
-            raise GenerationError(f"expected {TOTAL_PAGES} pages, got {len(pdf.pages)}")
+        if len(pdf.pages) != total_pages:
+            raise GenerationError(f"expected {total_pages} pages, got {len(pdf.pages)}")
 
         for i, page in enumerate(pdf.pages):
             box = [float(x) for x in page.MediaBox]
             w, h = box[2] - box[0], box[3] - box[1]
-            if abs(w - PAGE_W_PT) > 0.5 or abs(h - PAGE_H_PT) > 0.5:
-                raise GenerationError(f"page {i + 1} size {w}x{h}pt != {PAGE_W_PT}x{PAGE_H_PT}pt")
+            if abs(w - page_w) > 0.5 or abs(h - page_h) > 0.5:
+                raise GenerationError(f"page {i + 1} size {w}x{h}pt != {page_w}x{page_h}pt")
 
         root = pdf.Root
         if str(root.get("/Lang", "")) != lang:
@@ -1092,12 +1347,20 @@ def validate_pdf_structure(pdf_path, lang, expected_pages):
             raise GenerationError("StructTreeRoot missing /ParentTree")
 
         counts = struct_type_counts(struct_root)
-        if counts.get("/H1", 0) != TOTAL_PAGES:
-            raise GenerationError(f"expected {TOTAL_PAGES} /H1 elements, found {counts.get('/H1', 0)}")
+        if counts.get("/H1", 0) != expected_h1_count:
+            raise GenerationError(
+                f"expected {expected_h1_count} /H1 elements, found {counts.get('/H1', 0)}"
+            )
+        if expected_h2_count is not None and counts.get("/H2", 0) != expected_h2_count:
+            raise GenerationError(
+                f"expected {expected_h2_count} /H2 elements, found {counts.get('/H2', 0)}"
+            )
         if counts.get("/LI", 0) < 1:
             raise GenerationError("no /LI list-item structure elements found")
-        if counts.get("/Link", 0) != 10:
-            raise GenerationError(f"expected 10 /Link structure elements, found {counts.get('/Link', 0)}")
+        if counts.get("/Link", 0) != expected_link_count:
+            raise GenerationError(
+                f"expected {expected_link_count} /Link structure elements, found {counts.get('/Link', 0)}"
+            )
 
         objr_targets = collect_objr_targets(struct_root)
         link_annots = []
@@ -1105,34 +1368,53 @@ def validate_pdf_structure(pdf_path, lang, expected_pages):
             for annot in page.get("/Annots", []):
                 if annot.get("/Subtype") == pikepdf.Name("/Link"):
                     link_annots.append(annot)
-        if len(link_annots) != 10:
-            raise GenerationError(f"expected 10 /Link annotations, found {len(link_annots)}")
+        if allow_split_link_annotations:
+            if len(link_annots) < expected_link_count:
+                raise GenerationError(
+                    f"expected at least {expected_link_count} /Link annotations, found {len(link_annots)}"
+                )
+        elif len(link_annots) != expected_link_count:
+            raise GenerationError(
+                f"expected {expected_link_count} /Link annotations, found {len(link_annots)}"
+            )
+        actual_uris = []
         for annot in link_annots:
             action = annot.get("/A")
             if action is None or action.get("/S") != pikepdf.Name("/URI"):
                 raise GenerationError(f"link annotation missing /A /S /URI: {annot}")
+            uri = str(action.get("/URI", ""))
+            if not uri.startswith(("https://", "http://")):
+                raise GenerationError(f"non-public or relative URI found in PDF link annotation: {uri!r}")
+            actual_uris.append(uri.rstrip("/"))
         objr_target_objgens = {(t.objgen if hasattr(t, "objgen") else None) for t in objr_targets if t is not None}
         annot_objgens = {a.objgen for a in link_annots}
         bound = annot_objgens & objr_target_objgens
-        if len(bound) != 10:
+        if len(bound) != len(link_annots):
             raise GenerationError(
-                f"expected all 10 link annotations bound into the structure tree via /OBJR, "
-                f"found {len(bound)}/10 bound"
+                f"expected all {len(link_annots)} link annotations bound into the structure tree via /OBJR, "
+                f"found {len(bound)}/{len(link_annots)} bound"
             )
+        expected_uris = {url.rstrip("/") for page in expected_pages for _, url in page["links"]}
+        missing_uris = expected_uris - set(actual_uris)
+        if missing_uris:
+            raise GenerationError(f"expected PDF link URI targets are missing: {sorted(missing_uris)}")
 
         page_texts = extract_page_texts(pdf_path)
         for i, expected in enumerate(expected_pages):
             text = page_texts[i]
-            if expected["header"] not in text:
+            compact_text = re.sub(r"\s+", "", normalize(text))
+            if re.sub(r"\s+", "", normalize(expected["header"])) not in compact_text:
                 raise GenerationError(f"page {i + 1}: expected header {expected['header']!r} not found in extracted text")
             for bullet in expected["bullets"]:
-                plain = normalize(bullet)
-                if plain not in normalize(text):
+                plain = re.sub(r"\s+", "", normalize(bullet))
+                if plain not in compact_text:
                     raise GenerationError(
                         f"page {i + 1}: expected content {bullet!r} not found in extracted text"
                     )
             for label, url in expected["links"]:
-                if label not in text or url not in text:
+                label_found = re.sub(r"\s+", "", normalize(label)) in compact_text
+                url_found = re.sub(r"\s+", "", normalize(url)) in compact_text
+                if not label_found or (expect_visible_link_urls and not url_found):
                     raise GenerationError(f"page {i + 1}: expected link {label!r}/{url!r} not found")
             for bad in FORBIDDEN_TEXT_MARKERS:
                 if bad in text:
@@ -1202,6 +1484,56 @@ def generate_validated(lang, guard, chrome_bin, work_dir):
     return final_tmp
 
 
+def generate_a4_validated(lang, chrome_bin, work_dir):
+    """Build and validate one A4 overview without touching its final path."""
+    html, expected_pages = build_a4_document(lang)
+    html_path = Path(work_dir) / f"kopilotti-sales-overview-{lang}-a4.html"
+    html_path.write_text(html, encoding="utf-8")
+
+    raw_pdf = _new_temp_pdf_path(work_dir, f"raw-{lang}-a4-", ".pdf")
+    render_html_to_pdf(chrome_bin, html_path, raw_pdf)
+    link_count = sum(len(page["links"]) for page in expected_pages)
+    validate_pdf_structure(
+        raw_pdf,
+        lang,
+        expected_pages,
+        page_w=A4_W_PT,
+        page_h=A4_H_PT,
+        expected_h1_count=1,
+        expected_h2_count=14,
+        expected_link_count=link_count,
+        allow_split_link_annotations=True,
+        expect_visible_link_urls=False,
+    )
+
+    final_tmp = _new_temp_pdf_path(OUT_DIR, ".tmp-", f"-{lang}-a4.pdf")
+    title = "Kopilotti Sales - tuote-esittely" if lang == "fi" else "Kopilotti Sales - product overview"
+    subject = (
+        "Yritysneutraali suomenkielinen tuote-esittely"
+        if lang == "fi"
+        else "Company-neutral English product overview"
+    )
+    try:
+        shutil.copyfile(raw_pdf, final_tmp)
+        normalize_pdf_determinism(final_tmp, title, subject)
+        validate_pdf_structure(
+            final_tmp,
+            lang,
+            expected_pages,
+            page_w=A4_W_PT,
+            page_h=A4_H_PT,
+            expected_h1_count=1,
+            expected_h2_count=14,
+            expected_link_count=link_count,
+            allow_split_link_annotations=True,
+            expect_visible_link_urls=False,
+        )
+    except Exception:
+        _remove_if_exists(final_tmp)
+        raise
+    return final_tmp
+
+
 def sha256(path):
     with open(path, "rb") as f:
         return hashlib.sha256(f.read()).hexdigest()
@@ -1209,31 +1541,36 @@ def sha256(path):
 
 def main():
     chrome_bin = find_chrome()
-    guard = SourceGuard()
     verify_chrome_capability(chrome_bin)
 
-    fi_final = Path(OUT_DIR) / "kopilotti-sales-overview-fi-linkedin.pdf"
-    en_final = Path(OUT_DIR) / "kopilotti-sales-overview-en-linkedin.pdf"
+    finals = {
+        "fi_linkedin": Path(OUT_DIR) / "kopilotti-sales-overview-fi-linkedin.pdf",
+        "en_linkedin": Path(OUT_DIR) / "kopilotti-sales-overview-en-linkedin.pdf",
+        "fi_a4": Path(OUT_DIR) / "kopilotti-sales-overview-fi.pdf",
+        "en_a4": Path(OUT_DIR) / "kopilotti-sales-overview-en.pdf",
+    }
 
     tmp_to_clean = []
     try:
         with tempfile.TemporaryDirectory() as work_dir:
-            fi_tmp = generate_validated("fi", guard, chrome_bin, work_dir)
-            tmp_to_clean.append(fi_tmp)
-            en_tmp = generate_validated("en", guard, chrome_bin, work_dir)
-            tmp_to_clean.append(en_tmp)
+            generated = {}
+            generated["fi_linkedin"] = generate_validated("fi", SourceGuard(), chrome_bin, work_dir)
+            tmp_to_clean.append(generated["fi_linkedin"])
+            generated["en_linkedin"] = generate_validated("en", SourceGuard(), chrome_bin, work_dir)
+            tmp_to_clean.append(generated["en_linkedin"])
+            generated["fi_a4"] = generate_a4_validated("fi", chrome_bin, work_dir)
+            tmp_to_clean.append(generated["fi_a4"])
+            generated["en_a4"] = generate_a4_validated("en", chrome_bin, work_dir)
+            tmp_to_clean.append(generated["en_a4"])
 
-            # Both languages fully validated - publish as one atomic pair.
-            # Neither final file is touched until both temp files exist and
-            # have passed every check above.
-            os.replace(fi_tmp, fi_final)
-            tmp_to_clean.remove(fi_tmp)
-            os.replace(en_tmp, en_final)
-            tmp_to_clean.remove(en_tmp)
+            # Publish only after all four outputs have passed every gate.
+            for key in ("fi_linkedin", "en_linkedin", "fi_a4", "en_a4"):
+                os.replace(generated[key], finals[key])
+                tmp_to_clean.remove(generated[key])
 
         print(f"chrome: {chrome_version(chrome_bin)}")
-        print(f"fi {sha256(fi_final)}")
-        print(f"en {sha256(en_final)}")
+        for key, path in finals.items():
+            print(f"{key} {sha256(path)}")
     finally:
         for p in tmp_to_clean:
             _remove_if_exists(p)

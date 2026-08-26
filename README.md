@@ -601,7 +601,6 @@ Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
 Suunnitteilla:
 
 - DDN-todennuksen kytkeminen julkisen neuvottelupolun tuotantoliikenteeseen
-- neuvottelusessioiden pysyvä tietokantatallennus
 - autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
 - API-pohjaiset DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
 - VIS / Autovista -tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella

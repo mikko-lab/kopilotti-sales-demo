@@ -35,11 +35,13 @@ The commercial decision is made by a server-side policy engine isolated from the
 
 The PostgreSQL model permits only one active reservation for the same dealer and vehicle through a database-enforced unique index. The accepted decision, reservation, session transition, and audit event share a transaction. If one step fails, the unit of work is rolled back.
 
-Persistence and reservation mechanisms are implemented and tested but have not been production-verified in this review.
+Reservation mechanisms are implemented and tested but have not been production-verified in this review.
 
 ## 6. Persistence and application audit history
 
-Negotiation and purchase sessions, idempotency records, decisions, and audit events have PostgreSQL persistence paths. The application audit history is ordered per dealer and hash-chained. The application path is append-only, and database triggers reject updates and deletions from the audit-event table.
+The published demo's production backend stores negotiation sessions durably in PostgreSQL. Session access is tenant-scoped at the application boundary, and tenant-relationship integrity is enforced by database constraints.
+
+Persistence paths for purchase sessions, idempotency records, decisions, and audit events, together with the application audit history and append-only application path, are implemented and tested but remain outside this limited production-verification scope.
 
 This describes application and database behavior in the repository. It does not claim an immutable external ledger, event-sourced architecture, or production verification.
 
@@ -61,13 +63,30 @@ Live DDN verification, signer authentication, quorum and trust profiles, public 
 
 ## 9. Production-readiness status
 
-Status: **not production-verified**.
+Status: **limited production verification completed on 26 August 2026**.
 
-Readiness and schema-verification gates are implemented and tested. Approved RTO/RPO targets, verified backup and restore, named operational owners, and production alert routing remain separate decision gates.
+The published demo's production backend was verified for durable PostgreSQL storage of negotiation sessions, tenant-scoped session access, and database-enforced integrity for tenant relationships. A fresh backup-and-restore test and the schema and readiness gates passed before release.
+
+This is a limited production verification, not a general production-ready claim for the entire product. Reservation and audit mechanisms, the payment-capable transaction path, live DDN verification, and a production VIS connection retain the boundaries described below.
 
 The publicly documented current scope and production boundaries are available in the [Kopilotti Sales public README](https://github.com/mikko-lab/kopilotti-sales-demo#current-scope).
 
-## 10. Implemented and tested
+## 10. Production-verified scope - 26 August 2026
+
+<!-- sales-claim id="postgres-session-persistence" status="production-verified-scope" -->
+- durable PostgreSQL storage of negotiation sessions in production
+<!-- sales-claim id="tenant-scoped-negotiation-session-access" status="production-verified-scope" -->
+- tenant-scoped negotiation-session access
+<!-- sales-claim id="database-enforced-tenant-relationship-integrity" status="production-verified-scope" -->
+- database-enforced integrity for tenant relationships
+<!-- sales-claim id="readiness-schema-verification-gates" status="production-verified-scope" -->
+- production schema and readiness gates
+<!-- sales-claim id="verified-backup-restore" status="production-verified-scope" -->
+- backup-and-restore test passed before release
+
+The verification applies only to the limited production scope listed above.
+
+## 11. Implemented and tested
 
 <!-- sales-claim id="digital-price-negotiation" status="implemented-tested" -->
 - digital price negotiation
@@ -82,24 +101,20 @@ The publicly documented current scope and production boundaries are available in
 <!-- sales-claim id="safe-local-receipt-link-boundary" status="implemented-tested" -->
 - a safe local boundary for constructing and displaying a receipt link
 
-## 11. Not production-verified
+## 12. Not production-verified
 
 <!-- sales-claim id="atomic-vehicle-reservation" status="implemented-not-production-verified" -->
 - atomic vehicle reservation
 <!-- sales-claim id="database-enforced-double-booking-prevention" status="implemented-not-production-verified" -->
 - database-enforced prevention of concurrent active reservations
-<!-- sales-claim id="postgres-session-persistence" status="implemented-not-production-verified" -->
-- PostgreSQL persistence for negotiation and purchase sessions
 <!-- sales-claim id="application-audit-history-hash-chain" status="implemented-not-production-verified" -->
 - application audit history and hash chain
 <!-- sales-claim id="append-only-audit-application-path" status="implemented-not-production-verified" -->
 - append-only application path for audit events
-<!-- sales-claim id="readiness-schema-verification-gates" status="implemented-not-production-verified" -->
-- readiness and schema-verification gates
 
-Persistence and reservation mechanisms are implemented and tested but have not been production-verified in this review.
+Reservation and audit mechanisms are implemented and tested but have not been production-verified in this review.
 
-## 12. Roadmap and research directions
+## 13. Roadmap and research directions
 
 <!-- sales-claim id="live-ddn-verification" status="roadmap-research" -->
 - live DDN verification
@@ -119,14 +134,12 @@ Persistence and reservation mechanisms are implemented and tested but have not b
 - zero-knowledge proofs
 <!-- sales-claim id="approved-rto-rpo-targets" status="roadmap-research" -->
 - approved RTO/RPO targets
-<!-- sales-claim id="verified-backup-restore" status="roadmap-research" -->
-- verified backup and restore
 <!-- sales-claim id="named-operational-owners-response-times" status="roadmap-research" -->
 - named operational owners and response times
 
 These are target or research directions, not current capabilities.
 
-## 13. Demo and further information
+## 14. Demo and further information
 
 - [Open the demo](https://app.kopilotti.online)
 - [Suomenkielinen tuote-esittely](kopilotti-sales-overview-fi.md)
