@@ -349,6 +349,8 @@ def canary_22_header_baseline(tmp):
     guard = gen.SourceGuard(docs_dir=docs, root=tmp)
 
     def attempt():
+        guard.assert_evidence_header("fi", "prodverified", "Rajatusti tuotantovarmennettu 26.8.2026")
+        guard.assert_evidence_header("en", "prodverified", "Production-verified scope - 26 August 2026")
         guard.assert_evidence_header("fi", "tested", "Toteutettu ja testattu")
         guard.assert_evidence_header("en", "tested", "Implemented and tested")
         guard.assert_evidence_header("fi", "notprod", "Rakennettu ja testattu, ei tuotantovarmennettu")
@@ -356,7 +358,7 @@ def canary_22_header_baseline(tmp):
         guard.assert_evidence_header("fi", "roadmap", "Roadmap ja tutkimussuunnat (1/2)")
         guard.assert_evidence_header("en", "roadmap", "Roadmap and research directions (1/2)")
 
-    expect_ok("22. baseline: all six real headers verify against their evidence class", attempt)
+    expect_ok("22. baseline: all eight real headers verify against their evidence class", attempt)
 
 
 def canary_23_inline_markdown_leak(tmp):

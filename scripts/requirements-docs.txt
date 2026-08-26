@@ -1,5 +1,5 @@
-# Pinned Python dependencies for scripts/generate_linkedin_overview_pdfs.py
-# and scripts/test_source_guard_canaries.py.
+# Pinned Python dependencies for the four-output overview PDF generator and
+# its fail-closed canary tests.
 #
 # Install into a disposable virtualenv, never into the system/Homebrew
 # Python (which blocks global installs by design - PEP 668):

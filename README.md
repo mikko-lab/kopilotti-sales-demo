@@ -57,10 +57,15 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 # Tuotannon tila
 
+> **Nykytilapäivitys 26.8.2026:** Julkaistun demon tuotantobackend käyttää nyt pysyvää PostgreSQL-tallennusta neuvottelusessioille. Tenant-rajattu session käyttö ja tenant-suhteiden tietokantatason eheysrajat ovat käytössä. Julkaisu varmennettiin tuoreella backup/restore-testillä sekä skeema- ja readiness-porteilla. Tämä ei ota käyttöön maksukelpoista kauppapolkua, VIS-yhteyttä tai DDN-todennusta.
+
 ## Todistettu julkaistussa demoympäristössä
 
 - Magic Link -käyttöönotto: yksi autokohtainen, läpinäkymätön linkki, jonka takaa asiakas löytää auton tiedot ja voi aloittaa hintaneuvottelun
 - Autoliikkeen Kopilotti Adminissa määrittämät deterministiset hintasäännöt: hyväksyntä, vastatarjous, hylkäys ja eskalointi ihmiselle
+- Neuvottelusessioiden pysyvä palvelinpuolen tallennus tuotantotietokantaan
+- Tenant-rajattu session käyttö sovellusrajalla sekä tenant-suhteiden eheys tietokantatasolla
+- Tuotannon skeema- ja readiness-varmennus sekä palautuskelpoisuuden todentava backup/restore-testi
 - Hyväksytyn hinnan jälkeen asiakas siirtyy nykyisessä julkisessa demossa myyjäliikkeen omaan kaupantekoprosessiin. Rahoitus, maksut ja ajoneuvon luovutus hoidetaan myyjäliikkeen omissa järjestelmissä.
 - Kopilotti ei vastaanota, säilytä eikä välitä asiakkaan maksuja.
 
@@ -83,10 +88,6 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - Tuotantokatselmus, jossa todennetaan tenant-eristys, atomisuus ja idempotenssi sekä varmistetaan, ettei tietoja vuoda eikä asiakas voi vahvistaa maksua
 
 Täysi lasku–`PAID`-tuotantopolku on näihin asti **NO-GO**. Kun se aikanaan otetaan käyttöön, rahat siirtyvät suoraan asiakkaalta myyjäliikkeelle; Kopilotti ei vastaanota, säilytä eikä välitä rahaa.
-
-## Vaaditaan ennen ensimmäistä oikeaa asiakaspilottia
-
-- **Neuvottelusessioiden pysyvä tietokantatallennus.** Ennen oikeaa asiakaspilottia neuvottelusessiot siirretään nykyisestä kehitysratkaisusta pysyvään tietokantaan.
 
 ## Suunniteltu jatkokehitys, ei nykyinen ominaisuus
 
@@ -600,7 +601,6 @@ Rakennettu ja testattu, ei julkisessa tuotantoliikenteessä:
 Suunnitteilla:
 
 - DDN-todennuksen kytkeminen julkisen neuvottelupolun tuotantoliikenteeseen
-- neuvottelusessioiden pysyvä tietokantatallennus
 - autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
 - API-pohjaiset DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
 - VIS / Autovista -tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella

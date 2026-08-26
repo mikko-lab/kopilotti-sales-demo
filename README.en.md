@@ -83,10 +83,15 @@ The conversational layer (the LLM) talks to the customer, recognizes intent, and
 
 ## Current scope
 
+> **Current-state update — 26 August 2026:** The published demo's production backend now uses durable PostgreSQL persistence for negotiation sessions. Tenant-scoped session access and database-enforced integrity for tenant relationships are active. The release passed a fresh backup-and-restore test together with schema and readiness gates. This does not enable a payment-capable transaction path, a live VIS connection, or DDN verification.
+
 **Proven in the published demo environment:**
 
 - Vehicle-specific magic-link onboarding: one opaque link per vehicle, behind which the customer finds vehicle data and can start a price negotiation.
 - Deterministic price rules configured by the dealer in Kopilotti Admin: accept, counter-offer, reject and escalate to a person.
+- Durable server-side storage of negotiation sessions in the production database.
+- Tenant-scoped session access at the application boundary and database-enforced integrity for tenant relationships.
+- Production schema and readiness verification, plus a backup-and-restore test confirming recoverability.
 - After an accepted price, the customer moves, in the current public demo, into the dealer's own transaction process. Financing, payment and vehicle handover are handled in the dealer's own systems.
 
 **Built and tested, not yet in public production traffic:**
