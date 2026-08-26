@@ -1,6 +1,6 @@
 """Deterministic, tagged-PDF generator for Kopilotti Sales overview PDFs.
 
-Produces four validated outputs: FI/EN landscape 4:3 LinkedIn carousels and
+Produces four validated outputs: FI/EN portrait 4:5 LinkedIn carousels and
 FI/EN A4 documents built from the approved Markdown sources. All outputs are
 genuinely tagged for accessibility.
 
@@ -27,21 +27,54 @@ revision replaces that with a transactional pipeline (see generate_validated
 and main): Chrome always writes to a fresh, uniquely-named temp file that
 must not exist beforehand; the raw output is opened with a PDF parser and
 validated (page count, page size, /Lang, /MarkInfo, /StructTreeRoot,
-/ParentTree, required structure-element counts, 10 OBJR-bound links, a
+/ParentTree, required structure-element counts, OBJR-bound links, a
 per-page text fingerprint against the exact guard-approved content, absence
-of dangerous PDF actions, absence of leftover Markdown syntax) *before* the
-pikepdf metadata normalization step, and re-validated *after* it. Only then
-are both languages' validated temp files atomically swapped into place
-together (os.replace, same filesystem as the destination) - if either
-language fails validation at any point, neither final file is touched, no
-"success" hashes are printed, and all temp files are removed. A Chrome
-capability probe (verify_chrome_capability) runs once before any real
-document is generated, checking not just `--version` output but that the
-browser actually produces genuinely tagged output for a small known-content
-probe document - a browser/stub that can't do this is rejected before it
-ever touches the real content.
+of dangerous PDF actions, absence of leftover Markdown syntax, and - this
+revision - a geometric check that no extracted text word's bounding box
+falls outside its page's own MediaBox) *before* the pikepdf metadata
+normalization step, and re-validated *after* it. Only then are both
+languages' validated temp files atomically swapped into place together
+(os.replace, same filesystem as the destination) - if either language
+fails validation at any point, neither final file is touched, no "success"
+hashes are printed, and all temp files are removed. A Chrome capability
+probe (verify_chrome_capability) runs once before any real document is
+generated, checking not just `--version` output but that the browser
+actually produces genuinely tagged output for a small known-content probe
+document - a browser/stub that can't do this is rejected before it ever
+touches the real content.
 
-Inline-Markdown-to-HTML (this revision)
+LinkedIn Carousel Current State slice (this revision)
+--------------------------------------------------------
+The two LinkedIn carousels (docs/kopilotti-sales-overview-{fi,en}-linkedin.pdf)
+were rebuilt from a 10-page 960x720pt landscape technical deck into an
+8-page 960x1200pt (4:5) portrait marketing carousel optimized for LinkedIn's
+mobile carousel viewer: a cover, problem/value, a 4-step "how it works"
+path, the 26 August 2026 limited production-verification scope, commercial
+safety, implemented/tested capabilities, a clear-limits page spanning
+multiple evidence classes, and a closing/CTA page. Every visible sentence,
+claim bullet, and evidence-class header is still bound to the approved
+Markdown sources through SourceGuard exactly as before - nothing in the
+guard was weakened; several bindings were added (new short framing
+sentences, evidence-class badges on the cover and the clear-limits page).
+The A4 documents (build_a4_document, parse_a4_source, generate_a4_validated)
+are untouched by this revision; `main()` gained an `--only=linkedin|a4|all`
+selector (default: all, i.e. unchanged behavior when run bare) specifically
+so this slice's LinkedIn-only regeneration never touches the A4 outputs.
+
+Known layout bugs fixed in this revision: earlier CSS let a page's <h1>
+shrink inside its flex column when other content on the page was tall
+enough to pressure the fixed-height page box, which could clip a long
+header or crop the last page's header at the top. Every page header is now
+an explicit `flex: 0 0 auto` flex item (never shrinks), and the scrollable
+content area below it is `min-height: 0` so *it* absorbs any pressure
+instead. A new geometric regression gate (validate_no_text_overflow, via
+`pdftotext -bbox`) independently re-verifies, on the actual rendered PDF,
+that no word's bounding box falls outside its page - this catches visual
+clipping that the pre-existing text-fingerprint check cannot (pdftotext
+still extracts a word's full text even when its glyphs were partly or
+fully rendered outside the visible page).
+
+Inline-Markdown-to-HTML (earlier revision)
 -----------------------------------------
 An earlier revision embedded SourceGuard's raw source text (which may
 contain literal backticks, e.g. `` `ACCEPT` ``) directly into the rendered
@@ -58,30 +91,36 @@ Source-of-truth binding (fail-closed)
 Every sales claim bullet is looked up live from docs/kopilotti-sales-
 overview-{fi,en}.md's `<!-- sales-claim id="..." status="..." -->` markers
 (SourceGuard.assert_claim), which asserts the hardcoded visible text still
-matches the source's text and evidence class exactly. Framing/quote/caveat
-text is checked with SourceGuard.assert_verbatim, which (this revision)
-requires an exact, in-order run of whole source *sentences* inside a single
-source file - not a substring match anywhere in a blob of the whole
-corpus - so truncating a hedge clause, dropping a negation, or splicing
-unrelated fragments together no longer passes. Section headers that convey
-an evidence class to the reader (previously unchecked) are now bound via
-SourceGuard.assert_evidence_header, which requires a class-specific marker
-phrase and forbids the other classes' marker phrases, per language, so a
-header can't be silently reclassified (e.g. "not production-verified" ->
-"production-ready").
+matches the source's text and evidence class exactly. This revision also
+makes SourceGuard.assert_claim's "used more than once" duplicate-claim
+guard apply symmetrically to both languages (an earlier revision only
+enforced it for `lang == "fi"`, which happened to never matter because no
+existing caller reused a claim id, but was a latent asymmetry worth
+closing while touching this file - strictly stronger, no existing caller
+relies on the old asymmetric behavior).
 
-See scripts/test_source_guard_canaries.py for canaries covering the original
-failure modes, and the additional canaries this revision adds inline where
-noted.
+Framing/quote/caveat text is checked with SourceGuard.assert_verbatim,
+which requires an exact, in-order run of whole source *sentences* inside a
+single source file - not a substring match anywhere in a blob of the whole
+corpus - so truncating a hedge clause, dropping a negation, or splicing
+unrelated fragments together does not pass. Section headers that convey an
+evidence class to the reader are bound via SourceGuard.assert_evidence_header,
+which requires a class-specific marker phrase and forbids the other
+classes' marker phrases, per language, so a header can't be silently
+reclassified (e.g. "not production-verified" -> "production-ready").
+
+See scripts/test_source_guard_canaries.py for canaries covering the
+original failure modes.
 
 System dependency
 ------------------
 Requires a local Chromium-family browser with `--headless --print-to-pdf`
 tagged-PDF support, verified via a structural capability probe at runtime
 (not just a version string), plus `pdftotext` (poppler) for per-page text
-extraction during output validation. Neither is pip-installable; see
-scripts/requirements-docs.txt for what *is* pinned (pikepdf) and for the
-documented system-dependency versions this was verified against.
+extraction and word bounding boxes during output validation. Neither is
+pip-installable; see scripts/requirements-docs.txt for what *is* pinned
+(pikepdf) and for the documented system-dependency versions this was
+verified against.
 """
 
 import hashlib
@@ -91,6 +130,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pikepdf
@@ -99,7 +139,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS_DIR = ROOT / "docs"
 OUT_DIR = DOCS_DIR
 
-PAGE_W_PT, PAGE_H_PT = 960, 720  # 4:3 landscape
+PAGE_W_PT, PAGE_H_PT = 960, 1200  # 4:5 portrait, LinkedIn-carousel-optimized
 REPO = "https://github.com/mikko-lab/kopilotti-sales-demo"
 DEMO_URL = "https://app.kopilotti.online"
 FIXED_DATE = "D:20000101000000+00'00'"
@@ -363,7 +403,7 @@ class SourceGuard:
         table = self.claims[lang]
         if claim_id not in table:
             raise ValueError(f"unknown sales-claim id {claim_id!r} for lang={lang!r}")
-        if claim_id in self._used_ids and lang == "fi":
+        if claim_id in self._used_ids:
             raise ValueError(f"sales-claim id {claim_id!r} used more than once in this document")
         self._used_ids.add(claim_id)
         entry = table[claim_id]
@@ -483,6 +523,24 @@ ROADMAP_IDS_2 = [
     "named-operational-owners-response-times",
 ]
 
+# Curated subsets actually rendered on the 8-page LinkedIn carousel (see the
+# "LinkedIn Carousel Current State slice" module-docstring section above).
+# Each id in these subsets is still resolved and validated live against the
+# approved Markdown via SourceGuard.assert_claim - this is a selection of
+# *which* already-approved claims appear, never a rewording of any of them.
+CAROUSEL_TESTED_IDS = [
+    "digital-price-negotiation",
+    "deterministic-decision-engine",
+    "dealer-commercial-boundaries-price-floor",
+    "deterministic-canonicalization-hashes",
+    "safe-local-receipt-link-boundary",
+]
+CAROUSEL_ROADMAP_IDS = [
+    "live-ddn-verification",
+    "quorum-public-anchoring",
+    "proof-gated-execution",
+]
+
 TEXT = {
     "fi": {
         "prodverified": {
@@ -522,10 +580,11 @@ TEXT = {
         "tagline": "Kopilotti Sales digitalisoi käytetyn ajoneuvon hintaneuvottelun.",
         "quote": "LLM keskustelee. Backend päättää.",
         "policy": "Jälleenmyyjä määrittää säännöt. Järjestelmä soveltaa niitä johdonmukaisesti.",
-        "status_core": "Tila: rajattu tuotantovarmennus 26.8.2026.",
-        "status_suffix": " — ks. rajaus.",
         "cta": "Kokeile demoa",
-        "how_header": "Miten Kopilotti Sales toimii",
+        "problem_header": "Ongelma ja arvo",
+        "problem_point_1": "Ajoneuvon tiedot ja ostopolun muut vaiheet voivat olla verkossa, vaikka hintaneuvottelu vaatii edelleen manuaalista viestinvaihtoa.",
+        "problem_point_2": "Kopilotti Sales muuttaa tämän vaiheen hallituksi digitaaliseksi poluksi siirtämättä kaupallista päätösvaltaa pois jälleenmyyjältä.",
+        "how_header": "Toimintaperiaate",
         "how_bullets": [
             "Asiakas avaa ajoneuvokohtaisen neuvottelupolun.",
             "Asiakas lähettää tarjouksen.",
@@ -536,12 +595,18 @@ TEXT = {
         ],
         "prodverified_header": "Rajatusti tuotantovarmennettu 26.8.2026",
         "prodverified_caveat": "Varmennus koskee vain yllä kuvattua rajattua tuotantolaajuutta.",
+        "safety_header": "Kaupallinen turvallisuus",
+        "safety_point_1": "Jälleenmyyjä määrittää kaupallisen politiikan, kuten hintalattian, tavoitehinnan, listahinnan, kierrosrajat ja eskalointisäännöt.",
+        "safety_point_3": "Ihminen säilyttää päätösvallan poikkeustilanteissa.",
+        "safety_point_4": "Sama validoitu syöte ja politiikka tuottavat saman kaupallisen päätöksen.",
         "tested_header": "Toteutettu ja testattu",
         "notprod_header": "Rakennettu ja testattu, ei tuotantovarmennettu",
         "notprod_caveat": "Varaus- ja auditointimekanismit on toteutettu ja testattu, mutta niitä ei ole tässä yhteydessä tuotantovarmennettu.",
-        "roadmap1_header": "Roadmap ja tutkimussuunnat (1/2)",
-        "roadmap2_header": "Roadmap ja tutkimussuunnat (2/2)",
+        "notprod_badge": "Ei tuotantovarmennettu",
+        "roadmap_badge": "Roadmap",
         "roadmap_caveat": "Nämä ovat tavoite- tai tutkimussuuntia, eivät nykyisiä ominaisuuksia.",
+        "limits_header": "Selkeät rajat",
+        "note_label": "Huomio",
         "security_header": "Turvallisuusrajat",
         "security_bullets": [
             "LLM voi tukea keskustelua, mutta ei päätä hintaa tai kaupallista tulosta.",
@@ -550,24 +615,10 @@ TEXT = {
             "Roadmap-ominaisuuksia ei käytetä nykyisen päätöksenteon edellytyksenä.",
             "Tämä esittely ei valtuuta deployta, migraatioita tai tuotantopalveluiden käyttöä.",
         ],
-        "links1_header": "Lisätietoja (1/2)",
-        "links1": [
-            ("Demo", DEMO_URL),
-            ("Julkinen repository", REPO),
-            ("Suomenkielinen Markdown", f"{REPO}/blob/main/docs/kopilotti-sales-overview-fi.md"),
-            ("Englanninkielinen Markdown", f"{REPO}/blob/main/docs/kopilotti-sales-overview-en.md"),
-            ("Suomenkielinen PDF", f"{REPO}/blob/main/docs/kopilotti-sales-overview-fi.pdf"),
-        ],
-        "links2_header": "Lisätietoja (2/2)",
-        "links2": [
-            ("Englanninkielinen PDF", f"{REPO}/blob/main/docs/kopilotti-sales-overview-en.pdf"),
-            ("Suomenkielinen README", f"{REPO}/blob/main/README.md"),
-            ("Englanninkielinen README", f"{REPO}/blob/main/README.en.md"),
-            ("License", f"{REPO}/blob/main/LICENSE"),
-        ],
+        "repo_label": "Julkinen repository",
         "footer_brand": "Kopilotti Sales — rajattu tuotantovarmennus",
         "pdf_title": "Kopilotti Sales - tuote-esittely (LinkedIn)",
-        "pdf_subject": "Yritysneutraali suomenkielinen tuote-esittely - LinkedIn-optimoitu versio",
+        "pdf_subject": "Yritysneutraali suomenkielinen tuote-esittely - LinkedIn-optimoitu karuselli",
     },
     "en": {
         "prodverified": {
@@ -607,10 +658,11 @@ TEXT = {
         "tagline": "Kopilotti Sales digitizes used-vehicle price negotiation.",
         "quote": "The LLM converses. The backend decides.",
         "policy": "The dealer defines the policy. The system applies it consistently.",
-        "status_core": "Status: limited production verification completed on 26 August 2026.",
-        "status_suffix": " — see scope.",
         "cta": "Try the demo",
-        "how_header": "How Kopilotti Sales works",
+        "problem_header": "Problem and value",
+        "problem_point_1": "Vehicle information and other purchasing steps can be online while price negotiation still requires a manual exchange.",
+        "problem_point_2": "Kopilotti Sales turns that step into a controlled digital flow without transferring commercial authority away from the dealer.",
+        "how_header": "How it works",
         "how_bullets": [
             "The customer opens a vehicle-specific negotiation flow.",
             "The customer submits an offer.",
@@ -621,12 +673,18 @@ TEXT = {
         ],
         "prodverified_header": "Production-verified scope - 26 August 2026",
         "prodverified_caveat": "The verification applies only to the limited production scope listed above.",
+        "safety_header": "Commercial safety",
+        "safety_point_1": "The dealer defines the commercial policy, including the price floor, target price, list price, round limits, and escalation rules.",
+        "safety_point_3": "A person retains authority over exceptional cases.",
+        "safety_point_4": "The same validated input and policy produce the same commercial decision.",
         "tested_header": "Implemented and tested",
         "notprod_header": "Built and tested, not production-verified",
         "notprod_caveat": "Reservation and audit mechanisms are implemented and tested but have not been production-verified in this review.",
-        "roadmap1_header": "Roadmap and research directions (1/2)",
-        "roadmap2_header": "Roadmap and research directions (2/2)",
+        "notprod_badge": "Not production-verified",
+        "roadmap_badge": "Roadmap",
         "roadmap_caveat": "These are target or research directions, not current capabilities.",
+        "limits_header": "Clear limits",
+        "note_label": "Note",
         "security_header": "Security boundaries",
         "security_bullets": [
             "The LLM may support conversation but does not decide the price or commercial outcome.",
@@ -635,28 +693,95 @@ TEXT = {
             "Roadmap capabilities are not prerequisites for the current decision flow.",
             "This overview does not authorize deployment, migrations, or access to production services.",
         ],
-        "links1_header": "Further information (1/2)",
-        "links1": [
-            ("Demo", DEMO_URL),
-            ("Public repository", REPO),
-            ("Finnish Markdown", f"{REPO}/blob/main/docs/kopilotti-sales-overview-fi.md"),
-            ("English Markdown", f"{REPO}/blob/main/docs/kopilotti-sales-overview-en.md"),
-            ("Finnish PDF", f"{REPO}/blob/main/docs/kopilotti-sales-overview-fi.pdf"),
-        ],
-        "links2_header": "Further information (2/2)",
-        "links2": [
-            ("English PDF", f"{REPO}/blob/main/docs/kopilotti-sales-overview-en.pdf"),
-            ("Finnish README", f"{REPO}/blob/main/README.md"),
-            ("English README", f"{REPO}/blob/main/README.en.md"),
-            ("License", f"{REPO}/blob/main/LICENSE"),
-        ],
+        "repo_label": "Public repository",
         "footer_brand": "Kopilotti Sales — limited production verification",
         "pdf_title": "Kopilotti Sales - product overview (LinkedIn)",
-        "pdf_subject": "Company-neutral English product overview - LinkedIn-optimized version",
+        "pdf_subject": "Company-neutral English product overview - LinkedIn-optimized carousel",
     },
 }
 
-TOTAL_PAGES = 10
+TOTAL_PAGES = 8
+
+# --- Kopilotti mark, inlined (assets/kopilotti-mark*.svg, decorative) ------
+#
+# Inlined as live <svg> (not <img src=...>) so page rendering never depends
+# on resolving a file:// asset path during --print-to-pdf, and so the
+# generator has no network/external-resource dependency at all (per the
+# "no web fonts, no externally-loaded resources" requirement). Geometry is
+# copied byte-for-byte from the repo's own public assets/kopilotti-mark.svg
+# and assets/kopilotti-mark-on-dark.svg; only the outer width/height
+# attributes are dropped so the CSS-sized wrapper controls the rendered
+# size, and title/desc are dropped with aria-hidden set, since the mark is
+# always shown directly beside visible "Kopilotti Sales" text and is purely
+# decorative here.
+
+MARK_ON_DARK_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" '
+    'aria-hidden="true" focusable="false">'
+    '<rect x="20" y="16" width="24" height="96" rx="12" fill="#FFFFFF"/>'
+    '<path d="M43 64L91 20" stroke="#1677FF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>'
+    '<path d="M43 64L93 108" stroke="#1677FF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>'
+    '<path d="M57 51L87 24" stroke="#8FD3FF" stroke-width="4" stroke-linecap="round" opacity="0.92"/>'
+    "</svg>"
+)
+
+MARK_LIGHT_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" '
+    'aria-hidden="true" focusable="false">'
+    '<rect x="20" y="16" width="24" height="96" rx="12" fill="#0B1F3A"/>'
+    '<path d="M43 64L91 20" stroke="#1677FF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>'
+    '<path d="M43 64L93 108" stroke="#1677FF" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>'
+    '<path d="M57 51L87 24" stroke="#8FD3FF" stroke-width="4" stroke-linecap="round" opacity="0.92"/>'
+    "</svg>"
+)
+
+# Palette: derived from the public site's own styles.css custom properties
+# (--header-bg / --primary / --accent-blue / --success* / --warning* /
+# --bg / --white / --text / --muted / --border), not a new invented brand.
+# Every foreground/background pair below was checked against WCAG 2.1's
+# relative-luminance contrast formula before use; see the validation report
+# for the computed ratios (all >= 4.8:1, most well above).
+
+
+def _srgb_to_linear(channel_255):
+    c = channel_255 / 255.0
+    return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
+
+
+def relative_luminance(hex_color):
+    hex_color = hex_color.lstrip("#")
+    r, g, b = (int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
+    r, g, b = _srgb_to_linear(r), _srgb_to_linear(g), _srgb_to_linear(b)
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+
+def contrast_ratio(hex_fg, hex_bg):
+    """WCAG 2.1 contrast ratio between two sRGB hex colors, range [1, 21]."""
+    l1, l2 = relative_luminance(hex_fg), relative_luminance(hex_bg)
+    lighter, darker = max(l1, l2), min(l1, l2)
+    return (lighter + 0.05) / (darker + 0.05)
+
+
+# Secondary/small text-on-background pairs actually used on the carousel
+# pages, with a required minimum ratio that already bakes in a real margin
+# above the bare WCAG AA floor (4.5:1 for normal-size text - none of these
+# elements are large enough by WCAG's 18pt-normal/14pt-bold definition to
+# qualify for the 3:1 large-text threshold instead). The margin exists
+# because two prior rounds shipped colors that passed AA with ~0 headroom
+# (4.50:1 footer, 4.505:1 caveat, 4.83:1 url-sub) - a bare pass-fail check
+# would not have caught those as a problem. This table is the single
+# source of truth for both the generator's own palette and
+# canary_c1_contrast_margins in test_output_pipeline_canaries.py, which
+# imports it directly so the check and the palette can never drift apart.
+CONTRAST_MIN_RATIO = 5.5
+CONTRAST_PAIRS = [
+    # (label, foreground hex, background hex)
+    ("footer text on page bg", "#374151", "#F5F7FA"),
+    ("footer text on cover bg", "#A8B3CC", "#101B3D"),
+    ("p.caveat on page bg", "#374151", "#F5F7FA"),
+    ("p.caveat on cover bg", "#A8B3CC", "#101B3D"),
+    ("span.url-sub on link-card bg", "#374151", "#FFFFFF"),
+]
 
 PAGE_CSS = f"""
 @page {{ size: {PAGE_W_PT}pt {PAGE_H_PT}pt; margin: 0; }}
@@ -664,115 +789,299 @@ PAGE_CSS = f"""
 html, body {{ margin: 0; padding: 0; }}
 body {{
   font-family: Helvetica, Arial, sans-serif;
-  color: #000;
+  color: #1A1A2E;
   -webkit-print-color-adjust: exact;
 }}
 section.page {{
   position: relative;
   width: {PAGE_W_PT}pt;
   height: {PAGE_H_PT}pt;
-  padding: 56pt 64pt;
+  padding: 72pt 76pt 108pt;
   break-after: page;
   display: flex;
   flex-direction: column;
+  background: #F5F7FA;
+  overflow: hidden;
 }}
 section.page:last-child {{ break-after: auto; }}
-h1 {{ font-size: 32pt; margin: 0 0 8pt 0; }}
-.title h1 {{ font-size: 36pt; }}
-.tagline {{ font-size: 24pt; margin: 0 0 20pt 0; }}
+section.page.cover {{ background: #101B3D; color: #FFFFFF; }}
+
+/* Header row: flex-shrink:0 so a tall content area below can never
+   compress or clip the header - the fix for the pre-existing
+   header-cropping bug (P1/P2 layout defects). */
+.page-header {{
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 18pt;
+  margin: 0 0 34pt 0;
+}}
+.page-header h1 {{
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 40pt;
+  line-height: 1.18;
+  margin: 0;
+  font-weight: 700;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}}
+h1.page-title {{
+  flex: 0 0 auto;
+  font-size: 40pt;
+  line-height: 1.18;
+  margin: 0 0 34pt 0;
+  font-weight: 700;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}}
+h1.page-title.closing-title {{ font-size: 48pt; }}
+.mark-icon {{ flex: 0 0 auto; width: 52pt; height: 52pt; }}
+.mark-icon svg {{ display: block; width: 100%; height: 100%; }}
+
 .content {{
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 22pt;
 }}
-.title .content {{
-  justify-content: flex-start;
-  padding-top: 24pt;
+.cover .content {{ align-items: flex-start; gap: 30pt; }}
+
+.tagline {{ font-size: 30pt; line-height: 1.32; margin: 0; font-weight: 600; }}
+.quote {{ font-size: 26pt; line-height: 1.32; margin: 0; font-weight: 700; color: #8FD3FF; }}
+
+.badge {{
+  display: inline-block;
+  font-size: 15pt;
+  font-weight: 700;
+  padding: 8pt 18pt;
+  border-radius: 100pt;
+  line-height: 1.3;
+  flex: 0 0 auto;
 }}
-ul.bullets {{
-  list-style: disc;
-  padding-left: 26pt;
-  margin: 0;
-}}
-ul.bullets li {{
+.badge-prodverified {{ background: #1F4DB8; color: #FFFFFF; }}
+.badge-tested {{ background: #117F3A; color: #FFFFFF; }}
+.badge-notprod {{ background: #9D6507; color: #FFFFFF; }}
+.badge-roadmap {{ background: #374151; color: #FFFFFF; }}
+.badge-neutral {{ background: #E5E7EB; color: #374151; }}
+
+ul.cards {{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16pt; }}
+ul.cards li.card {{
+  background: #FFFFFF;
+  border: 1pt solid #E5E7EB;
+  border-radius: 14pt;
+  padding: 20pt 24pt;
   font-size: 22pt;
-  line-height: 1.5;
-  margin: 0 0 20pt 0;
+  line-height: 1.42;
+  display: flex;
+  align-items: flex-start;
+  gap: 16pt;
 }}
-ul.bullets li:last-child {{ margin-bottom: 0; }}
+.dot {{ flex: 0 0 auto; width: 14pt; height: 14pt; border-radius: 50%; margin-top: 7pt; }}
+.dot-primary {{ background: #1F4DB8; }}
+.dot-prodverified {{ background: #1F4DB8; }}
+.dot-tested {{ background: #117F3A; }}
+.dot-notprod {{ background: #9D6507; }}
+.dot-roadmap {{ background: #374151; }}
+.card-text {{ flex: 1 1 auto; min-width: 0; }}
+
+p.caveat {{ font-size: 15pt; color: #374151; margin: 4pt 0 0 0; line-height: 1.4; }}
+.cover p.caveat {{ color: #A8B3CC; }}
+
+/* Page 3: a 4-step visual path, not a bullet list. */
+ol.steps {{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }}
+ol.steps li.step {{
+  display: flex;
+  align-items: flex-start;
+  gap: 20pt;
+  position: relative;
+  padding-bottom: 30pt;
+}}
+ol.steps li.step:last-child {{ padding-bottom: 0; }}
+ol.steps li.step .step-num {{
+  flex: 0 0 auto;
+  width: 42pt; height: 42pt;
+  border-radius: 50%;
+  background: #1F4DB8;
+  color: #FFFFFF;
+  font-size: 20pt;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  z-index: 1;
+}}
+ol.steps li.step:not(:last-child)::after {{
+  content: "";
+  position: absolute;
+  left: 20.5pt;
+  top: 42pt;
+  bottom: 0;
+  width: 3pt;
+  background: #C7D3EE;
+}}
+ol.steps li.step .step-text {{
+  flex: 1 1 auto; min-width: 0;
+  font-size: 22pt; line-height: 1.42;
+  padding-top: 8pt;
+}}
+
+/* Page 7: multiple evidence classes on one page, each its own group. */
+.limit-group {{ display: flex; flex-direction: column; gap: 10pt; }}
+.limit-badge-row {{ display: flex; align-items: center; gap: 10pt; }}
+p.limit-text {{ font-size: 20pt; line-height: 1.4; margin: 0; }}
+ul.mini-list {{ list-style: none; margin: 4pt 0 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8pt 12pt; }}
+ul.mini-list li {{
+  background: #EDF1F9;
+  color: #163A8C;
+  font-size: 15pt;
+  font-weight: 600;
+  padding: 7pt 15pt;
+  border-radius: 8pt;
+}}
+
+/* Closing / CTA page. */
+p.closer {{ font-size: 24pt; line-height: 1.42; margin: 0; font-weight: 600; }}
+ul.link-cards {{ list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14pt; }}
+ul.link-cards li {{
+  background: #FFFFFF;
+  border-radius: 14pt;
+  padding: 18pt 22pt;
+}}
+ul.link-cards a {{ color: #1559C7; text-decoration: none; font-size: 22pt; font-weight: 700; }}
+span.url-sub {{
+  display: block;
+  font-size: 13pt;
+  color: #374151;
+  margin-top: 4pt;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}}
+
 code {{ font-family: "Courier New", monospace; font-size: 0.92em; }}
-p.caveat {{ font-size: 14pt; color: #444; margin: 18pt 0 0 0; }}
-a {{ color: #1c59d9; text-decoration: underline; }}
-p.cta {{ font-size: 24pt; font-weight: bold; margin: 24pt 0 0 0; }}
-ul.links {{ list-style: none; padding: 0; margin: 0; }}
-ul.links li {{ font-size: 22pt; margin: 0 0 22pt 0; }}
-ul.links li .url {{ display: block; font-size: 18pt; font-weight: normal; margin-top: 4pt; }}
+
 footer {{
   position: absolute;
-  left: 64pt;
-  right: 64pt;
-  bottom: 24pt;
+  left: 76pt;
+  right: 76pt;
+  bottom: 44pt;
   display: flex;
-  justify-content: space-between;
-  font-size: 12pt;
-  color: #666;
+  align-items: center;
+  gap: 10pt;
+  font-size: 13pt;
+  color: #374151;
 }}
+.cover footer {{ color: #A8B3CC; }}
+footer .footer-mark {{ flex: 0 0 auto; width: 16pt; height: 16pt; }}
+footer .footer-mark svg {{ display: block; width: 100%; height: 100%; }}
+footer .footer-brand {{ flex: 1 1 auto; }}
 """
 
 
-def title_page_html(lang, page_no):
+def _footer_html(t, page_no, mark_svg):
+    return (
+        '<footer aria-hidden="true" role="presentation">'
+        f'<span class="footer-mark">{mark_svg}</span>'
+        f'<span class="footer-brand">{esc(t["footer_brand"])}</span>'
+        f"<span>{page_no}/{TOTAL_PAGES}</span>"
+        "</footer>"
+    )
+
+
+def cover_page_html(lang, page_no):
     t = TEXT[lang]
-    bullets = [t["quote"], t["policy"], t["status_core"].rstrip(".") + t["status_suffix"]]
-    return f"""<section class="page title" lang="{lang}">
-  <h1>{esc(t['title'])}</h1>
-  <p class="tagline">{render_inline_markdown(t['tagline'])}</p>
-  <div class="content">
-    <ul class="bullets">
-      {''.join(f'<li>{render_inline_markdown(b)}</li>' for b in bullets)}
-    </ul>
-    <p class="cta"><a href="{DEMO_URL}">{esc(t['cta'])} → {DEMO_URL}</a></p>
+    return f"""<section class="page cover" lang="{lang}">
+  <div class="page-header">
+    <span class="mark-icon">{MARK_ON_DARK_SVG}</span>
+    <h1>{esc(t['title'])}</h1>
   </div>
-  <footer aria-hidden="true" role="presentation">
-    <span>{esc(t['footer_brand'])}</span>
-    <span>{page_no}/{TOTAL_PAGES}</span>
-  </footer>
+  <div class="content">
+    <p class="tagline">{render_inline_markdown(t['tagline'])}</p>
+    <p class="quote">{render_inline_markdown(t['quote'])}</p>
+    <span class="badge badge-prodverified">{esc(t['prodverified_header'])}</span>
+  </div>
+  {_footer_html(t, page_no, MARK_ON_DARK_SVG)}
 </section>"""
 
 
-def bullet_page_html(lang, page_no, header, bullets, caveat=None):
+def card_list_page_html(lang, page_no, header, items, *, dot_class, caveat=None):
     t = TEXT[lang]
+    cards = "".join(
+        f'<li class="card"><span class="dot {dot_class}"></span>'
+        f'<span class="card-text">{render_inline_markdown(item)}</span></li>'
+        for item in items
+    )
     caveat_html = f'<p class="caveat">{render_inline_markdown(caveat)}</p>' if caveat else ""
     return f"""<section class="page" lang="{lang}">
-  <h1>{esc(header)}</h1>
+  <h1 class="page-title">{esc(header)}</h1>
   <div class="content">
-    <ul class="bullets">
-      {''.join(f'<li>{render_inline_markdown(b)}</li>' for b in bullets)}
-    </ul>
+    <ul class="cards">{cards}</ul>
     {caveat_html}
   </div>
-  <footer aria-hidden="true" role="presentation">
-    <span>{esc(t['footer_brand'])}</span>
-    <span>{page_no}/{TOTAL_PAGES}</span>
-  </footer>
+  {_footer_html(t, page_no, MARK_LIGHT_SVG)}
 </section>"""
 
 
-def links_page_html(lang, page_no, header, entries):
+def step_path_page_html(lang, page_no, header, steps):
     t = TEXT[lang]
     items = "".join(
-        f'<li>{esc(label)}: <a class="url" href="{url}">{esc(url)}</a></li>'
-        for label, url in entries
+        f'<li class="step"><span class="step-num">{i}</span>'
+        f'<span class="step-text">{render_inline_markdown(step)}</span></li>'
+        for i, step in enumerate(steps, start=1)
     )
     return f"""<section class="page" lang="{lang}">
-  <h1>{esc(header)}</h1>
+  <h1 class="page-title">{esc(header)}</h1>
   <div class="content">
-    <ul class="links">{items}</ul>
+    <ol class="steps">{items}</ol>
   </div>
-  <footer aria-hidden="true" role="presentation">
-    <span>{esc(t['footer_brand'])}</span>
-    <span>{page_no}/{TOTAL_PAGES}</span>
-  </footer>
+  {_footer_html(t, page_no, MARK_LIGHT_SVG)}
+</section>"""
+
+
+def limits_page_html(lang, page_no, header, groups):
+    """groups: list of (badge_label, badge_css_class, pills, sentence)
+    pills: list of short strings rendered as small tags (may be empty)
+    sentence: a single caveat/framing sentence rendered as prose (or None)
+    """
+    t = TEXT[lang]
+    blocks = []
+    for badge_label, badge_class, pills, sentence in groups:
+        pills_html = (
+            '<ul class="mini-list">'
+            + "".join(f"<li>{render_inline_markdown(p)}</li>" for p in pills)
+            + "</ul>"
+            if pills
+            else ""
+        )
+        sentence_html = f'<p class="limit-text">{render_inline_markdown(sentence)}</p>' if sentence else ""
+        blocks.append(
+            '<div class="limit-group">'
+            f'<div class="limit-badge-row"><span class="badge {badge_class}">{esc(badge_label)}</span></div>'
+            f"{pills_html}{sentence_html}</div>"
+        )
+    return f"""<section class="page" lang="{lang}">
+  <h1 class="page-title">{esc(header)}</h1>
+  <div class="content">
+    {''.join(blocks)}
+  </div>
+  {_footer_html(t, page_no, MARK_LIGHT_SVG)}
+</section>"""
+
+
+def closing_page_html(lang, page_no, header, closer_text, links):
+    t = TEXT[lang]
+    items = "".join(
+        f'<li><a href="{url}">{esc(label)}</a><span class="url-sub">{esc(url)}</span></li>'
+        for label, url in links
+    )
+    return f"""<section class="page cover closing" lang="{lang}">
+  <h1 class="page-title closing-title">{esc(header)}</h1>
+  <div class="content">
+    <p class="closer">{render_inline_markdown(closer_text)}</p>
+    <ul class="link-cards">{items}</ul>
+  </div>
+  {_footer_html(t, page_no, MARK_ON_DARK_SVG)}
 </section>"""
 
 
@@ -788,10 +1097,14 @@ def build_document(lang, guard):
         "roadmap": "roadmap-research",
     }
 
+    # Every framing/quote/caveat sentence used anywhere on the carousel is
+    # verified verbatim against the approved source before any HTML is
+    # built. The how_bullets/security_bullets loops assert the *entire*
+    # source list even though only a subset is rendered on any one page -
+    # strictly more validation than rendering requires, never less.
     guard.assert_verbatim(lang, t["tagline"])
     guard.assert_verbatim(lang, t["quote"])
     guard.assert_verbatim(lang, t["policy"])
-    guard.assert_verbatim(lang, t["status_core"])
     for b in t["how_bullets"]:
         guard.assert_verbatim(lang, b)
     for b in t["security_bullets"]:
@@ -799,60 +1112,72 @@ def build_document(lang, guard):
     guard.assert_verbatim(lang, t["prodverified_caveat"])
     guard.assert_verbatim(lang, t["notprod_caveat"])
     guard.assert_verbatim(lang, t["roadmap_caveat"])
+    guard.assert_verbatim(lang, t["problem_point_1"])
+    guard.assert_verbatim(lang, t["problem_point_2"])
+    guard.assert_verbatim(lang, t["safety_point_1"])
+    guard.assert_verbatim(lang, t["safety_point_3"])
+    guard.assert_verbatim(lang, t["safety_point_4"])
 
-    # assert_section_binding ties each section's visible header to the same
-    # evidence class/status as the claims rendered under it (P2.1) - not just
-    # to the header's own wording in isolation.
     guard.assert_section_binding(lang, "prodverified", t["prodverified_header"], status["prodverified"])
     guard.assert_section_binding(lang, "tested", t["tested_header"], status["tested"])
-    guard.assert_section_binding(lang, "notprod", t["notprod_header"], status["notprod"])
-    guard.assert_section_binding(lang, "roadmap", t["roadmap1_header"], status["roadmap"])
-    guard.assert_section_binding(lang, "roadmap", t["roadmap2_header"], status["roadmap"])
-    guard.assert_evidence_header(lang, "prodverified", t["status_core"])  # title-page status line (no claim group)
+    guard.assert_evidence_header(lang, "prodverified", t["prodverified_header"])  # reused verbatim as the cover badge
+    guard.assert_evidence_header(lang, "notprod", t["notprod_badge"])
+    guard.assert_evidence_header(lang, "roadmap", t["roadmap_badge"])
 
     prodverified_bullets = [
         guard.assert_claim(lang, cid, status["prodverified"], t["prodverified"][cid])
         for cid in PRODVERIFIED_IDS
     ]
     tested_bullets = [
-        guard.assert_claim(lang, cid, status["tested"], t["tested"][cid]) for cid in TESTED_IDS
+        guard.assert_claim(lang, cid, status["tested"], t["tested"][cid]) for cid in CAROUSEL_TESTED_IDS
     ]
-    notprod_bullets = [
-        guard.assert_claim(lang, cid, status["notprod"], t["notprod"][cid]) for cid in NOTPROD_IDS
-    ]
-    roadmap1_bullets = [
-        guard.assert_claim(lang, cid, status["roadmap"], t["roadmap"][cid]) for cid in ROADMAP_IDS_1
-    ]
-    roadmap2_bullets = [
-        guard.assert_claim(lang, cid, status["roadmap"], t["roadmap"][cid]) for cid in ROADMAP_IDS_2
+    roadmap_bullets = [
+        guard.assert_claim(lang, cid, status["roadmap"], t["roadmap"][cid]) for cid in CAROUSEL_ROADMAP_IDS
     ]
 
-    title_bullets = [t["quote"], t["policy"], t["status_core"].rstrip(".") + t["status_suffix"]]
+    how_steps = [t["how_bullets"][i] for i in (0, 1, 3, 5)]
+    problem_bullets = [t["problem_point_1"], t["problem_point_2"], t["policy"]]
+    safety_bullets = [t["safety_point_1"], t["security_bullets"][0], t["safety_point_3"], t["safety_point_4"]]
+    closing_links = [(t["cta"], DEMO_URL), (t["repo_label"], REPO)]
 
     expected_pages = [
-        {"header": t["title"], "bullets": [t["tagline"]] + title_bullets, "links": []},
-        {"header": t["how_header"], "bullets": t["how_bullets"], "links": []},
-        {"header": t["tested_header"], "bullets": tested_bullets, "links": []},
+        {"header": t["title"], "bullets": [t["tagline"], t["quote"], t["prodverified_header"]], "links": []},
+        {"header": t["problem_header"], "bullets": problem_bullets, "links": []},
+        {"header": t["how_header"], "bullets": how_steps, "links": []},
         {"header": t["prodverified_header"], "bullets": prodverified_bullets + [t["prodverified_caveat"]], "links": []},
-        {"header": t["notprod_header"], "bullets": notprod_bullets + [t["notprod_caveat"]], "links": []},
-        {"header": t["roadmap1_header"], "bullets": roadmap1_bullets, "links": []},
-        {"header": t["roadmap2_header"], "bullets": roadmap2_bullets + [t["roadmap_caveat"]], "links": []},
-        {"header": t["security_header"], "bullets": t["security_bullets"], "links": []},
-        {"header": t["links1_header"], "bullets": [], "links": t["links1"]},
-        {"header": t["links2_header"], "bullets": [], "links": t["links2"]},
+        {"header": t["safety_header"], "bullets": safety_bullets, "links": []},
+        {"header": t["tested_header"], "bullets": tested_bullets, "links": []},
+        {
+            "header": t["limits_header"],
+            "bullets": (
+                [t["notprod_badge"], t["notprod_caveat"], t["note_label"], t["security_bullets"][2], t["roadmap_badge"]]
+                + roadmap_bullets
+                + [t["roadmap_caveat"]]
+            ),
+            "links": [],
+        },
+        {"header": t["cta"], "bullets": [t["policy"]], "links": closing_links},
     ]
 
     pages_html = [
-        title_page_html(lang, 1),
-        bullet_page_html(lang, 2, t["how_header"], t["how_bullets"]),
-        bullet_page_html(lang, 3, t["tested_header"], tested_bullets),
-        bullet_page_html(lang, 4, t["prodverified_header"], prodverified_bullets, t["prodverified_caveat"]),
-        bullet_page_html(lang, 5, t["notprod_header"], notprod_bullets, t["notprod_caveat"]),
-        bullet_page_html(lang, 6, t["roadmap1_header"], roadmap1_bullets),
-        bullet_page_html(lang, 7, t["roadmap2_header"], roadmap2_bullets, t["roadmap_caveat"]),
-        bullet_page_html(lang, 8, t["security_header"], t["security_bullets"]),
-        links_page_html(lang, 9, t["links1_header"], t["links1"]),
-        links_page_html(lang, 10, t["links2_header"], t["links2"]),
+        cover_page_html(lang, 1),
+        card_list_page_html(lang, 2, t["problem_header"], problem_bullets, dot_class="dot-primary"),
+        step_path_page_html(lang, 3, t["how_header"], how_steps),
+        card_list_page_html(
+            lang, 4, t["prodverified_header"], prodverified_bullets,
+            dot_class="dot-prodverified", caveat=t["prodverified_caveat"],
+        ),
+        card_list_page_html(lang, 5, t["safety_header"], safety_bullets, dot_class="dot-primary"),
+        card_list_page_html(lang, 6, t["tested_header"], tested_bullets, dot_class="dot-tested"),
+        limits_page_html(
+            lang, 7, t["limits_header"],
+            [
+                (t["notprod_badge"], "badge-notprod", [], t["notprod_caveat"]),
+                (t["note_label"], "badge-neutral", [], t["security_bullets"][2]),
+                (t["roadmap_badge"], "badge-roadmap", roadmap_bullets, t["roadmap_caveat"]),
+            ],
+        ),
+        closing_page_html(lang, 8, t["cta"], t["policy"], closing_links),
     ]
     assert len(pages_html) == TOTAL_PAGES == len(expected_pages)
 
@@ -871,6 +1196,10 @@ def build_document(lang, guard):
 
 
 # --- A4 overview built directly from the approved Markdown sources ---------
+#
+# Untouched by the LinkedIn Carousel Current State slice (see module
+# docstring) - this section, and everything it depends on below, is
+# unchanged from the previous revision.
 
 A4_W_PT = 595.276
 A4_H_PT = 841.89
@@ -1293,6 +1622,64 @@ def extract_page_texts(pdf_path):
     return pages
 
 
+def _parse_bbox_pages(pdf_path):
+    """Runs poppler's `pdftotext -bbox` and returns a list (1 entry per
+    page, in order) of (xmin, ymin, xmax, ymax, text) tuples, one per
+    extracted word, in the PDF's own point coordinate system (top-left
+    origin, matching the -bbox XML's xMin/yMin/xMax/yMax attributes)."""
+    result = subprocess.run(
+        ["pdftotext", "-bbox", str(pdf_path), "-"],
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    if result.returncode != 0:
+        raise GenerationError(f"pdftotext -bbox failed: {result.stderr}")
+    try:
+        root = ET.fromstring(result.stdout)
+    except ET.ParseError as exc:
+        raise GenerationError(f"pdftotext -bbox produced unparseable XML: {exc}") from exc
+    ns = ""
+    if root.tag.startswith("{"):
+        ns = root.tag.split("}")[0] + "}"
+    pages = []
+    for page_el in root.iter(f"{ns}page"):
+        words = []
+        for w in page_el.iter(f"{ns}word"):
+            try:
+                xmin, ymin, xmax, ymax = (
+                    float(w.get("xMin")),
+                    float(w.get("yMin")),
+                    float(w.get("xMax")),
+                    float(w.get("yMax")),
+                )
+            except (TypeError, ValueError) as exc:
+                raise GenerationError(f"pdftotext -bbox word missing/invalid coordinates: {exc}") from exc
+            words.append((xmin, ymin, xmax, ymax, w.text or ""))
+        pages.append(words)
+    return pages
+
+
+def validate_no_text_overflow(pdf_path, page_w, page_h, tolerance=1.5):
+    """Regression gate (new in the LinkedIn Carousel Current State slice):
+    every extracted text word's bounding box must lie within its page's own
+    MediaBox, plus a small anti-aliasing/rounding tolerance. This catches
+    text visually clipped by page bounds - e.g. a header squeezed by a
+    shrunk flex box - that the per-page text-fingerprint check in
+    validate_pdf_structure cannot: pdftotext still extracts a word's full
+    text even when its glyphs were rendered partly or fully outside the
+    visible page, so presence-of-text alone does not prove the text was
+    actually visible and unclipped."""
+    pages = _parse_bbox_pages(pdf_path)
+    for page_no, words in enumerate(pages, start=1):
+        for xmin, ymin, xmax, ymax, text in words:
+            if xmin < -tolerance or ymin < -tolerance or xmax > page_w + tolerance or ymax > page_h + tolerance:
+                raise GenerationError(
+                    f"page {page_no}: text {text!r} overflows page bounds "
+                    f"box=({xmin:.1f},{ymin:.1f},{xmax:.1f},{ymax:.1f}) page={page_w}x{page_h}pt"
+                )
+
+
 def validate_pdf_structure(
     pdf_path,
     lang,
@@ -1422,6 +1809,11 @@ def validate_pdf_structure(
     finally:
         pdf.close()
 
+    # Geometric regression gate, run against the file independently of the
+    # pikepdf-level checks above (separate pdftotext invocation, separate
+    # coordinate system) - see validate_no_text_overflow's docstring.
+    validate_no_text_overflow(pdf_path, page_w, page_h)
+
 
 # --- deterministic metadata normalization -----------------------------------
 
@@ -1459,9 +1851,16 @@ def generate_validated(lang, guard, chrome_bin, work_dir):
     html_path = Path(work_dir) / f"kopilotti-sales-overview-{lang}-linkedin.html"
     html_path.write_text(html, encoding="utf-8")
 
+    # Link count is derived from expected_pages (same pattern already used
+    # by generate_a4_validated below) rather than validate_pdf_structure's
+    # historical default of 10 - the 8-page carousel deliberately carries
+    # far fewer links (2: the demo and the public repo, both on the closing
+    # page) than the previous 10-page technical deck did.
+    link_count = sum(len(page["links"]) for page in expected_pages)
+
     raw_pdf = _new_temp_pdf_path(work_dir, f"raw-{lang}-", ".pdf")
     render_html_to_pdf(chrome_bin, html_path, raw_pdf)
-    validate_pdf_structure(raw_pdf, lang, expected_pages)
+    validate_pdf_structure(raw_pdf, lang, expected_pages, expected_link_count=link_count)
 
     # final_tmp lives inside OUT_DIR (the real docs/ directory) - not the
     # disposable work_dir - because it must be on the same filesystem as the
@@ -1476,7 +1875,7 @@ def generate_validated(lang, guard, chrome_bin, work_dir):
     try:
         shutil.copyfile(raw_pdf, final_tmp)
         normalize_pdf_determinism(final_tmp, TEXT[lang]["pdf_title"], TEXT[lang]["pdf_subject"])
-        validate_pdf_structure(final_tmp, lang, expected_pages)  # re-validate post-normalization
+        validate_pdf_structure(final_tmp, lang, expected_pages, expected_link_count=link_count)  # re-validate post-normalization
     except Exception:
         _remove_if_exists(final_tmp)
         raise
@@ -1540,31 +1939,54 @@ def sha256(path):
 
 
 def main():
+    # --only=linkedin|a4|all (default: all, i.e. unchanged behavior when run
+    # bare). Added for the LinkedIn Carousel Current State slice so this
+    # revision's LinkedIn-only regeneration run never touches, re-renders,
+    # or re-validates the A4 outputs - "don't touch the A4 PDFs in this
+    # slice" is enforced by never generating them, not by relying on
+    # byte-for-byte Chrome-render determinism to leave them unchanged.
+    only = "all"
+    for arg in sys.argv[1:]:
+        if arg.startswith("--only="):
+            only = arg.split("=", 1)[1]
+    if only not in ("all", "linkedin", "a4"):
+        raise GenerationError(f"unknown --only value: {only!r} (expected all|linkedin|a4)")
+    keys = {
+        "all": ["fi_linkedin", "en_linkedin", "fi_a4", "en_a4"],
+        "linkedin": ["fi_linkedin", "en_linkedin"],
+        "a4": ["fi_a4", "en_a4"],
+    }[only]
+
     chrome_bin = find_chrome()
     verify_chrome_capability(chrome_bin)
 
-    finals = {
+    all_finals = {
         "fi_linkedin": Path(OUT_DIR) / "kopilotti-sales-overview-fi-linkedin.pdf",
         "en_linkedin": Path(OUT_DIR) / "kopilotti-sales-overview-en-linkedin.pdf",
         "fi_a4": Path(OUT_DIR) / "kopilotti-sales-overview-fi.pdf",
         "en_a4": Path(OUT_DIR) / "kopilotti-sales-overview-en.pdf",
     }
+    finals = {k: all_finals[k] for k in keys}
 
     tmp_to_clean = []
     try:
         with tempfile.TemporaryDirectory() as work_dir:
             generated = {}
-            generated["fi_linkedin"] = generate_validated("fi", SourceGuard(), chrome_bin, work_dir)
-            tmp_to_clean.append(generated["fi_linkedin"])
-            generated["en_linkedin"] = generate_validated("en", SourceGuard(), chrome_bin, work_dir)
-            tmp_to_clean.append(generated["en_linkedin"])
-            generated["fi_a4"] = generate_a4_validated("fi", chrome_bin, work_dir)
-            tmp_to_clean.append(generated["fi_a4"])
-            generated["en_a4"] = generate_a4_validated("en", chrome_bin, work_dir)
-            tmp_to_clean.append(generated["en_a4"])
+            if "fi_linkedin" in finals:
+                generated["fi_linkedin"] = generate_validated("fi", SourceGuard(), chrome_bin, work_dir)
+                tmp_to_clean.append(generated["fi_linkedin"])
+            if "en_linkedin" in finals:
+                generated["en_linkedin"] = generate_validated("en", SourceGuard(), chrome_bin, work_dir)
+                tmp_to_clean.append(generated["en_linkedin"])
+            if "fi_a4" in finals:
+                generated["fi_a4"] = generate_a4_validated("fi", chrome_bin, work_dir)
+                tmp_to_clean.append(generated["fi_a4"])
+            if "en_a4" in finals:
+                generated["en_a4"] = generate_a4_validated("en", chrome_bin, work_dir)
+                tmp_to_clean.append(generated["en_a4"])
 
-            # Publish only after all four outputs have passed every gate.
-            for key in ("fi_linkedin", "en_linkedin", "fi_a4", "en_a4"):
+            # Publish only after every requested output has passed every gate.
+            for key in keys:
                 os.replace(generated[key], finals[key])
                 tmp_to_clean.remove(generated[key])
 
