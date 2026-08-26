@@ -65,6 +65,16 @@ def real_expected_pages(lang):
     return gen.build_document(lang, gen.SourceGuard())[1]
 
 
+def real_link_count(lang):
+    """The 8-page LinkedIn carousel deliberately carries far fewer links (2:
+    demo + public repo, both on the closing page) than the old 10-page deck
+    did - validate_pdf_structure's expected_link_count default (10) is
+    stale for these real fi/en outputs, so canaries that validate against
+    them must pass the real, current count explicitly (same pattern
+    generate_validated/generate_a4_validated already use)."""
+    return sum(len(p["links"]) for p in real_expected_pages(lang))
+
+
 def write_fake_chrome(dir_path, name, body):
     """Writes an executable fake-chrome script (this interpreter, so
     pikepdf is importable) that mimics `chrome_bin --version` /
@@ -178,27 +188,36 @@ def canary_a5_placeholder_text(tmp):
     gen.render_html_to_pdf(REAL_CHROME, html_path, pdf_path)
     expect_raises(
         "A5. exit 0 + leftover placeholder text in rendered output",
-        lambda: gen.validate_pdf_structure(pdf_path, "fi", expected_pages),
+        lambda: gen.validate_pdf_structure(
+            pdf_path, "fi", expected_pages, expected_link_count=real_link_count("fi")
+        ),
     )
 
 
 def canary_a6_missing_claim(tmp):
     expected_pages = real_expected_pages("fi")
+    link_count = real_link_count("fi")
     tampered = [dict(p, bullets=list(p["bullets"])) for p in expected_pages]
     tampered[2]["bullets"].append("täysin keksitty väite joka ei ole PDF:ssä")
     expect_raises(
         "A6. exit 0 + expected claim missing from rendered output",
-        lambda: gen.validate_pdf_structure(REAL_FI_PDF, "fi", tampered),
+        lambda: gen.validate_pdf_structure(REAL_FI_PDF, "fi", tampered, expected_link_count=link_count),
     )
 
 
 def canary_a7_missing_link(tmp):
     expected_pages = real_expected_pages("fi")
+    # Intentionally the *pre-tamper* link count: only the extra link's URI
+    # is missing from the rendered output, not an extra link annotation, so
+    # the struct/annotation count must still match the real, untampered
+    # count for this canary to exercise the URI-presence check rather than
+    # failing earlier at the count check for the wrong reason.
+    link_count = real_link_count("fi")
     tampered = [dict(p, links=list(p["links"])) for p in expected_pages]
     tampered[7]["links"].append(("Keksitty linkki", "https://example.invalid/keksitty"))
     expect_raises(
         "A7. exit 0 + expected link missing from rendered output",
-        lambda: gen.validate_pdf_structure(REAL_FI_PDF, "fi", tampered),
+        lambda: gen.validate_pdf_structure(REAL_FI_PDF, "fi", tampered, expected_link_count=link_count),
     )
 
 
@@ -217,8 +236,12 @@ def canary_a9_baseline_still_passes(tmp):
     expect_ok(
         "A9. baseline: real fi/en outputs still validate cleanly",
         lambda: (
-            gen.validate_pdf_structure(REAL_FI_PDF, "fi", real_expected_pages("fi")),
-            gen.validate_pdf_structure(REAL_EN_PDF, "en", real_expected_pages("en")),
+            gen.validate_pdf_structure(
+                REAL_FI_PDF, "fi", real_expected_pages("fi"), expected_link_count=real_link_count("fi")
+            ),
+            gen.validate_pdf_structure(
+                REAL_EN_PDF, "en", real_expected_pages("en"), expected_link_count=real_link_count("en")
+            ),
         ),
     )
 
@@ -455,6 +478,63 @@ def canary_b8_fabricated_chromium_90_stub_rejected(tmp):
     )
 
 
+def canary_b9_only_linkedin_leaves_a4_untouched(tmp):
+    """--only=linkedin (added for the LinkedIn Carousel Current State slice)
+    must generate only the two LinkedIn PDFs and never open, re-render, or
+    overwrite the two A4 PDFs - a real end-to-end gen.main() run, same
+    pattern as B5, so this exercises the actual CLI flag parsing in main()
+    rather than just the keys-selection dict in isolation."""
+    mp = Monkeypatch()
+    sandbox_out = tmp / "out"
+    sandbox_out.mkdir()
+    fi_a4 = sandbox_out / "kopilotti-sales-overview-fi.pdf"
+    en_a4 = sandbox_out / "kopilotti-sales-overview-en.pdf"
+    fi_linkedin = sandbox_out / "kopilotti-sales-overview-fi-linkedin.pdf"
+    en_linkedin = sandbox_out / "kopilotti-sales-overview-en-linkedin.pdf"
+    fi_a4.write_bytes(b"PRE-EXISTING A4 FI - MUST NOT CHANGE")
+    en_a4.write_bytes(b"PRE-EXISTING A4 EN - MUST NOT CHANGE")
+    fi_a4_before, en_a4_before = fi_a4.read_bytes(), en_a4.read_bytes()
+    fi_a4_mtime_before, en_a4_mtime_before = fi_a4.stat().st_mtime_ns, en_a4.stat().st_mtime_ns
+
+    try:
+        mp.set(gen, "OUT_DIR", sandbox_out)
+        mp.set(sys, "argv", ["generate_linkedin_overview_pdfs.py", "--only=linkedin"])
+
+        expect_ok("B9. --only=linkedin succeeds and generates only the LinkedIn pair", gen.main)
+
+        assert fi_linkedin.exists(), "B9: fi-linkedin.pdf must be generated"
+        assert en_linkedin.exists(), "B9: en-linkedin.pdf must be generated"
+        assert fi_a4.read_bytes() == fi_a4_before, "B9: A4 fi must stay byte-identical, --only=linkedin must never touch it"
+        assert en_a4.read_bytes() == en_a4_before, "B9: A4 en must stay byte-identical, --only=linkedin must never touch it"
+        assert fi_a4.stat().st_mtime_ns == fi_a4_mtime_before, "B9: A4 fi mtime must be untouched (never opened for writing)"
+        assert en_a4.stat().st_mtime_ns == en_a4_mtime_before, "B9: A4 en mtime must be untouched (never opened for writing)"
+        leftovers = [p for p in sandbox_out.glob("*") if p not in (fi_a4, en_a4, fi_linkedin, en_linkedin)]
+        assert not leftovers, f"B9: no stray temp files may remain in OUT_DIR, found {leftovers}"
+    finally:
+        mp.undo()
+
+
+def canary_c1_contrast_margins(tmp):
+    """Every secondary/small text-on-background pair used on the carousel
+    (footer, p.caveat, span.url-sub) must clear WCAG AA with real margin,
+    not a bare pass. Two prior rounds shipped colors that passed AA with
+    ~0 headroom (4.50:1 footer, 4.505:1 caveat, 4.83:1 url-sub) - this
+    reads gen.CONTRAST_PAIRS/gen.CONTRAST_MIN_RATIO directly (the same
+    table the generator's own palette comment points at) so the check and
+    the palette can never silently drift apart."""
+    del tmp
+    assert gen.CONTRAST_MIN_RATIO > 4.5, "C1: minimum ratio must itself have margin above the bare WCAG AA floor"
+    for label, fg, bg in gen.CONTRAST_PAIRS:
+        ratio = gen.contrast_ratio(fg, bg)
+        assert ratio >= gen.CONTRAST_MIN_RATIO, (
+            f"C1: {label} ({fg} on {bg}) = {ratio:.2f}:1, below required {gen.CONTRAST_MIN_RATIO}:1"
+        )
+    print(
+        f"OK   C1. all {len(gen.CONTRAST_PAIRS)} contrast pairs clear "
+        f"{gen.CONTRAST_MIN_RATIO}:1 with margin above the 4.5:1 WCAG AA floor"
+    )
+
+
 CANARIES = [
     canary_a1_one_page,
     canary_a2_wrong_page_size,
@@ -474,6 +554,8 @@ CANARIES = [
     canary_b6_normalization_fails,
     canary_b7_post_normalization_validation_fails,
     canary_b8_fabricated_chromium_90_stub_rejected,
+    canary_b9_only_linkedin_leaves_a4_untouched,
+    canary_c1_contrast_margins,
 ]
 
 
