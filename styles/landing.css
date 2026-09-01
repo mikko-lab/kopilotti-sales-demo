@@ -588,7 +588,7 @@
 .journey-row.is-kopilotti .journey-steps li:not(:last-child)::after { color: var(--primary); }
 .commerce-boundary { max-width: 760px; }
 
-/* ============ Trade-in + VIS status ============ */
+/* ============ Trade-in + integration status ============ */
 .trade-in-grid {
   margin-top: var(--space-5);
   display: grid;
@@ -628,6 +628,10 @@
   color: var(--primary-dark);
   font-size: var(--text-xs);
   font-weight: 800;
+}
+.integration-status-stack {
+  display: grid;
+  gap: var(--space-3);
 }
 .integration-status {
   padding: var(--space-4);

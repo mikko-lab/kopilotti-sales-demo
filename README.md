@@ -72,13 +72,15 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 ## Rakennettu ja testattu, mutta ei julkisessa tuotantoliikenteessä
 
 - **Trade-in V1 ja DealSnapshot.** Vaihtoauton tunnistaminen, ulkoisesta arvonmäärityksestä saatavan arvion käsittely, deterministinen tarjous, tarjouksen hyväksyminen, väliraha ja muuttumaton kauppayhteenveto on toteutettu erillisinä ja jäljitettävinä vaiheina. Hyväksytty vaihtoautotarjous voidaan käyttää kauppaan vain kerran.
-- **VIS / Autovista -integraatiovalmius.** Providerista riippumaton domain-raja ja adapterirakenne ajoneuvon tunnistamiselle ja vaihtoauton arvonmääritykselle ovat valmiina. Puuttuvaa tai epäonnistunutta arvonmääritystä ei arvata, vaan tapaus ohjataan manuaaliseen tarkistukseen.
+- **Ajoneuvohistorian riskikerros.** VIN-tunnistus, palveluntarjoajasta riippumaton historiatieto, jälleenmyyjäkohtainen deterministinen riskipolitiikka, välimuisti/idempotenssi, päiväkohtainen kustannusraja ja tietosuojattu auditointi on toteutettu ja testattu erillisellä kehityshaaralla. Riskitarkistus toimii porttina ennen ulkoista arvonmääritystä: historiapalvelu tuottaa havaintoja, mutta ei muuta hyvityshintaa eikä tee kaupallista päätöstä.
+- **Alustava carVertical-adapteri.** HTTP-adapteri on yksikkötestattu vain tämän koodipohjan itse olettamaa endpointia, autentikointia ja vastausrakennetta vasten. Oletukset eivät perustu carVerticalin vahvistamaan API-sopimukseen, eikä koodia ole ajettu carVerticalin sandboxia tai oikeaa palvelua vasten. Adapteria ei ole kytketty runtimeen tai julkiseen demoon.
+- **VIS / Autovista -integraatioraja.** Providerista riippumaton domain-raja ja adapterirunko ajoneuvon tunnistamiselle ja vaihtoauton arvonmääritykselle ovat erillisessä toteutuksessa. Trade-in-polku on testattu testiproviderilla; varsinaista VIS-yhteyttä ei ole toteutettu tai testattu palvelua vasten. Puuttuva tai epäonnistunut arvonmääritys ohjataan manuaaliseen tarkistukseen.
 - **Sopimus-, lasku- ja tilisiirtopolku.** Palvelimen hyväksymästä hinnasta voidaan muodostaa idempotentti kauppapaketti, jonka tilakone on `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`.
 - **Myyjäliikkeen maksuhallinta.** Kopilotti Adminiin on rakennettu maksuprofiilit, maksua odottavien kauppojen näkymä ja atominen manuaalinen maksuvahvistus. Asiakas ei voi vahvistaa maksua eikä asettaa `PAID`-tilaa. Maksuvahvistuksen kanoninen audit-tapahtuma on samassa tietokantatransaktiossa kirjoitettava `PAID_CONFIRMED`.
 - **Maksukelvoton konseptisopimus.** Tuotantoympäristössä konseptiasiakirja vaatii kaksi erillistä, eksplisiittistä käyttöönottoa. Asiakirja merkitään näkyvästi `KONSEPTIDEMO`-tekstillä, eikä siinä näytetä IBANia, BICiä, viitenumeroa, eräpäivää tai maksukehotetta. Polku pysähtyy `CONTRACT_READY`-tilaan.
 - **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Julkisessa tuotantoliikenteessä tila on tällä hetkellä `NOT_CONFIGURED`: siitä ei muodosteta väitettä varmennetusta päätöksestä, päätöskuittia eikä kuittilinkkiä.
 
-> **Kopilotti Sales on VIS-integraatiovalmis — tuotantokytkentä odottaa rajapintasopimusta ja tunnuksia.** Varsinainen kytkentä vaatii lisensoidun VIS / Autovista -rajapintasopimuksen, dokumentaation, asiakaskohtaiset tunnukset, turvallisen salaisuuksien hallinnan sekä sandbox- ja tuotantoympäristöjen sopimustestauksen. Aktiivista VIS-tuotantoyhteyttä ei ole.
+> **Integraatioiden tuotantoraja:** aktiivista VIS / Autovista- tai carVertical-yhteyttä ei ole, eikä kumpaankaan liity julkistettua kumppanuutta. Tuotantokytkentä vaatii palveluntarjoajan vahvistaman rajapintasopimuksen, dokumentaation, tunnukset, turvallisen salaisuuksien hallinnan sekä sandbox- ja tuotantoympäristöjen sopimustestauksen.
 
 ## Vaaditaan ennen maksukelpoista tuotantopolkua
 
@@ -604,6 +606,7 @@ Suunnitteilla:
 - autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
 - API-pohjaiset DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
 - VIS / Autovista -tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella
+- ajoneuvohistorian tuotantokytkentä palveluntarjoajan vahvistaman API-sopimuksen, sandboxin ja kaupallisen sopimuksen perusteella
 
 Nämä ovat suunniteltuja integraatioita ja ominaisuuksia, eivät nykyisiä.
 
@@ -640,11 +643,15 @@ Suunnitteilla:
 
 **Status: rakennettu ja testattu, mutta ei vielä osa julkisen demon tuotantoliikennettä.**
 
-Trade-in V1 käsittelee vaihtoauton tunnistamisen, ulkoisesta arvonmäärityksestä saatavan arvion, deterministisen tarjouksen, tarjouksen hyväksymisen, välirahan ja kauppayhteenvedon erillisinä, jäljitettävinä vaiheina.
+Trade-in V1 käsittelee vaihtoauton tunnistamisen, ajoneuvohistorian riskitarkistuksen, ulkoisesta arvonmäärityksestä saatavan arvion, deterministisen tarjouksen, tarjouksen hyväksymisen, välirahan ja kauppayhteenvedon erillisinä, jäljitettävinä vaiheina.
 
 Ostettavan auton hinnat johdetaan palvelinpuolen ostosessiosta ja ajoneuvotiedoista. Hyväksytty vaihtoautotarjous voidaan käyttää kauppaan vain kerran, ja puuttuva tai epäonnistuva tunnistus tai arvonmääritys ohjataan manuaaliseen tarkistukseen arvon arvaamisen sijaan.
 
-VIS / Autovista -tuotantokytkentä ei ole aktiivinen. Tuotantokytkentä odottaa lisensoitua rajapintasopimusta, dokumentaatiota, tunnuksia ja sopimustestausta.
+Ajoneuvohistorian riskikerros on toteutettu ja testattu erillisellä kehityshaaralla. Historiapalvelu tuottaa havaintoja, joiden perusteella myyjäliikkeen deterministinen riskipolitiikka sallii jatkamisen, ohjaa tarkistukseen tai estää automaattisen etenemisen. Historiatieto ei itsessään muuta hyvityshintaa.
+
+Alustava carVertical-adapteri on testattu vain itse oletettua rajapintasopimusta vasten. Sitä ei ole ajettu carVerticalin sandboxia tai oikeaa palvelua vasten, eikä aktiivista integraatiota tai julkistettua kumppanuutta ole.
+
+VIS / Autovista -tuotantokytkentä ei ole aktiivinen. Sisäinen Trade-in-polku on testattu testiproviderilla, mutta varsinaista VIS-yhteyttä ei ole toteutettu tai testattu palvelua vasten. Tuotantokytkentä odottaa lisensoitua rajapintasopimusta, dokumentaatiota, tunnuksia ja sopimustestausta.
 
 Vaihtoauton lopullinen arviointi, hyvityshinta ja poikkeustapausten hyväksyntä säilyvät aina myyjäliikkeen vastuulla.
 
