@@ -96,12 +96,16 @@ The conversational layer (the LLM) talks to the customer, recognizes intent, and
 
 **Built and tested, not yet in public production traffic:**
 
-- Trade-in and deal-summary handling, as separate traceable steps (vehicle identification, external valuation, a deterministic offer, and settlement).
-- A provider-independent integration boundary designed to support a vehicle-valuation provider; going live requires a licensed agreement and credentials, which are not yet in place.
+- Trade-in and deal-summary handling as separate, traceable steps: vehicle identification, a vehicle-history risk gate, external valuation, a deterministic offer, and settlement.
+- A provider-independent vehicle-history risk layer, dealer-defined deterministic risk policy, idempotency/cache boundary, daily request budget and privacy-preserving audit path, implemented and tested on a separate development branch. The history provider supplies findings; it does not change the trade-in price or make the commercial decision.
+- A preliminary carVertical HTTP adapter, unit-tested only against endpoint, authentication and response-schema assumptions made by this codebase. Those assumptions are not a carVertical-confirmed API contract, the adapter has never been run against a carVertical sandbox or live service, and it is not connected to runtime or the public demo.
+- A provider-independent boundary and adapter skeleton for VIS / Autovista valuation in a separate implementation. The trade-in flow is tested with a test provider; an actual VIS connection has not been implemented or tested against the service.
 - A contract, invoice and bank-transfer path from an agreed price toward a paid state — currently a no-go for real payment, gated behind an explicit, clearly marked concept-contract step with no payable account details shown.
 - Cryptographic after-the-fact verification of commercial decisions, built and tested; not configured on the public path.
 
 The current demonstrator models a Finnish dealer transaction. Market-specific financing, consumer-law, payment and vehicle-registration integrations would need to be implemented separately for each country, and are not part of this public repository or the current live demo.
+
+There is no announced VIS / Autovista or carVertical partnership or active production integration. Going live with either service requires a provider-confirmed API contract, documentation, credentials, secure secret handling, sandbox verification and commercial agreement.
 
 ## What is not included in the public repository
 

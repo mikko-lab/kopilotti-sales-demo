@@ -233,30 +233,44 @@
       <div class="landing-section-inner">
         <p class="section-eyebrow">Trade-in and settlement</p>
         <h2 id="tradeInHeading" class="section-heading">Trade-in is part of the same deterministic transaction decision</h2>
-        <p class="section-intro">Trade-in V1 handles vehicle identification, an external valuation estimate, an offer, and the settlement amount as separate, traceable steps.</p>
+        <p class="section-intro">Trade-in V1 handles vehicle identification, a vehicle-history risk check, an external valuation estimate, an offer, and the settlement amount as separate, traceable steps.</p>
 
         <div class="trade-in-grid">
           <ol class="trade-in-flow" aria-label="Digital trade-in process">
             <li><span aria-hidden="true">1</span><strong>Registration and odometer reading</strong></li>
             <li><span aria-hidden="true">2</span><strong>Vehicle identification</strong></li>
-            <li><span aria-hidden="true">3</span><strong>External valuation</strong></li>
-            <li><span aria-hidden="true">4</span><strong>Deterministic offer</strong></li>
-            <li><span aria-hidden="true">5</span><strong>Settlement and deal summary</strong></li>
+            <li><span aria-hidden="true">3</span><strong>Vehicle-history risk check</strong></li>
+            <li><span aria-hidden="true">4</span><strong>External valuation</strong></li>
+            <li><span aria-hidden="true">5</span><strong>Deterministic offer</strong></li>
+            <li><span aria-hidden="true">6</span><strong>Settlement and deal summary</strong></li>
           </ol>
 
-          <aside class="integration-status" aria-labelledby="visStatusHeading">
-            <p class="integration-status-label">Vehicle valuation provider</p>
-            <h3 id="visStatusHeading">Integration-ready, no active production connection</h3>
-            <p><strong>The trade-in flow is designed for a provider-hosted vehicle valuation integration; the production connection is subject to a partner agreement and credentials.</strong></p>
-            <ul>
-              <li>A provider-independent domain boundary and adapter structure are in place.</li>
-              <li>A missing or failed valuation is routed to manual review — the system never guesses a value.</li>
-              <li>Going live with a specific provider requires a licensed agreement, documentation, credentials and contract testing.</li>
-            </ul>
-          </aside>
+          <div class="integration-status-stack">
+            <aside class="integration-status" aria-labelledby="historyStatusHeading">
+              <p class="integration-status-label">Vehicle history / carVertical</p>
+              <h3 id="historyStatusHeading">Risk check tested against an assumed contract</h3>
+              <p><strong>A provider-independent risk layer and a preliminary carVertical adapter have been implemented and unit-tested on a separate development branch.</strong></p>
+              <ul>
+                <li>The endpoint, authentication and response schema are codebase assumptions — not a carVertical-confirmed API contract.</li>
+                <li>The code has not been run against a carVertical sandbox or live service and is not connected to the public demo.</li>
+                <li>History data does not change the trade-in price itself: dealer-defined risk rules decide whether valuation may continue or the case needs review.</li>
+              </ul>
+            </aside>
+
+            <aside class="integration-status" aria-labelledby="visStatusHeading">
+              <p class="integration-status-label">VIS / Autovista</p>
+              <h3 id="visStatusHeading">Integration boundary built, no production connection</h3>
+              <p><strong>The trade-in flow can process an estimate supplied by an external valuation service, but there is no active VIS / Autovista connection.</strong></p>
+              <ul>
+                <li>The internal flow is tested with a test provider; an actual VIS connection has not been implemented or tested against the service.</li>
+                <li>A missing or failed valuation is routed to manual review — the system never guesses a value.</li>
+                <li>Going live requires a licensed agreement, documentation, credentials, sandbox verification and contract testing.</li>
+              </ul>
+            </aside>
+          </div>
         </div>
 
-        <p class="product-status-note"><strong>Production boundary:</strong> Trade-in V1 and DealSnapshot are implemented and tested in a separate implementation, but the trade-in path is not yet part of this public demonstrator's production traffic.</p>
+        <p class="product-status-note"><strong>Production boundary:</strong> Trade-in V1, DealSnapshot and the vehicle-history risk layer are implemented and tested in separate implementations, but they are not yet connected to this public demonstrator's production traffic. There is no announced VIS / Autovista or carVertical partnership or active production integration.</p>
       </div>
     </section>
 
