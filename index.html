@@ -212,30 +212,19 @@
       <div class="landing-section-inner">
         <p class="section-eyebrow">Vaihtoauto ja väliraha</p>
         <h2 id="vaihtoautoHeading" class="section-heading">Vaihtoauto liittyy samaan deterministiseen kauppapäätökseen</h2>
-        <p class="section-intro">Trade-in V1 käsittelee vaihtoauton tunnistamisen, ajoneuvohistorian riskitarkistuksen, ulkoisesta arvonmäärityksestä saatavan arvion, tarjouksen ja välirahan erillisinä, jäljitettävinä vaiheina.</p>
+        <p class="section-intro">Trade-in V1:n tavoitepolku käsittelee vaihtoauton tunnistamisen, VIS-arvonmäärityksen, myyjäliikkeen valitseman ajoneuvohistorian tarkistuksen, tarjouksen ja välirahan erillisinä, jäljitettävinä vaiheina.</p>
 
         <div class="trade-in-grid">
           <ol class="trade-in-flow" aria-label="Vaihtoauton digitaalinen prosessi">
             <li><span aria-hidden="true">1</span><strong>Rek.tunnus ja mittarilukema</strong></li>
             <li><span aria-hidden="true">2</span><strong>Ajoneuvon tunnistus</strong></li>
-            <li><span aria-hidden="true">3</span><strong>Ajoneuvohistorian riskitarkistus</strong></li>
-            <li><span aria-hidden="true">4</span><strong>Ulkoinen arvonmääritys</strong></li>
+            <li><span aria-hidden="true">3</span><strong>VIS-arvonmääritys</strong></li>
+            <li><span aria-hidden="true">4</span><strong>Valinnainen historiatarkistus</strong></li>
             <li><span aria-hidden="true">5</span><strong>Deterministinen tarjous</strong></li>
             <li><span aria-hidden="true">6</span><strong>Väliraha ja kauppayhteenveto</strong></li>
           </ol>
 
           <div class="integration-status-stack">
-            <aside class="integration-status" aria-labelledby="historyStatusHeading">
-              <p class="integration-status-label">Ajoneuvohistoria / carVertical</p>
-              <h3 id="historyStatusHeading">Riskitarkistus testattu oletettua sopimusta vasten</h3>
-              <p><strong>Palveluntarjoajasta riippumaton riskikerros ja alustava carVertical-adapteri on toteutettu ja yksikkötestattu erillisellä kehityshaaralla.</strong></p>
-              <ul>
-                <li>Adapterin endpoint, autentikointi ja vastausrakenne ovat omia oletuksia — eivät carVerticalin vahvistamaa API-sopimusta.</li>
-                <li>Koodia ei ole ajettu carVerticalin sandboxia tai oikeaa palvelua vasten eikä sitä ole kytketty julkiseen demoon.</li>
-                <li>Historiatieto ei muuta hyvityshintaa itse: myyjäliikkeen riskisäännöt päättävät, saako arvonmääritys jatkua vai siirtyykö tapaus tarkistukseen.</li>
-              </ul>
-            </aside>
-
             <aside class="integration-status" aria-labelledby="visStatusHeading">
               <p class="integration-status-label">VIS / Autovista</p>
               <h3 id="visStatusHeading">Integraatioraja rakennettu, tuotantoyhteys puuttuu</h3>
@@ -244,6 +233,17 @@
                 <li>Sisäinen polku on testattu testiproviderilla; varsinaista VIS-yhteyttä ei ole toteutettu tai testattu palvelua vasten.</li>
                 <li>Puuttuva tai epäonnistuva arvonmääritys ohjataan manuaaliseen tarkistukseen — arvoa ei arvata.</li>
                 <li>Tuotantokytkentä vaatii lisensoidun sopimuksen, dokumentaation, tunnukset sekä sandbox- ja sopimustestauksen.</li>
+              </ul>
+            </aside>
+
+            <aside class="integration-status" aria-labelledby="historyStatusHeading">
+              <p class="integration-status-label">Valinnainen ajoneuvohistoria / carVertical</p>
+              <h3 id="historyStatusHeading">Myyjäliikkeen valitsema hinnoittelun tukitieto</h3>
+              <p><strong>Tavoitepolussa myyjäliike voi pyytää VIS-arvion jälkeen historiatarkistuksen hinnoittelun ja päätöksenteon tueksi.</strong></p>
+              <ul>
+                <li>Palveluntarjoajasta riippumaton riskikerros ja alustava carVertical-adapteri on toteutettu ja yksikkötestattu erillisellä kehityshaaralla.</li>
+                <li>Adapterin oletuksia ei ole vahvistettu carVerticalin kanssa eikä koodia ole ajettu palvelun sandboxia tai tuotantoa vasten.</li>
+                <li>Historiapalvelu ei aseta hyvityshintaa: havainnot käsittelee myyjäliikkeen sääntö tai ihminen. Valinnaista vaihetta ei ole vielä kytketty tavoitejärjestyksessä runtimeen.</li>
               </ul>
             </aside>
           </div>
