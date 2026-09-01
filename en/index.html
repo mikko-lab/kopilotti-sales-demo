@@ -233,30 +233,19 @@
       <div class="landing-section-inner">
         <p class="section-eyebrow">Trade-in and settlement</p>
         <h2 id="tradeInHeading" class="section-heading">Trade-in is part of the same deterministic transaction decision</h2>
-        <p class="section-intro">Trade-in V1 handles vehicle identification, a vehicle-history risk check, an external valuation estimate, an offer, and the settlement amount as separate, traceable steps.</p>
+        <p class="section-intro">The Trade-in V1 target flow handles vehicle identification, VIS valuation, a dealer-selected vehicle-history check, an offer, and settlement as separate, traceable steps.</p>
 
         <div class="trade-in-grid">
           <ol class="trade-in-flow" aria-label="Digital trade-in process">
             <li><span aria-hidden="true">1</span><strong>Registration and odometer reading</strong></li>
             <li><span aria-hidden="true">2</span><strong>Vehicle identification</strong></li>
-            <li><span aria-hidden="true">3</span><strong>Vehicle-history risk check</strong></li>
-            <li><span aria-hidden="true">4</span><strong>External valuation</strong></li>
+            <li><span aria-hidden="true">3</span><strong>VIS valuation</strong></li>
+            <li><span aria-hidden="true">4</span><strong>Optional history check</strong></li>
             <li><span aria-hidden="true">5</span><strong>Deterministic offer</strong></li>
             <li><span aria-hidden="true">6</span><strong>Settlement and deal summary</strong></li>
           </ol>
 
           <div class="integration-status-stack">
-            <aside class="integration-status" aria-labelledby="historyStatusHeading">
-              <p class="integration-status-label">Vehicle history / carVertical</p>
-              <h3 id="historyStatusHeading">Risk check tested against an assumed contract</h3>
-              <p><strong>A provider-independent risk layer and a preliminary carVertical adapter have been implemented and unit-tested on a separate development branch.</strong></p>
-              <ul>
-                <li>The endpoint, authentication and response schema are codebase assumptions — not a carVertical-confirmed API contract.</li>
-                <li>The code has not been run against a carVertical sandbox or live service and is not connected to the public demo.</li>
-                <li>History data does not change the trade-in price itself: dealer-defined risk rules decide whether valuation may continue or the case needs review.</li>
-              </ul>
-            </aside>
-
             <aside class="integration-status" aria-labelledby="visStatusHeading">
               <p class="integration-status-label">VIS / Autovista</p>
               <h3 id="visStatusHeading">Integration boundary built, no production connection</h3>
@@ -265,6 +254,17 @@
                 <li>The internal flow is tested with a test provider; an actual VIS connection has not been implemented or tested against the service.</li>
                 <li>A missing or failed valuation is routed to manual review — the system never guesses a value.</li>
                 <li>Going live requires a licensed agreement, documentation, credentials, sandbox verification and contract testing.</li>
+              </ul>
+            </aside>
+
+            <aside class="integration-status" aria-labelledby="historyStatusHeading">
+              <p class="integration-status-label">Optional vehicle history / carVertical</p>
+              <h3 id="historyStatusHeading">Dealer-selected supporting input for pricing</h3>
+              <p><strong>In the target flow, the dealer may request a history check after the VIS estimate to support pricing and the commercial decision.</strong></p>
+              <ul>
+                <li>A provider-independent risk layer and preliminary carVertical adapter have been implemented and unit-tested on a separate development branch.</li>
+                <li>The adapter assumptions have not been confirmed with carVertical, and the code has not been run against the service's sandbox or production environment.</li>
+                <li>The history service does not set the trade-in price: its findings are handled by dealer rules or a person. The optional step has not yet been wired into runtime in this target order.</li>
               </ul>
             </aside>
           </div>
