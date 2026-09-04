@@ -16,6 +16,8 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 
 [Avaa Kopilotti Sales -sivusto](https://app.kopilotti.online/) · [Siirry suoraan Alfa Romeo Giulia Quadrifoglio -demoon](https://app.kopilotti.online/vehicle.html)
 
+[▶ Katso Kopilotti Salesin esittelyvideo (2:37)](https://app.kopilotti.online/esittelyvideo) · [lataa MP4 (11 Mt)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
+
 [📄 Lataa yhden sivun asiakas- ja sijoittajatiivistelmä](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf)
 
 > **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**

@@ -1004,3 +1004,72 @@
     width: 100%;
   }
 }
+
+/* ============ Sales presentation video ============
+   16:9 slot is reserved with aspect-ratio (plus the <video> width/height
+   attributes) so the poster and player never cause layout shift. Frame
+   background matches the video's own dark ground. Finnish caption track is
+   available but off by default (English subtitles are burned into the image). */
+.sales-video-section .section-intro { max-width: 820px; }
+.sales-video-frame {
+  max-width: 1080px;
+  margin: var(--space-5) auto 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--header-bg);
+  box-shadow: var(--shadow-lg);
+}
+.sales-video-frame .sales-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: var(--header-bg);
+}
+.sales-video-frame p {
+  margin: 0;
+  padding: var(--space-4);
+  color: #FFFFFF;
+  font-size: var(--text-sm);
+  text-align: center;
+}
+.sales-video-frame p a { color: #FFFFFF; }
+.sales-video-note {
+  max-width: 1080px;
+  margin: var(--space-3) auto 0;
+  color: var(--text2);
+  font-size: var(--text-xs);
+  text-align: center;
+}
+.sales-video-transcript {
+  max-width: 820px;
+  margin: var(--space-3) auto 0;
+}
+.sales-video-transcript > summary {
+  cursor: pointer;
+  padding: var(--space-2) 0;
+  color: var(--primary-dark);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+.sales-video-transcript-body {
+  margin-top: var(--space-2);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+  color: var(--text2);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+.sales-video-transcript-body h3 {
+  margin: var(--space-3) 0 var(--space-1);
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+.sales-video-transcript-body h3:first-child { margin-top: 0; }
+.sales-video-transcript-body p { margin: 0; }
+@media (max-width: 767px) {
+  .sales-video-frame { border-radius: var(--radius); }
+}
