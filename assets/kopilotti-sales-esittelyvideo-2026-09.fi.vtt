@@ -1,0 +1,121 @@
+WEBVTT
+
+1
+00:00:00.250 --> 00:00:04.108
+Asiakas ei aina odota aamuun.
+
+2
+00:00:04.108 --> 00:00:09.509
+Kopilotti jatkaa kaupantekoa myös illalla ja viikonloppuna.
+
+3
+00:00:09.509 --> 00:00:11.824
+Tekoäly hoitaa keskustelun.
+
+4
+00:00:11.824 --> 00:00:15.682
+Autoliikkeen omat säännöt ratkaisevat hinnan.
+
+5
+00:00:16.683 --> 00:00:21.723
+Asiakas löytää autoliikkeen sivulta kiinnostavan Alfa Romeon.
+
+6
+00:00:21.723 --> 00:00:26.043
+Auton hinta on yhdeksänkymmentäviisi tuhatta euroa.
+
+7
+00:00:27.050 --> 00:00:32.030
+Auton omalla sivulla asiakas valitsee: Neuvottele hinnasta.
+
+8
+00:00:32.030 --> 00:00:37.010
+Kopilotti avautuu heti ja tunnistaa valitun auton.
+
+9
+00:00:38.017 --> 00:00:42.844
+Ennen hintakeskustelua asiakas käy läpi auton kuntotiedot.
+
+10
+00:00:42.844 --> 00:00:45.603
+Hintarajat säilyvät suojattuina palvelimella.
+
+11
+00:00:45.603 --> 00:00:51.121
+Tekoäly ei näe niitä, eikä voi ohittaa niitä.
+
+12
+00:00:52.150 --> 00:00:56.450
+Asiakas tarjoaa autosta yhdeksänkymmentä tuhatta euroa.
+
+13
+00:00:56.450 --> 00:01:03.618
+Kopilotti ei paljasta alinta sallittua hintaa, eikä hyväksy tarjousta suoraan.
+
+14
+00:01:03.618 --> 00:01:07.918
+Vastatarjous on yhdeksänkymmentäkolme tuhatta viisisataa euroa.
+
+15
+00:01:08.950 --> 00:01:15.043
+Seuraavaksi asiakas tarjoaa yhdeksänkymmentäyksi tuhatta sata euroa.
+
+16
+00:01:15.043 --> 00:01:20.265
+Kopilotti vastaa: yhdeksänkymmentäkaksi tuhatta viisisataa euroa.
+
+17
+00:01:20.265 --> 00:01:22.006
+Asiakas hyväksyy.
+
+18
+00:01:23.017 --> 00:01:28.184
+Autoliikkeen alin sallittu hinta on yhdeksänkymmentä tuhatta euroa.
+
+19
+00:01:28.184 --> 00:01:31.414
+Kopilotti ei pidä sitä tavoitehintana.
+
+20
+00:01:31.414 --> 00:01:37.873
+Lopullinen hinta on kaksi tuhatta viisisataa euroa tämän rajan yläpuolella.
+
+21
+00:01:38.883 --> 00:01:46.997
+Kun hinnasta on sovittu, asiakas voi valita maksutavan tai pyytää rahoitusvaihtoehtoa.
+
+22
+00:01:46.997 --> 00:01:51.423
+Mahdollinen vaihtoauto voidaan arvioida VIS-tietojen avulla.
+
+23
+00:01:51.423 --> 00:01:56.587
+CarVertical voidaan liittää mukaan valinnaiseksi ajoneuvohistorian lähteeksi.
+
+24
+00:01:56.587 --> 00:02:03.963
+Lopullisen vaihtoautohinnan ja rahoituspäätöksen tekee aina autoliike tai sen rahoituskumppani.
+
+25
+00:02:04.983 --> 00:02:10.138
+Sovittu hinta ja keskustelun vaiheet tallennetaan yhteenvetoon.
+
+26
+00:02:10.138 --> 00:02:18.238
+Sen jälkeen autoliike hoitaa asiakkaan tunnistamisen, sopimuksen ja maksamisen omissa järjestelmissään.
+
+27
+00:02:18.238 --> 00:02:21.183
+Maksu menee suoraan autoliikkeelle.
+
+28
+00:02:22.183 --> 00:02:26.036
+Kopilotti ei ole tavallinen keskustelubotti.
+
+29
+00:02:26.036 --> 00:02:32.971
+Se on digitaalinen automyyjä, joka palvelee kaikkina vuorokauden aikoina.
+
+30
+00:02:32.971 --> 00:02:36.823
+Silti kaupallinen päätösvalta säilyy autoliikkeellä.
