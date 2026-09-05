@@ -100,6 +100,8 @@ Varmennus koskee vain yllä kuvattua rajattua tuotantolaajuutta.
 - deterministinen kanonisointi ja hashien muodostus
 <!-- sales-claim id="safe-local-receipt-link-boundary" status="implemented-tested" -->
 - turvallisen kuittilinkin paikallinen muodostus- ja näyttöraja
+<!-- sales-claim id="dealer-negotiation-summary-api" status="implemented-tested" -->
+- autentikoitu, jälleenmyyjäkohtainen ja vain lukeva neuvotteluyhteenveto
 
 ## 12. Ei tuotantovarmennettu
 
@@ -111,6 +113,8 @@ Varmennus koskee vain yllä kuvattua rajattua tuotantolaajuutta.
 - sovelluksen auditointihistoria ja hash-ketju
 <!-- sales-claim id="append-only-audit-application-path" status="implemented-not-production-verified" -->
 - auditointitapahtumien append-only-sovelluspolku
+<!-- sales-claim id="dealer-summary-api-not-production-verified" status="implemented-not-production-verified" -->
+- jälleenmyyjän neuvotteluyhteenveto-API
 
 Varaus- ja auditointimekanismit on toteutettu ja testattu, mutta niitä ei ole tässä yhteydessä tuotantovarmennettu.
 
@@ -136,6 +140,16 @@ Varaus- ja auditointimekanismit on toteutettu ja testattu, mutta niitä ei ole t
 - hyväksytyt RTO/RPO-tavoitteet
 <!-- sales-claim id="named-operational-owners-response-times" status="roadmap-research" -->
 - nimetyt operatiiviset omistajat ja vasteajat
+<!-- sales-claim id="admin-agreed-deals-ui" status="roadmap-research" -->
+- Adminin sovitut kaupat -käyttöliittymä
+<!-- sales-claim id="dealer-contact-handoff-consent" status="roadmap-research" -->
+- asiakkaan yhteystiedon suostumukseen perustuva jälleenmyyjä-handoff
+<!-- sales-claim id="dealer-email-notification" status="roadmap-research" -->
+- myyjälle lähetettävä sähköposti-ilmoitus
+<!-- sales-claim id="payment-financing-features" status="roadmap-research" -->
+- maksu- tai rahoitustoiminnot
+<!-- sales-claim id="separate-staging-environment" status="roadmap-research" -->
+- erillinen staging-ympäristö
 
 Nämä ovat tavoite- tai tutkimussuuntia, eivät nykyisiä ominaisuuksia.
 
