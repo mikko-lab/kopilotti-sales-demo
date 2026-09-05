@@ -61,6 +61,8 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 > **Nykytilapäivitys 26.8.2026:** Julkaistun demon tuotantobackend käyttää nyt pysyvää PostgreSQL-tallennusta neuvottelusessioille. Tenant-rajattu session käyttö ja tenant-suhteiden tietokantatason eheysrajat ovat käytössä. Julkaisu varmennettiin tuoreella backup/restore-testillä sekä skeema- ja readiness-porteilla. Tämä ei ota käyttöön maksukelpoista kauppapolkua, VIS-yhteyttä tai DDN-todennusta.
 
+**Maksu- ja rahoitusraja:** Kopilotti Sales ei vastaanota, säilytä, siirrä, tilitä eikä palauta asiakkaan varoja. Se ei peri varausmaksua tai käsirahaa eikä tee rahoituspäätöstä. Sovitun hinnan jälkeen (1) asiakas maksaa koko kauppahinnan suoraan myyjäliikkeelle liikkeen omissa järjestelmissä, tai (2) asiakas tekee rahoitussopimuksen suoraan myyjäliikkeen tai sen rahoituskumppanin kanssa. Kopilotti voi neuvotella hinnan, muodostaa rakenteellisen yhteenvedon ja siirtää asian myyjäliikkeen käsiteltäväksi — se ei ole maksunsaaja, maksunvälittäjä, luotonantaja eikä rahoituspäätöksen tekijä.
+
 ## Todistettu julkaistussa demoympäristössä
 
 - Magic Link -käyttöönotto: yksi autokohtainen, läpinäkymätön linkki, jonka takaa asiakas löytää auton tiedot ja voi aloittaa hintaneuvottelun
@@ -81,6 +83,7 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - **Myyjäliikkeen maksuhallinta.** Kopilotti Adminiin on rakennettu maksuprofiilit, maksua odottavien kauppojen näkymä ja atominen manuaalinen maksuvahvistus. Asiakas ei voi vahvistaa maksua eikä asettaa `PAID`-tilaa. Maksuvahvistuksen kanoninen audit-tapahtuma on samassa tietokantatransaktiossa kirjoitettava `PAID_CONFIRMED`.
 - **Maksukelvoton konseptisopimus.** Tuotantoympäristössä konseptiasiakirja vaatii kaksi erillistä, eksplisiittistä käyttöönottoa. Asiakirja merkitään näkyvästi `KONSEPTIDEMO`-tekstillä, eikä siinä näytetä IBANia, BICiä, viitenumeroa, eräpäivää tai maksukehotetta. Polku pysähtyy `CONTRACT_READY`-tilaan.
 - **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Julkisessa tuotantoliikenteessä tila on tällä hetkellä `NOT_CONFIGURED`: siitä ei muodosteta väitettä varmennetusta päätöksestä, päätöskuittia eikä kuittilinkkiä.
+- **Jälleenmyyjän neuvotteluyhteenveto-API.** Autentikoitu, jälleenmyyjäkohtainen ja vain lukeva rajapinta sovittujen ja ihmiskäsittelyä vaativien neuvottelujen listaukseen ja rakenteelliseen yhteenvetoon on toteutettu ja testattu. Ks. alla oleva oma osio.
 
 > **Integraatioiden tuotantoraja:** aktiivista VIS / Autovista- tai carVertical-yhteyttä ei ole, eikä kumpaankaan liity julkistettua kumppanuutta. Tuotantokytkentä vaatii palveluntarjoajan vahvistaman rajapintasopimuksen, dokumentaation, tunnukset, turvallisen salaisuuksien hallinnan sekä sandbox- ja tuotantoympäristöjen sopimustestauksen.
 
@@ -96,6 +99,10 @@ Täysi lasku–`PAID`-tuotantopolku on näihin asti **NO-GO**. Kun se aikanaan o
 ## Suunniteltu jatkokehitys, ei nykyinen ominaisuus
 
 - **1–3 erikseen määriteltävää vastatarjoushintaa.** Järjestelmässä on jo kolme automaattista neuvottelukierrosta; tuleva ominaisuus koskee nimenomaan sitä, että autoliike voisi määritellä jokaiselle kierrokselle oman vastatarjoushinnan yhden laskentakaavan sijaan.
+- **Adminin "Sovitut kaupat" -käyttöliittymä.** Neuvotteluyhteenveto-API on toteutettu, mutta sille ei vielä ole käyttöliittymää Kopilotti Adminissa.
+- **Asiakkaan yhteystiedon suostumukseen perustuva handoff.** Asiakkaan yhteystietoa ei vielä välitetä myyjäliikkeelle minkään tämän API:n kautta; se on erillinen, tuleva suostumus- ja tietosuojapäätös.
+- **Myyjälle lähetettävä sähköposti-ilmoitus** sovitusta kaupasta tai käsittelyä vaativasta neuvottelusta.
+- **Erillinen staging-ympäristö** ennen tuotantoa tehtävää harjoittelua ja testausta varten.
 
 ---
 
@@ -324,6 +331,14 @@ Kun toimintamalli on osoittanut arvonsa, linkkien luonti ja ajoneuvotietojen pä
 Integraatiot ovat hallittu seuraava vaihe, eivät pilotin aloittamisen edellytys.
 
 > **Raha siirtyy suoraan asiakkaalta myyjäliikkeelle.** Kopilotti ei vastaanota, säilytä eikä välitä varoja. Maksun vahvistaa myyjäliike.
+
+## Jälleenmyyjän neuvotteluyhteenvedot
+
+Myyjäliikkeen käyttäjä voi myöhemmin tarkastella oman liikkeensä sovittuja kauppoja ja ihmiskäsittelyä vaativia neuvotteluja autentikoidun, jälleenmyyjäkohtaisen ja vain lukevan rajapinnan kautta. Tiedot rajataan siihen tenanttiin, johon käyttäjä kuuluu.
+
+Näkymä voi sisältää sovitun hinnan, ajoneuvon näyttötiedot (merkki, malli, rekisteritunnus), aikaleimat ja rakenteellisen tarjoushistorian. Se ei koskaan palauta asiakkaan sähköpostia, puhelinnumeroa, tunnistehasheja, vapaata evidence-tekstiä, Magic Link -tokenia eikä sisäistä hintapolitiikkaa (hintalattia, tavoitehinta, vastatarjousaskel).
+
+Käyttöliittymä Kopilotti Adminissa puuttuu vielä — ks. yllä "Suunniteltu jatkokehitys". Asiakkaan yhteystietoa ei välitetä myyjäliikkeelle tämän rajapinnan kautta.
 
 ---
 

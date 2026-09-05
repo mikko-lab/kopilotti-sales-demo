@@ -83,6 +83,8 @@ The conversational layer (the LLM) talks to the customer, recognizes intent, and
 - Funds move directly from the customer to the dealer. Kopilotti does not receive, hold, or transfer funds — the dealer confirms payment in its own systems, through the payment service it has chosen.
 - Vehicle handover is agreed between the customer and the dealer according to the dealer's normal process.
 
+Kopilotti Sales does not receive, hold, transfer, settle, or refund customer funds. It does not collect a reservation fee or deposit and does not make financing or credit decisions. After the price has been agreed, the customer pays the full purchase price directly to the selling dealership in the dealership's own systems, or enters into a financing agreement directly with the dealership or its financing partner. Kopilotti may negotiate the price, produce a structured summary, and hand the matter to the dealership — it is not the merchant of record, payment processor, lender, or credit decision-maker.
+
 ## Current scope
 
 > **Current-state update — 26 August 2026:** The published demo's production backend now uses durable PostgreSQL persistence for negotiation sessions. Tenant-scoped session access and database-enforced integrity for tenant relationships are active. The release passed a fresh backup-and-restore test together with schema and readiness gates. This does not enable a payment-capable transaction path, a live VIS connection, or DDN verification.
@@ -104,6 +106,7 @@ The conversational layer (the LLM) talks to the customer, recognizes intent, and
 - A preliminary carVertical HTTP adapter, unit-tested only against endpoint, authentication and response-schema assumptions made by this codebase. Those assumptions are not a carVertical-confirmed API contract, the adapter has never been run against a carVertical sandbox or live service, and it is not connected to runtime or the public demo.
 - A contract, invoice and bank-transfer path from an agreed price toward a paid state — currently a no-go for real payment, gated behind an explicit, clearly marked concept-contract step with no payable account details shown.
 - Cryptographic after-the-fact verification of commercial decisions, built and tested; not configured on the public path.
+- An authenticated, dealership-scoped, read-only negotiation-summary API: a dealer-staff user can see their own dealership's agreed deals and negotiations that need dealer review, including the agreed price, the vehicle's public display fields, timestamps, and a structural offer history. It never returns the customer's email, phone number, identity hashes, free-form evidence text, a Magic Link token, or internal pricing policy. An Admin UI for this view, an email notification to the dealer, and a consent-based customer-contact handoff do not exist yet.
 
 The current demonstrator models a Finnish dealer transaction. Market-specific financing, consumer-law, payment and vehicle-registration integrations would need to be implemented separately for each country, and are not part of this public repository or the current live demo.
 

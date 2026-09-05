@@ -100,6 +100,8 @@ The verification applies only to the limited production scope listed above.
 - deterministic canonicalization and hash generation
 <!-- sales-claim id="safe-local-receipt-link-boundary" status="implemented-tested" -->
 - a safe local boundary for constructing and displaying a receipt link
+<!-- sales-claim id="dealer-negotiation-summary-api" status="implemented-tested" -->
+- an authenticated, dealership-scoped, read-only negotiation summary
 
 ## 12. Not production-verified
 
@@ -111,6 +113,8 @@ The verification applies only to the limited production scope listed above.
 - application audit history and hash chain
 <!-- sales-claim id="append-only-audit-application-path" status="implemented-not-production-verified" -->
 - append-only application path for audit events
+<!-- sales-claim id="dealer-summary-api-not-production-verified" status="implemented-not-production-verified" -->
+- the dealer negotiation summary API
 
 Reservation and audit mechanisms are implemented and tested but have not been production-verified in this review.
 
@@ -136,6 +140,16 @@ Reservation and audit mechanisms are implemented and tested but have not been pr
 - approved RTO/RPO targets
 <!-- sales-claim id="named-operational-owners-response-times" status="roadmap-research" -->
 - named operational owners and response times
+<!-- sales-claim id="admin-agreed-deals-ui" status="roadmap-research" -->
+- an Admin interface for agreed deals
+<!-- sales-claim id="dealer-contact-handoff-consent" status="roadmap-research" -->
+- a consent-based customer-contact handoff to the dealer
+<!-- sales-claim id="dealer-email-notification" status="roadmap-research" -->
+- an email notification to the dealer
+<!-- sales-claim id="payment-financing-features" status="roadmap-research" -->
+- payment or financing features
+<!-- sales-claim id="separate-staging-environment" status="roadmap-research" -->
+- a separate staging environment
 
 These are target or research directions, not current capabilities.
 
