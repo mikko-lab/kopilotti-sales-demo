@@ -155,7 +155,7 @@ Nämä ovat tavoite- tai tutkimussuuntia, eivät nykyisiä ominaisuuksia.
 
 ## 14. Demo ja lisätiedot
 
-- [Avaa demo](https://app.kopilotti.online)
+- [Avaa demo](https://kopilotti.online)
 - [English product overview](kopilotti-sales-overview-en.md)
 - [English A4 PDF](kopilotti-sales-overview-en.pdf)
 - [Repon README](../README.md)

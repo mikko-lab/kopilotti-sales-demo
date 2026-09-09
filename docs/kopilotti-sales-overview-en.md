@@ -155,7 +155,7 @@ These are target or research directions, not current capabilities.
 
 ## 14. Demo and further information
 
-- [Open the demo](https://app.kopilotti.online)
+- [Open the demo](https://kopilotti.online)
 - [Suomenkielinen tuote-esittely](kopilotti-sales-overview-fi.md)
 - [Suomenkielinen A4-PDF](kopilotti-sales-overview-fi.pdf)
 - [Repository README](../README.md)
