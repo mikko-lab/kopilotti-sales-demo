@@ -12,15 +12,15 @@ This public repository presents the product concept, demonstrator and external o
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-## [🚀 Try the price-negotiation demo](https://app.kopilotti.online/vehicle.html)
+## [🚀 Try the price-negotiation demo](https://kopilotti.online/vehicle.html)
 
-[Open the Kopilotti Sales site (English)](https://app.kopilotti.online/en/) · [Go straight to the Alfa Romeo Giulia Quadrifoglio demo](https://app.kopilotti.online/vehicle.html)
+[Open the Kopilotti Sales site (English)](https://kopilotti.online/en/) · [Go straight to the Alfa Romeo Giulia Quadrifoglio demo](https://kopilotti.online/vehicle.html)
 
-[▶ Watch the Kopilotti Sales presentation video (2:37)](https://app.kopilotti.online/esittelyvideo) · [download MP4 (11 MB)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
+[▶ Watch the Kopilotti Sales presentation video (2:37)](https://kopilotti.online/esittelyvideo) · [download MP4 (11 MB)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
 
 > **Concept demonstrator – does not require strong identity verification and does not create a binding offer.** The interactive negotiation interface itself is presented in Finnish; see [Current scope](#current-scope).
 
-[![Kopilotti Sales digital price negotiation](assets/screenshot-negotiation-card.jpg)](https://app.kopilotti.online/vehicle.html)
+[![Kopilotti Sales digital price negotiation](assets/screenshot-negotiation-card.jpg)](https://kopilotti.online/vehicle.html)
 
 ## 2. Product overview / Tuote-esittely
 

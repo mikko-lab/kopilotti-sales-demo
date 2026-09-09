@@ -12,11 +12,11 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-## [🚀 Kokeile hintaneuvotteludemoa](https://app.kopilotti.online/vehicle.html)
+## [🚀 Kokeile hintaneuvotteludemoa](https://kopilotti.online/vehicle.html)
 
-[Avaa Kopilotti Sales -sivusto](https://app.kopilotti.online/) · [Siirry suoraan Alfa Romeo Giulia Quadrifoglio -demoon](https://app.kopilotti.online/vehicle.html)
+[Avaa Kopilotti Sales -sivusto](https://kopilotti.online/) · [Siirry suoraan Alfa Romeo Giulia Quadrifoglio -demoon](https://kopilotti.online/vehicle.html)
 
-[▶ Katso Kopilotti Salesin esittelyvideo (2:37)](https://app.kopilotti.online/esittelyvideo) · [lataa MP4 (11 Mt)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
+[▶ Katso Kopilotti Salesin esittelyvideo (2:37)](https://kopilotti.online/esittelyvideo) · [lataa MP4 (11 Mt)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
 
 [📄 Lataa yhden sivun asiakas- ja sijoittajatiivistelmä](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf)
 
@@ -38,7 +38,7 @@ Kopilotti Sales ei korvaa automyyjää.
 
 Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalisen vaiheen ennen kauppoja.
 
-[![Kopilotti Salesin digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)](https://app.kopilotti.online/vehicle.html)
+[![Kopilotti Salesin digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)](https://kopilotti.online/vehicle.html)
 
 ## 2. Product overview / Tuote-esittely
 
