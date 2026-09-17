@@ -75,6 +75,14 @@ The conversational layer (the LLM) talks to the customer, recognizes intent, and
 - Unclear or incomplete situations do not automatically resolve into a price promise — they are escalated.
 - Commercial decision logic is isolated from prompt-injection attempts directed at the LLM.
 
+## Evaluation and safety
+
+Kopilotti Sales has a separate black-box evaluation and safety layer that tests observable behavior through the REST API boundary without exposing the private decision engine or dealer-specific commercial rules.
+
+The evaluation layer uses deterministic invariants, integration and security tests, an isolated local Sales system under test, and disposable PostgreSQL/Docker infrastructure. It can produce repeatable, provenance-bound engineering evidence, redact sensitive trace data, and enforce fail-closed safeguards around test targets and credential handling.
+
+The current harness has been exercised end to end against a real local Sales process, including protocol-level idempotency behavior. This is engineering validation for the current development state, not a production or security certification, and it does not imply that every production failure mode has been covered.
+
 ## Financing and regulated-service boundaries
 
 - Kopilotti Sales does not grant credit and does not make lending decisions.
