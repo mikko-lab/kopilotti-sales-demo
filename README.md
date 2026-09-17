@@ -122,7 +122,7 @@ Tämä erottaa Kopilotti Salesin tavallisista AI-chatboteista ja automatisoiduis
 
 # Mikä ongelma ratkaistaan?
 
-Käytettyjen ajoneuvojen verkkokaupassa lähes koko ostoprosessi voidaan jo hoitaa digitaalisesti.
+Käytetyn ajoneuvon verkkokaupassa lähes koko ostoprosessi voidaan jo hoitaa digitaalisesti.
 
 Asiakas voi:
 
@@ -439,6 +439,14 @@ Tämä arkkitehtuuri on tietoinen suunnitteluratkaisu.
 Tarkkaa päätöslogiikkaa ei julkaista tässä repositoriossa.
 
 Asiakkaan identiteetti vahvistetaan sähköpostitse ennen hintaneuvottelun aloittamista, ja järjestelmä rajoittaa saman asiakkaan automaattisten tarjousten määrää yhtä ajoneuvoa kohden ennen siirtoa myyjäliikkeen käsiteltäväksi. Tämä suojaa sekä asiakasta että myyjäliikettä väärinkäytöltä.
+
+## Evaluation & Safety
+
+Kopilotti Salesille on rakennettu erillinen black-box-periaatteella toimiva Evaluation & Safety -kerros, joka testaa järjestelmän ulospäin havaittavaa käyttäytymistä REST API -rajapinnan kautta ilman, että tuotannon päätösmoottoria tai myyjäliikkeen kaupallisia sääntöjä julkaistaan.
+
+Arviointikerros käyttää deterministisiä invariantteja, integraatio- ja tietoturvatestejä sekä eristettyä paikallista Sales-SUT-ympäristöä ja kertakäyttöistä PostgreSQL/Docker-testialustaa. Se voi tuottaa toistettavaa, provenienssiin sidottua teknistä evidenssiä, redaktoida arkaluonteisen trace-datan ja valvoa testikohteita sekä tunnistetietojen käsittelyä fail-closed-periaatteella.
+
+Nykyinen eval-harness on ajettu päästä päähän oikeaa paikallista Sales-prosessia vasten, mukaan lukien protokollatason idempotenssin todentaminen. Kyse on nykyisen kehitysvaiheen engineering-validoinnista, ei tuotanto- tai tietoturvasertifioinnista eikä väitteestä, että kaikki mahdolliset tuotantovirheet olisi katettu.
 
 ---
 
