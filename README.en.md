@@ -12,22 +12,25 @@ This public repository presents the product concept, demonstrator and external o
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-## [🚀 Try the price-negotiation demo](https://kopilotti.online/vehicle.html)
+## Explore Kopilotti Sales
 
-[Open the Kopilotti Sales site (English)](https://kopilotti.online/en/) · [Go straight to the Alfa Romeo Giulia Quadrifoglio demo](https://kopilotti.online/vehicle.html)
+### [🚀 Try the price-negotiation demo](https://kopilotti.online/vehicle.html)
 
-[▶ Watch the Kopilotti Sales presentation video (2:37)](https://kopilotti.online/esittelyvideo) · [download MP4 (11 MB)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
+[Open the Kopilotti Sales website](https://kopilotti.online/en/) · [▶ Mikko-Lab on YouTube](https://www.youtube.com/@mikko-lab)
+
+[📄 One-page customer and investor overview](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf) · [▶ Watch the Kopilotti Sales presentation video (2:37)](https://kopilotti.online/esittelyvideo)
 
 > **Concept demonstrator – does not require strong identity verification and does not create a binding offer.** The interactive negotiation interface itself is presented in Finnish; see [Current scope](#current-scope).
 
 [![Kopilotti Sales digital price negotiation](assets/screenshot-negotiation-card.jpg)](https://kopilotti.online/vehicle.html)
 
-## 2. Product overview / Tuote-esittely
+## Product overviews and materials
 
 - [Suomenkielinen tuote-esittely (PDF)](docs/kopilotti-sales-overview-fi.pdf)
 - [English product overview (PDF)](docs/kopilotti-sales-overview-en.pdf)
 - [Saavutettava suomenkielinen tekstiversio](docs/kopilotti-sales-overview-fi.md)
 - [Accessible English text version](docs/kopilotti-sales-overview-en.md)
+- [Download the Kopilotti Sales presentation video (MP4, 11 MB)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
 
 ## How it works
 
@@ -68,12 +71,12 @@ The conversational layer (the LLM) talks to the customer, recognizes intent, and
 
 ## Dealer control and deterministic safeguards
 
-- The dealer defines every commercial rule: price floors, counter-offer steps, campaigns, and which cases require manual approval — per vehicle, per vehicle group, per price band, or per stock position.
+- The dealer defines the commercial policy and boundaries used by the decision engine.
 - Price boundaries are evaluated server-side and are never exposed to the browser or delegated to the language model.
-- The customer's identity is verified before a price negotiation begins, and the number of automated negotiation rounds per customer and vehicle is limited before the case moves to the dealer.
+- The customer's email address is verified before a price negotiation begins, and the number of automated negotiation rounds per customer and vehicle is limited before the case moves to the dealer.
 - Commercial decisions and their basis are recorded traceably.
 - Unclear or incomplete situations do not automatically resolve into a price promise — they are escalated.
-- Commercial decision logic is isolated from prompt-injection attempts directed at the LLM.
+- Commercial decision authority is isolated from free-form LLM output. This reduces the impact of prompt-injection attempts on commercial decisions, but is not a claim of complete prompt-injection immunity.
 
 ## Evaluation and safety
 
@@ -95,7 +98,7 @@ Kopilotti Sales does not receive, hold, transfer, settle, or refund customer fun
 
 ## Current scope
 
-> **Current-state update — 26 August 2026:** The published demo's production backend now uses durable PostgreSQL persistence for negotiation sessions. Tenant-scoped session access and database-enforced integrity for tenant relationships are active. The release passed a fresh backup-and-restore test together with schema and readiness gates. This does not enable a payment-capable transaction path, a live VIS connection, or DDN verification.
+> **Current-state update — 17 September 2026:** The published demo's production backend uses durable PostgreSQL persistence for negotiation sessions. Tenant-scoped session access and database-enforced integrity for tenant relationships are active. The release has been verified with backup-and-restore testing together with schema and readiness gates. A separate black-box Evaluation & Safety harness has also been exercised end to end against a local Sales SUT. This does not change the public demo's feature boundary and does not enable a payment-capable transaction path, a live VIS connection, or live DDN verification.
 
 **Proven in the published demo environment:**
 
@@ -113,7 +116,7 @@ Kopilotti Sales does not receive, hold, transfer, settle, or refund customer fun
 - An optional provider-independent vehicle-history risk layer, dealer-defined deterministic policy, idempotency/cache boundary, daily request budget and privacy-preserving audit path, implemented and tested on a separate development branch. In the target flow, the dealer may request this check after the VIS valuation as supporting input for pricing or manual review. The optional step has not yet been wired into runtime in this target order.
 - A preliminary carVertical HTTP adapter, unit-tested only against endpoint, authentication and response-schema assumptions made by this codebase. Those assumptions are not a carVertical-confirmed API contract, the adapter has never been run against a carVertical sandbox or live service, and it is not connected to runtime or the public demo.
 - A contract, invoice and bank-transfer path from an agreed price toward a paid state — currently a no-go for real payment, gated behind an explicit, clearly marked concept-contract step with no payable account details shown.
-- Cryptographic after-the-fact verification of commercial decisions, built and tested; not configured on the public path.
+- DDN preparation: deterministic canonicalization, hash generation, and bounded local receipt/provenance preparation have been implemented and tested in development. Live DDN verification, signer authentication, quorum/trust-profile verification, and public anchoring are not active on the public production path.
 - An authenticated, dealership-scoped, read-only negotiation-summary API: a dealer-staff user can see their own dealership's agreed deals and negotiations that need dealer review, including the agreed price, the vehicle's public display fields, timestamps, and a structural offer history. It never returns the customer's email, phone number, identity hashes, free-form evidence text, a Magic Link token, or internal pricing policy. An Admin UI for this view, an email notification to the dealer, and a consent-based customer-contact handoff do not exist yet.
 
 The current demonstrator models a Finnish dealer transaction. Market-specific financing, consumer-law, payment and vehicle-registration integrations would need to be implemented separately for each country, and are not part of this public repository or the current live demo.
@@ -132,7 +135,7 @@ There is no announced VIS / Autovista or carVertical partnership or active produ
 
 ## Partnership and integration discussions
 
-Kopilotti Sales is designed for a lightweight pilot: a dealer adds one negotiation link to a vehicle page, without a multi-week integration project. Deeper integrations — DMS, e-commerce, CRM, or a marketplace's own API — are a later, deliberate step once the model has shown its value, and are always subject to a partner agreement.
+Kopilotti Sales is designed for a lightweight pilot: a dealer can start with a vehicle-specific negotiation link rather than a deep integration. Deeper integrations — DMS, e-commerce, CRM, or a marketplace's own API — are a later, deliberate step once the model has shown its value, and are always subject to a partner agreement.
 
 If you represent an automotive marketplace, a dealer-software platform, or a dealer group and want to discuss a pilot or an integration, get in touch: [hello@kopilotti.online](mailto:hello@kopilotti.online).
 
