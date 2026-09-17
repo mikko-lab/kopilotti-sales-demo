@@ -12,13 +12,13 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
 
-## [🚀 Kokeile hintaneuvotteludemoa](https://kopilotti.online/vehicle.html)
+## Tutustu Kopilotti Salesiin
 
-[Avaa Kopilotti Sales -sivusto](https://kopilotti.online/) · [Siirry suoraan Alfa Romeo Giulia Quadrifoglio -demoon](https://kopilotti.online/vehicle.html)
+### [🚀 Kokeile hintaneuvotteludemoa](https://kopilotti.online/vehicle.html)
 
-[▶ Katso Kopilotti Salesin esittelyvideo (2:37)](https://kopilotti.online/esittelyvideo) · [lataa MP4 (11 Mt)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
+[Avaa Kopilotti Sales -sivusto](https://kopilotti.online/) · [▶ Mikko-Lab YouTubessa](https://www.youtube.com/@mikko-lab)
 
-[📄 Lataa yhden sivun asiakas- ja sijoittajatiivistelmä](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf)
+[📄 Yhden sivun asiakas- ja sijoittajatiivistelmä](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf) · [▶ Katso Kopilotti Salesin esittelyvideo (2:37)](https://kopilotti.online/esittelyvideo)
 
 > **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**
 
@@ -40,12 +40,13 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 [![Kopilotti Salesin digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)](https://kopilotti.online/vehicle.html)
 
-## 2. Product overview / Tuote-esittely
+## Tuote-esittelyt ja materiaalit
 
 - [Suomenkielinen tuote-esittely (PDF)](docs/kopilotti-sales-overview-fi.pdf)
 - [English product overview (PDF)](docs/kopilotti-sales-overview-en.pdf)
 - [Saavutettava suomenkielinen tekstiversio](docs/kopilotti-sales-overview-fi.md)
 - [Accessible English text version](docs/kopilotti-sales-overview-en.md)
+- [Lataa Kopilotti Salesin esittelyvideo MP4-muodossa (11 Mt)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
 
 ## Näin Kopilotti Sales toimii
 
@@ -59,7 +60,7 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 # Tuotannon tila
 
-> **Nykytilapäivitys 26.8.2026:** Julkaistun demon tuotantobackend käyttää nyt pysyvää PostgreSQL-tallennusta neuvottelusessioille. Tenant-rajattu session käyttö ja tenant-suhteiden tietokantatason eheysrajat ovat käytössä. Julkaisu varmennettiin tuoreella backup/restore-testillä sekä skeema- ja readiness-porteilla. Tämä ei ota käyttöön maksukelpoista kauppapolkua, VIS-yhteyttä tai DDN-todennusta.
+> **Nykytilapäivitys 17.9.2026:** Julkaistun demon tuotantobackend käyttää pysyvää PostgreSQL-tallennusta neuvottelusessioille. Tenant-rajattu session käyttö ja tenant-suhteiden tietokantatason eheysrajat ovat käytössä. Julkaisu on varmennettu backup/restore-testillä sekä skeema- ja readiness-porteilla. Lisäksi erillinen black-box Evaluation & Safety -harness on ajettu päästä päähän paikallista Sales-SUT:ia vasten. Tämä ei muuta julkisen tuotantodemon ominaisuusrajaa eikä ota käyttöön maksukelpoista kauppapolkua, VIS-yhteyttä tai live-DDN-todennusta.
 
 **Maksu- ja rahoitusraja:** Kopilotti Sales ei vastaanota, säilytä, siirrä, tilitä eikä palauta asiakkaan varoja. Se ei peri varausmaksua tai käsirahaa eikä tee rahoituspäätöstä. Sovitun hinnan jälkeen (1) asiakas maksaa koko kauppahinnan suoraan myyjäliikkeelle liikkeen omissa järjestelmissä, tai (2) asiakas tekee rahoitussopimuksen suoraan myyjäliikkeen tai sen rahoituskumppanin kanssa. Kopilotti voi neuvotella hinnan, muodostaa rakenteellisen yhteenvedon ja siirtää asian myyjäliikkeen käsiteltäväksi — se ei ole maksunsaaja, maksunvälittäjä, luotonantaja eikä rahoituspäätöksen tekijä.
 
@@ -82,7 +83,7 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - **Sopimus-, lasku- ja tilisiirtopolku.** Palvelimen hyväksymästä hinnasta voidaan muodostaa idempotentti kauppapaketti, jonka tilakone on `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`.
 - **Myyjäliikkeen maksuhallinta.** Kopilotti Adminiin on rakennettu maksuprofiilit, maksua odottavien kauppojen näkymä ja atominen manuaalinen maksuvahvistus. Asiakas ei voi vahvistaa maksua eikä asettaa `PAID`-tilaa. Maksuvahvistuksen kanoninen audit-tapahtuma on samassa tietokantatransaktiossa kirjoitettava `PAID_CONFIRMED`.
 - **Maksukelvoton konseptisopimus.** Tuotantoympäristössä konseptiasiakirja vaatii kaksi erillistä, eksplisiittistä käyttöönottoa. Asiakirja merkitään näkyvästi `KONSEPTIDEMO`-tekstillä, eikä siinä näytetä IBANia, BICiä, viitenumeroa, eräpäivää tai maksukehotetta. Polku pysähtyy `CONTRACT_READY`-tilaan.
-- **DDN (Deterministic Decision Network) -todennus.** Kaupallisten päätösten kryptografiseen jälkikäteistodennukseen on toteutettu ja testattu erillinen todennusjärjestelmä. Julkisessa tuotantoliikenteessä tila on tällä hetkellä `NOT_CONFIGURED`: siitä ei muodosteta väitettä varmennetusta päätöksestä, päätöskuittia eikä kuittilinkkiä.
+- **DDN-valmistelu.** Deterministinen kanonisointi, hashien muodostus ja rajattu paikallinen päätöskuitin/provenienssin valmistelu on toteutettu ja testattu kehitysympäristössä. Live-DDN-todennus, allekirjoittajan autentikointi, quorum-/trust-profile-todennus ja julkinen ankkurointi eivät ole käytössä julkisessa tuotantopolussa.
 - **Jälleenmyyjän neuvotteluyhteenveto-API.** Autentikoitu, jälleenmyyjäkohtainen ja vain lukeva rajapinta sovittujen ja ihmiskäsittelyä vaativien neuvottelujen listaukseen ja rakenteelliseen yhteenvetoon on toteutettu ja testattu. Ks. alla oleva oma osio.
 
 > **Integraatioiden tuotantoraja:** aktiivista VIS / Autovista- tai carVertical-yhteyttä ei ole, eikä kumpaankaan liity julkistettua kumppanuutta. Tuotantokytkentä vaatii palveluntarjoajan vahvistaman rajapintasopimuksen, dokumentaation, tunnukset, turvallisen salaisuuksien hallinnan sekä sandbox- ja tuotantoympäristöjen sopimustestauksen.
@@ -420,7 +421,7 @@ Tämän vuoksi järjestelmä on:
 - selitettävä
 - riippumaton yksittäisen kielimallin päätöksenteosta
 
-Kaupalliset päätökset on eristetty LLM:ään kohdistuvista prompt injection -yrityksistä.
+Kaupallinen päätösvalta on eristetty LLM:n vapaamuotoisesta ulostulosta. Tämä pienentää LLM:ään kohdistuvien prompt injection -yritysten vaikutusta kaupalliseen päätökseen, mutta ei ole väite täydellisestä prompt injection -immuniteetista.
 
 ---
 
@@ -438,7 +439,7 @@ Tämä arkkitehtuuri on tietoinen suunnitteluratkaisu.
 
 Tarkkaa päätöslogiikkaa ei julkaista tässä repositoriossa.
 
-Asiakkaan identiteetti vahvistetaan sähköpostitse ennen hintaneuvottelun aloittamista, ja järjestelmä rajoittaa saman asiakkaan automaattisten tarjousten määrää yhtä ajoneuvoa kohden ennen siirtoa myyjäliikkeen käsiteltäväksi. Tämä suojaa sekä asiakasta että myyjäliikettä väärinkäytöltä.
+Asiakkaan sähköpostiosoite vahvistetaan ennen hintaneuvottelun aloittamista, ja järjestelmä rajoittaa saman asiakkaan automaattisten tarjousten määrää yhtä ajoneuvoa kohden ennen siirtoa myyjäliikkeen käsiteltäväksi. Tämä suojaa sekä asiakasta että myyjäliikettä väärinkäytöltä.
 
 ## Evaluation & Safety
 
