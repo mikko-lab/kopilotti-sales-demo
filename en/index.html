@@ -361,7 +361,7 @@
           <li class="step-card">
             <span class="step-number" aria-hidden="true">2</span>
             <h3>Kopilotti Admin</h3>
-            <p>The dealer sets the list price, the lowest acceptable price, counter-offer steps, campaigns and a validity window. Admin generates the link and a ready-to-use HTML snippet for the vehicle page.</p>
+            <p>The dealer sets the list price, target price, lowest acceptable price, counter-offer step, campaign text and validity window. Admin generates the vehicle-specific magic link.</p>
           </li>
           <li class="step-card">
             <span class="step-number" aria-hidden="true">3</span>
@@ -369,6 +369,15 @@
             <p>Once the model is validated, link creation can be automated through DMS, e-commerce and CRM integrations, and through marketplaces' own APIs and partnership terms.</p>
           </li>
         </ol>
+
+        <div class="admin-proof-block">
+          <h3 class="admin-proof-heading">How negotiation boundaries are configured</h3>
+          <p class="admin-proof-intro">The dealer configures vehicle-specific commercial boundaries in Kopilotti Admin. The screenshot uses synthetic example data.</p>
+          <figure class="admin-proof-figure">
+            <img class="admin-proof-image" src="/assets/kopilotti-admin-pricing-demo-2026-09.webp" alt="Kopilotti Admin pricing view with synthetic example data, showing list price, target price, minimum acceptable price and counter-offer step." width="1120" height="975" loading="lazy" decoding="async" />
+            <figcaption class="admin-proof-caption">Admin interface shown in Finnish. Synthetic example data (DEMO-006 / example vehicle).</figcaption>
+          </figure>
+        </div>
 
         <figure class="magic-link-preview">
           <figcaption>Example of the button added to a vehicle page</figcaption>
@@ -419,6 +428,45 @@
           <li>The system does not independently grant credit or make financing decisions; financing applications are intended to be handled by the financing provider, in the provider's own environment.</li>
           <li>The service does not receive, hold or transfer customer funds.</li>
         </ul>
+      </div>
+    </section>
+
+    <section class="landing-section" id="faq" aria-labelledby="faqHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">FAQ</p>
+        <h2 id="faqHeading" class="section-heading">Common questions from dealerships</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-question">Can Kopilotti accept a price below the dealer-defined minimum acceptable price?</summary>
+            <div class="faq-answer">
+              <p>No. Price acceptance is governed by the dealer-defined commercial policy on the server. The language model does not decide the acceptable price or receive the internal pricing boundaries. Depending on the policy and the offer, the outcome can be acceptance, a counter-offer, rejection or escalation to dealer staff.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">What if a customer tries to manipulate the AI?</summary>
+            <div class="faq-answer">
+              <p>The conversational layer and the commercial price decision are separated. A customer message does not itself change the server-side commercial policy or give the language model authority to accept a price. This boundary reduces the potential impact of prompt injection on the commercial decision, but it is not presented as complete protection against every possible attack. Ambiguous cases can be escalated to dealer staff.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">What does a pilot require from the dealer?</summary>
+            <div class="faq-answer">
+              <p>A pilot begins by selecting a bounded set of vehicles, defining their negotiation parameters, and agreeing on escalation criteria for dealer staff. A vehicle-specific magic link is then embedded into the existing vehicle page or sales flow. Deep DMS or CRM integrations are not required to launch a successful pilot.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">How does Kopilotti connect to the dealer's current website or systems?</summary>
+            <div class="faq-answer">
+              <p>An initial pilot can go live with a simple vehicle-specific negotiation link added to listings or web pages. Deeper integrations into dealer management systems (DMS), CRM platforms, e-commerce checkouts, or marketplaces are agreed upon separately as pilot validation progresses, avoiding upfront integration overhead.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">Does Kopilotti process payments or make financing decisions?</summary>
+            <div class="faq-answer">
+              <p>No. Kopilotti Sales does not receive, hold, transfer, settle or refund customer funds, and it does not make financing or credit decisions. After the price has been agreed, the customer pays the dealership in the dealership's own systems or enters into a financing agreement directly with the dealership or its financing partner. Kopilotti may produce a structured negotiation summary and hand the matter forward, but it is not the merchant of record, payment processor or lender.</p>
+            </div>
+          </details>
+        </div>
       </div>
     </section>
 

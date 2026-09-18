@@ -340,7 +340,7 @@
           <li class="step-card">
             <span class="step-number" aria-hidden="true">2</span>
             <h3>Kopilotti Admin</h3>
-            <p>Myyjä määrittää listahinnan, alimman hyväksyttävän hinnan, tarjousportaat, kampanjat ja voimassaoloajan. Admin muodostaa linkin ja valmiin HTML-pätkän auton sivulle.</p>
+            <p>Myyjä määrittää listahinnan, tavoitehinnan, alimman hyväksyttävän hinnan, vastatarjouksen askeleen, kampanjatekstin ja voimassaoloajan. Admin muodostaa autokohtaisen Magic Linkin.</p>
           </li>
           <li class="step-card">
             <span class="step-number" aria-hidden="true">3</span>
@@ -348,6 +348,15 @@
             <p>Kun toimintamalli on todennettu, linkkien luonti voidaan automatisoida DMS-, verkkokauppa- ja CRM-integraatioilla sekä markkinapaikoissa niiden tarjoamien rajapintojen ja kumppanuuksien kautta.</p>
           </li>
         </ol>
+
+        <div class="admin-proof-block">
+          <h3 class="admin-proof-heading">Näin neuvottelun rajat määritetään</h3>
+          <p class="admin-proof-intro">Autoliike määrittää ajoneuvokohtaiset kaupalliset rajat Kopilotti Adminissa. Kuvassa käytetään synteettisiä esimerkkitietoja.</p>
+          <figure class="admin-proof-figure">
+            <img class="admin-proof-image" src="assets/kopilotti-admin-pricing-demo-2026-09.webp" alt="Kopilotti Adminin hinnoittelunäkymä synteettisillä esimerkkitiedoilla. Näkyvissä listahinta, tavoitehinta, alin hyväksyttävä hinta ja vastatarjouksen askel." width="1120" height="975" loading="lazy" decoding="async" />
+            <figcaption class="admin-proof-caption">Kopilotti Adminin hinnoittelunäkymä (synteettiset esimerkkitiedot, DEMO-006 / esimerkkiajoneuvo).</figcaption>
+          </figure>
+        </div>
 
         <figure class="magic-link-preview">
           <figcaption>Esimerkki auton sivulle lisättävästä painikkeesta</figcaption>
@@ -396,6 +405,45 @@
           <li>Epäselvä tai puutteellinen tilanne ei johda automaattisesti hintalupaukseen.</li>
           <li>Autoliike säilyttää määräysvallan hinnoitteluun.</li>
         </ul>
+      </div>
+    </section>
+
+    <section class="landing-section" id="ukk" aria-labelledby="ukkHeading">
+      <div class="landing-section-inner">
+        <p class="section-eyebrow">UKK</p>
+        <h2 id="ukkHeading" class="section-heading">Autoliikkeen yleisimmät kysymykset</h2>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-question">Voiko Kopilotti hyväksyä hinnan alle autoliikkeen määrittämän alimman hyväksyttävän hinnan?</summary>
+            <div class="faq-answer">
+              <p>Ei. Hinnan hyväksyminen perustuu palvelimella olevaan autoliikkeen määrittämään kaupalliseen sääntöön. Kielimalli ei päätä hyväksyttävää hintaa eikä näe sisäisiä hintarajoja. Tarjous voi sääntöjen perusteella johtaa hyväksyntään, vastatarjoukseen, hylkäykseen tai tilanteen siirtämiseen ihmiselle.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">Entä jos asiakas yrittää manipuloida tekoälyä?</summary>
+            <div class="faq-answer">
+              <p>Keskustelukerros ja kaupallinen hinnanpäätös on erotettu toisistaan. Asiakkaan viesti ei itsessään muuta palvelimella olevaa kaupallista sääntöä tai anna kielimallille valtaa hyväksyä hintaa. Tämä rajaus pienentää prompt injectionin mahdollista vaikutusta kaupalliseen päätökseen, mutta sitä ei esitetä täydellisenä suojana kaikkia hyökkäyksiä vastaan. Epäselvät tilanteet voidaan ohjata ihmiselle.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">Mitä pilotti vaatii autoliikkeeltä?</summary>
+            <div class="faq-answer">
+              <p>Pilotti aloitetaan valitsemalla rajattu määrä autoja ja määrittämällä niille kaupalliset neuvottelurajat sekä kriteerit ihmiselle siirtyville tilanteille. Autokohtainen Magic Link liitetään auton esittelysivulle tai nykyiseen myyntipolkuun. Syvä DMS- tai CRM-integraatio ei ole pilotin aloituksen ehto, vaan järjestelmä voidaan ottaa käyttöön kevyesti ja laajentaa myöhemmin.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">Miten Kopilotti liitetään nykyiseen verkkosivuun tai järjestelmiin?</summary>
+            <div class="faq-answer">
+              <p>Ensimmäinen kokeilu voidaan käynnistää yksinkertaisesti lisäämällä autokohtainen neuvottelulinkki myynti-ilmoitukseen tai verkkosivulle. Syvemmät yhteydet autoliikkeen DMS- ja CRM-järjestelmiin, verkkokauppaan tai markkinapaikkoihin suunnitellaan ja sovitaan erikseen pilottikokemusten pohjalta. Järjestelmää ei sidota raskaaseen IT-projektiin ennen kuin toimintamalli on todennettu käytännössä.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-question">Hoitaako Kopilotti maksun tai rahoituspäätöksen?</summary>
+            <div class="faq-answer">
+              <p>Ei. Kopilotti Sales ei vastaanota, säilytä, siirrä, tilitä tai palauta asiakkaan varoja eikä tee rahoitus- tai luottopäätöstä. Sovitun hinnan jälkeen asiakas maksaa myyjäliikkeelle sen omissa järjestelmissä tai tekee rahoitussopimuksen suoraan myyjäliikkeen tai sen rahoituskumppanin kanssa. Kopilotti voi muodostaa neuvottelusta rakenteellisen yhteenvedon ja siirtää asian eteenpäin, mutta se ei ole maksunsaaja, maksunvälittäjä tai luotonantaja.</p>
+            </div>
+          </details>
+        </div>
       </div>
     </section>
 
