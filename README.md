@@ -18,7 +18,7 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 
 [Avaa Kopilotti Sales -sivusto](https://kopilotti.online/) · [▶ Mikko-Lab YouTubessa](https://www.youtube.com/@mikko-lab)
 
-[📄 Yhden sivun asiakas- ja sijoittajatiivistelmä](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf) · [▶ Katso Kopilotti Salesin esittelyvideo (2:37)](https://kopilotti.online/esittelyvideo)
+[📄 Yhden sivun yleiskuva](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf) · [📑 Sijoittaja- ja kumppanibrief (2 sivua)](docs/kopilotti-sales-investor-partner-brief-fi.pdf) · [▶ Katso Kopilotti Salesin esittelyvideo (2:37)](https://kopilotti.online/esittelyvideo)
 
 > **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**
 
@@ -42,6 +42,8 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 ## Tuote-esittelyt ja materiaalit
 
+- [Yhden sivun yleiskuva (PDF)](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf)
+- [Sijoittaja- ja kumppanibrief (PDF, 2 sivua)](docs/kopilotti-sales-investor-partner-brief-fi.pdf)
 - [Suomenkielinen tuote-esittely (PDF)](docs/kopilotti-sales-overview-fi.pdf)
 - [English product overview (PDF)](docs/kopilotti-sales-overview-en.pdf)
 - [Saavutettava suomenkielinen tekstiversio](docs/kopilotti-sales-overview-fi.md)

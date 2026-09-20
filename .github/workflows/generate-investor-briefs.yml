@@ -1,9 +1,11 @@
-name: Generate accessible investor briefs
+name: Generate accessible investor materials
 
 on:
   push:
     branches: [main]
     paths:
+      - "docs/source/kopilotti-sales-onepage-fi.html"
+      - "docs/source/kopilotti-sales-onepage-en.html"
       - "docs/source/kopilotti-sales-investor-brief-fi.html"
       - "docs/source/kopilotti-sales-investor-brief-en.html"
       - "scripts/render-investor-briefs.mjs"
@@ -22,8 +24,11 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Install renderer
-        run: npm install --no-save --no-package-lock puppeteer-core@24.22.3
+      - name: Install rendering and validation dependencies
+        run: |
+          npm install --no-save --no-package-lock puppeteer-core@24.22.3
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-core fonts-noto-extra poppler-utils
 
       - name: Resolve Chrome
         id: chrome
@@ -45,7 +50,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Add metadata and fix English link
+      - name: Add metadata
         run: |
           python -m pip install --quiet pypdf
           python - <<'PY'
@@ -55,11 +60,17 @@ jobs:
 
           docs = [
               ("docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf",
-               "Kopilotti Sales - sijoittaja- ja kumppanitiivistelmä",
-               "Julkinen, saavutettava nykytilan sijoittaja- ja kumppanitiivistelmä - 20.9.2026"),
+               "Kopilotti Sales - asiakas- ja sijoittajatiivistelmä",
+               "Yhden sivun saavutettava yleiskuva - 20.9.2026"),
               ("docs/kopilotti-sales-customer-investor-summary.pdf",
+               "Kopilotti Sales - Customer & Investor Overview",
+               "Accessible one-page overview - 20 Sep 2026"),
+              ("docs/kopilotti-sales-investor-partner-brief-fi.pdf",
+               "Kopilotti Sales - sijoittaja- ja kumppanibrief",
+               "Kaksisivuinen saavutettava sijoittaja- ja kumppanibrief - 20.9.2026"),
+              ("docs/kopilotti-sales-investor-partner-brief-en.pdf",
                "Kopilotti Sales - Investor & Partner Brief",
-               "Public, accessible current-state investor and partner brief - 20 Sep 2026"),
+               "Accessible two-page investor and partner brief - 20 Sep 2026"),
           ]
           for path, title, subject in docs:
               p = Path(path)
@@ -83,47 +94,37 @@ jobs:
               with tmp.open("wb") as f:
                   writer.write(f)
               tmp.replace(p)
-
-          readme = Path("README.en.md")
-          text = readme.read_text(encoding="utf-8")
-          old = "(docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf)"
-          new = "(docs/kopilotti-sales-customer-investor-summary.pdf)"
-          if old not in text and new not in text:
-              raise SystemExit("Expected one-page brief link not found in README.en.md")
-          readme.write_text(text.replace(old, new, 1), encoding="utf-8")
           PY
 
-      - name: Install PDF validation tools
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq poppler-utils
-
-      - name: Validate accessibility structure
+      - name: Validate PDF accessibility structure
         run: |
           python - <<'PY'
           import subprocess
           from pypdf import PdfReader
 
           expected = {
-              "docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf": "fi-FI",
-              "docs/kopilotti-sales-customer-investor-summary.pdf": "en-US",
+              "docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf": ("fi-FI", 1),
+              "docs/kopilotti-sales-customer-investor-summary.pdf": ("en-US", 1),
+              "docs/kopilotti-sales-investor-partner-brief-fi.pdf": ("fi-FI", 2),
+              "docs/kopilotti-sales-investor-partner-brief-en.pdf": ("en-US", 2),
           }
           required_uris = {
               "https://kopilotti.online/",
               "https://github.com/mikko-lab/kopilotti-sales-demo",
           }
 
-          for path, lang in expected.items():
+          for path, (lang, page_count) in expected.items():
               r = PdfReader(path)
-              assert len(r.pages) == 1, (path, "page count")
+              assert len(r.pages) == page_count, (path, "page count", len(r.pages))
               root = r.trailer["/Root"]
               assert root.get("/Lang") == lang, (path, "language", root.get("/Lang"))
               assert root.get("/StructTreeRoot") is not None, (path, "missing StructTreeRoot")
               assert bool((root.get("/MarkInfo") or {}).get("/Marked")), (path, "not marked")
-              assert r.pages[0].get("/Tabs") == "/S", (path, "Tabs")
               assert bool((root.get("/ViewerPreferences") or {}).get("/DisplayDocTitle")), (path, "DisplayDocTitle")
+              for index, page in enumerate(r.pages):
+                  assert page.get("/Tabs") == "/S", (path, "Tabs", index + 1)
 
-              annots = r.pages[0].get("/Annots", [])
+              annots = [a for page in r.pages for a in page.get("/Annots", [])]
               assert len(annots) == 2, (path, "link annotation count", len(annots))
               uris = set()
               for annot_ref in annots:
@@ -140,34 +141,19 @@ jobs:
                   capture_output=True,
                   check=False,
               )
-              print(f"--- structure: {path} ---")
-              print(struct.stdout[:4000])
-              if struct.stderr:
-                  print("--- pdfinfo stderr (diagnostic) ---")
-                  print(struct.stderr)
               assert struct.returncode == 0, (path, "pdfinfo -struct-text failed", struct.returncode)
-              assert "Syntax Error" not in struct.stderr, (path, "PDF structure syntax error", struct.stderr)
+              assert not struct.stderr.strip(), (path, "PDF structure warning", struct.stderr)
               assert "H1 (block)" in struct.stdout, (path, "missing H1 structure")
               assert "H2 (block)" in struct.stdout, (path, "missing H2 structure")
               assert "Link (inline)" in struct.stdout, (path, "missing Link structure")
 
-              fonts = subprocess.run(
-                  ["pdffonts", path],
-                  text=True,
-                  capture_output=True,
-                  check=True,
-              )
-              print(f"--- fonts: {path} ---")
-              print(fonts.stdout)
+              fonts = subprocess.run(["pdffonts", path], text=True, capture_output=True, check=True)
               rows = [line.split() for line in fonts.stdout.splitlines()[2:] if line.strip()]
               assert rows, (path, "no fonts detected")
               for row in rows:
                   assert len(row) >= 7, (path, "unexpected pdffonts row", row)
-                  # Parse from the right: type can be one or two columns (e.g. "CID TrueType").
-                  # The stable tail is: emb sub uni object-id generation.
                   assert row[-5] == "yes", (path, "font not embedded", row)
                   assert row[-3] == "yes", (path, "font missing Unicode map", row)
-
               print(f"PASS: {path}")
           PY
 
@@ -176,10 +162,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add             docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf             docs/kopilotti-sales-customer-investor-summary.pdf             README.en.md
+          git add             docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf             docs/kopilotti-sales-customer-investor-summary.pdf             docs/kopilotti-sales-investor-partner-brief-fi.pdf             docs/kopilotti-sales-investor-partner-brief-en.pdf
           if git diff --cached --quiet; then
             echo "No publication changes"
             exit 0
           fi
-          git commit -m "docs: publish accessible investor briefs"
+          git commit -m "docs: publish investor material set"
           git push

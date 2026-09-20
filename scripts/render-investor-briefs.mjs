@@ -5,8 +5,10 @@ const chrome = process.env.CHROME_PATH;
 if (!chrome) throw new Error('CHROME_PATH is required');
 
 const jobs = [
-  ['docs/source/kopilotti-sales-investor-brief-fi.html', 'docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf'],
-  ['docs/source/kopilotti-sales-investor-brief-en.html', 'docs/kopilotti-sales-customer-investor-summary.pdf'],
+  ['docs/source/kopilotti-sales-onepage-fi.html', 'docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf'],
+  ['docs/source/kopilotti-sales-onepage-en.html', 'docs/kopilotti-sales-customer-investor-summary.pdf'],
+  ['docs/source/kopilotti-sales-investor-brief-fi.html', 'docs/kopilotti-sales-investor-partner-brief-fi.pdf'],
+  ['docs/source/kopilotti-sales-investor-brief-en.html', 'docs/kopilotti-sales-investor-partner-brief-en.pdf'],
 ];
 
 const browser = await puppeteer.launch({
@@ -20,6 +22,7 @@ try {
     const page = await browser.newPage();
     await page.setViewport({ width: 816, height: 1056 });
     await page.setContent(fs.readFileSync(source, 'utf8'), { waitUntil: 'load' });
+    await page.emulateMediaType('print');
     const client = await page.createCDPSession();
     const result = await client.send('Page.printToPDF', {
       printBackground: true,
