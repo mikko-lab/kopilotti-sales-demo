@@ -1,1 +1,78 @@
-<!doctype html><html lang="fi-FI"><head><meta charset="utf-8"><title>Kopilotti Sales - asiakas- ja sijoittajatiivistelmä</title><style>/*INLINE_CSS*/</style></head><body><div class="sheet"><header class="hero one"><div><div class="brandrow"><span class="brandmark" aria-hidden="true"><span class="stem"></span><span class="up"></span><span class="down"></span></span><span class="brandname">Kopilotti Sales</span></div><h1>Hintaneuvottelu digitaaliseksi myyntikanavaksi.</h1><p class="hero-copy">Kopilotti Sales jatkaa käytetyn auton ostopolkua juuri silloin, kun asiakas on valmis neuvottelemaan hinnasta. LLM hoitaa kielen. Palvelinpuolen deterministinen sääntömoottori tekee kaupallisen päätöksen.</p><div class="chips"><span class="chip">Ei chatbot</span><span class="chip">Ei dynaaminen hinnoittelu</span><span class="chip">Myyjäliike päättää</span></div></div><div><p class="status">Active development | julkinen konseptidemo | pre-pilot</p><ol class="flow" aria-label="Kopilotti Salesin päätöspolku"><li><span class="n" aria-hidden="true">01</span><div><span class="flow-title">Asiakas</span><span class="desc">avaa autokohtaisen polun ja tekee tarjouksen</span></div></li><li><span class="n" aria-hidden="true">02</span><div><span class="flow-title">LLM-kerros</span><span class="desc">tulkitsee ja selittää; ei hinnoittele</span></div></li><li><span class="n" aria-hidden="true">03</span><div><span class="flow-title">Päätösmoottori</span><span class="desc">ACCEPT / COUNTER / REJECT / ESCALATE</span></div></li><li><span class="n" aria-hidden="true">04</span><div><span class="flow-title">Jälleenmyyjä</span><span class="desc">pitää päätösvallan ja viimeistelee kaupan</span></div></li></ol></div></header><main class="main"><p class="kicker">YHDEN SIVUN YLEISKUVA</p><h2>Yksi puuttuva vaihe digitaalisessa autokaupassa.</h2><p class="lead">Kopilotti Sales ei korvaa automyyjää. Se digitalisoi hintaneuvottelun silloin, kun päätös voidaan tehdä turvallisesti myyjäliikkeen omien sääntöjen perusteella.</p><section class="thesis" aria-label="Product thesis"><article><span class="decor-num" aria-hidden="true">01</span><p class="label">ONGELMA</p><h3>Neuvottelu katkaisee digitaalisen ostopolun</h3><p>Haku, rahoitus ja verkkokauppa voivat olla digitaalisia, mutta hinnasta eteneminen odottaa usein yhä myyjää tai vaihtoautopäällikköä.</p></article><article><span class="decor-num" aria-hidden="true">02</span><p class="label">TUOTE</p><h3>Rajattu digitaalinen neuvottelupolku</h3><p>Autokohtainen sisääntulo, hallitut tarjouskierrokset ja deterministiset tulokset. Rajan ulkopuoliset tapaukset siirtyvät ihmiselle.</p></article><article><span class="decor-num" aria-hidden="true">03</span><p class="label">MIKSI ERILAINEN</p><h3>AI ilman hinnoitteluvaltaa</h3><p>Luonnollinen keskustelu voi olla nopea ilman, että katepäätös annetaan mallille. Myyjäliike määrittää säännöt; ohjelmisto soveltaa niitä.</p></article></section><section class="founder-band" aria-label="FOUNDER-MARKET FIT"><div><p class="band-label">FOUNDER-MARKET FIT</p><span class="stat">20+ vuotta</span><p>autokauppaa</p></div><div><p class="band-label">DOMAIN EXPERIENCE</p><span class="stat">~15 000</span><p>ajoneuvoa ostettu/myyty verkossa</p></div><div><p class="band-label">WHY IT MATTERS</p><p>Rakennettu suorasta kokemuksesta siitä, miten autokauppa etenee kiinnostuksesta hinnan sopimiseen.</p></div></section><section class="next-strip"><span class="next-label">SEURAAVA VAIHE</span><p>Rajattu jälleenmyyjäpilotti autokohtaisilla neuvottelulinkeillä. Syvemmät DMS- ja markkinapaikkaintegraatiot vasta, kun toimintamalli on osoittanut arvonsa.</p></section></main><footer class="footer"><a href="https://kopilotti.online/">kopilotti.online</a><a href="https://github.com/mikko-lab/kopilotti-sales-demo">Julkinen GitHub-repositorio</a><span class="right">Yhden sivun yleiskuva - 20.9.2026</span></footer></div></body></html>
+<!doctype html><html lang="fi-FI"><head><meta charset="utf-8"><title>Kopilotti Sales - asiakas- ja sijoittajatiivistelmä</title><style>
+@page { size: Letter; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; }
+body { font-family: "Noto Sans", Arial, sans-serif; color:#10243B; background:#E9EEF5; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.sheet { width:8.5in; height:11in; background:#F7F9FC; overflow:hidden; position:relative; break-after:page; page-break-after:always; }
+.sheet:last-child { break-after:auto; page-break-after:auto; }
+.shell { padding:0.46in 0.62in 0.40in; height:100%; display:flex; flex-direction:column; }
+.topline { display:flex; justify-content:space-between; align-items:center; gap:0.2in; min-height:0.38in; }
+.brand { display:flex; align-items:center; gap:0.12in; }
+.mark { position:relative; width:0.34in; height:0.38in; flex:none; }
+.mark .stem { position:absolute; left:0.02in; top:0.01in; width:0.10in; height:0.39in; border-radius:0.06in; background:#0B1F3A; }
+.mark .up,.mark .down { position:absolute; left:0.085in; width:0.29in; height:0.075in; border-radius:999px; background:#2585FF; transform-origin:left center; }
+.mark .up { top:0.20in; transform:rotate(-42deg); }
+.mark .down { top:0.20in; transform:rotate(42deg); }
+.brandname { font-family:"Noto Sans Display", "Noto Sans", sans-serif; font-weight:800; font-size:17pt; letter-spacing:-0.35pt; }
+.status { font-size:8.1pt; line-height:1.2; font-weight:750; letter-spacing:0.4pt; color:#0B63CE; text-transform:uppercase; }
+.hero { margin:0.30in -0.62in 0; padding:0.38in 0.62in 0.40in; background:#071B2E; color:white; display:grid; grid-template-columns:1.38fr 0.82fr; column-gap:0.30in; align-items:start; }
+h1 { font-family:"Noto Sans Display", "Noto Sans", sans-serif; font-size:30.5pt; line-height:1.06; letter-spacing:-1.0pt; margin:0; font-weight:800; }
+.hero-copy { font-size:10.6pt; line-height:1.45; color:#E5EDF5; max-width:4.55in; margin:0.15in 0 0; }
+.chips { display:flex; flex-wrap:wrap; gap:0.07in; margin-top:0.18in; }
+.chip { font-size:8.1pt; font-weight:700; border:1px solid #45627B; border-radius:999px; padding:0.052in 0.105in; background:#173148; color:#FFFFFF; }
+.flow { margin:0.02in 0 0; padding:0; list-style:none; display:grid; gap:0.055in; }
+.flow li { display:grid; grid-template-columns:0.27in 1fr; gap:0.09in; padding:0.075in 0.11in; border:1px solid #36516B; border-radius:0.13in; background:#173148; }
+.flow .n { color:#9FDCFF; font-size:9.1pt; font-weight:800; line-height:1.2; }
+.flow-title { display:block; font-size:9.6pt; line-height:1.12; font-weight:800; color:#FFFFFF; margin-bottom:0.025in; }
+.flow .desc { display:block; font-size:7.7pt; line-height:1.26; color:#D4E0EB; }
+.main { padding:0.30in 0.62in 0; }
+.kicker { font-size:8.2pt; font-weight:800; letter-spacing:0.48pt; text-transform:uppercase; color:#0B63CE; margin:0 0 0.10in; }
+h2 { font-family:"Noto Sans Display", "Noto Sans", sans-serif; font-size:20pt; line-height:1.15; letter-spacing:-0.45pt; margin:0; }
+.lead { font-size:10pt; line-height:1.48; color:#4A5F76; margin:0.13in 0 0; max-width:6.8in; }
+.thesis { display:grid; grid-template-columns:repeat(3,1fr); gap:0.16in; margin-top:0.24in; }
+.thesis article { position:relative; min-height:1.56in; background:#FFFFFF; border:1px solid #D2DDEA; border-radius:0.16in; padding:0.19in 0.20in 0.18in; }
+.thesis .label { font-size:8.1pt; font-weight:800; letter-spacing:0.42pt; text-transform:uppercase; color:#0B63CE; margin:0 0 0.09in; }
+.thesis h3 { font-family:"Noto Sans Display", "Noto Sans", sans-serif; font-size:12.5pt; line-height:1.18; letter-spacing:-0.22pt; margin:0 0 0.105in; max-width:2.0in; }
+.thesis p { font-size:8.7pt; line-height:1.40; color:#465A72; margin:0; }
+.decor-num { position:absolute; right:0.15in; top:0.14in; font-size:23pt; line-height:1; font-weight:800; color:#C5D1E0; }
+.founder { margin-top:0.26in; background:#0C2949; color:#FFFFFF; border-radius:0.18in; padding:0.22in 0.24in; display:grid; grid-template-columns:1.15fr 0.72fr 0.82fr; gap:0.18in; align-items:center; }
+.founder h3 { font-size:9.2pt; line-height:1.2; margin:0 0 0.06in; color:#9FDCFF; letter-spacing:0.52pt; text-transform:uppercase; }
+.founder p { margin:0; font-size:8.7pt; line-height:1.40; color:#DDE8F3; }
+.stat { border-left:1px solid #3B5876; padding-left:0.18in; }
+.stat .stat-number { display:block; font-family:"Noto Sans Display", "Noto Sans", sans-serif; font-size:23pt; line-height:1; letter-spacing:-0.55pt; margin-bottom:0.045in; }
+.stat span { display:block; font-size:8.1pt; line-height:1.32; color:#D8E6F2; }
+.next-strip { margin-top:0.20in; border:1px solid #C8D7E7; border-radius:0.15in; padding:0.15in 0.18in; display:grid; grid-template-columns:1.15in 1fr; gap:0.16in; align-items:start; background:#FFFFFF; }
+.next-strip .next-label { font-size:7.8pt; font-weight:800; color:#0B63CE; text-transform:uppercase; letter-spacing:0.40pt; }
+.next-strip p { margin:0; font-size:8.6pt; line-height:1.40; color:#465A72; }
+.footer { margin-top:auto; border-top:1px solid #CFD9E6; padding-top:0.12in; display:flex; justify-content:space-between; align-items:flex-end; gap:0.15in; }
+.footer a,.footer span { font-size:7.6pt; color:#566A80; text-decoration:none; }
+.footer a { text-decoration:underline; text-underline-offset:2px; }
+.footer .right { text-align:right; }
+
+/* Brief page 2 */
+.page2 .shell { padding-top:0.55in; }
+.page2-head { display:flex; justify-content:space-between; gap:0.30in; align-items:flex-start; margin-bottom:0.27in; }
+.page2-head .mini-brand { font-size:10pt; font-weight:800; color:#0B63CE; white-space:nowrap; padding-top:0.03in; }
+.page2 h2.page-title { font-size:25pt; max-width:5.8in; }
+.sublead { font-size:10.1pt; line-height:1.47; color:#4A5F76; margin:0.13in 0 0; max-width:6.7in; }
+.proofs { display:grid; grid-template-columns:1fr 1fr; gap:0.17in; }
+.proof { background:#FFFFFF; border:1px solid #D2DDEA; border-radius:0.16in; padding:0.20in 0.21in 0.19in; min-height:1.50in; }
+.badge { display:inline-block; font-size:7.7pt; line-height:1; font-weight:800; text-transform:uppercase; letter-spacing:0.24pt; padding:0.055in 0.095in; border-radius:999px; margin-bottom:0.105in; }
+.badge.blue { background:#EAF3FF; color:#0B63CE; }
+.badge.green { background:#EAF7F2; color:#0B6A50; }
+.badge.amber { background:#FFF1D7; color:#754500; }
+.proof h3 { font-family:"Noto Sans Display", "Noto Sans", sans-serif; font-size:12.4pt; line-height:1.19; letter-spacing:-0.20pt; margin:0 0 0.09in; }
+.proof p { font-size:8.65pt; line-height:1.40; color:#465A72; margin:0; }
+.boundary { margin-top:0.24in; background:#071B2E; color:#FFFFFF; border-radius:0.18in; padding:0.20in 0.23in 0.21in; display:grid; grid-template-columns:1.0fr 1.75fr; gap:0.22in; align-items:start; }
+.boundary .kicker { color:#9FDCFF; margin-bottom:0.08in; }
+.boundary h3 { font-family:"Noto Sans Display", "Noto Sans", sans-serif; font-size:14.6pt; line-height:1.2; margin:0; }
+.boundary ul { margin:0; padding-left:0.18in; }
+.boundary li { font-size:8.35pt; line-height:1.34; color:#D3E0EB; margin:0 0 0.055in; }
+.milestone { margin-top:0.22in; border-left:3px solid #2585FF; padding:0.05in 0 0.05in 0.18in; }
+.milestone .kicker { margin-bottom:0.065in; }
+.milestone p { font-size:9.3pt; line-height:1.44; color:#10243B; margin:0; max-width:6.8in; }
+.page2-footer { margin-top:auto; border-top:1px solid #CFD9E6; padding-top:0.12in; display:flex; justify-content:space-between; align-items:flex-end; gap:0.16in; }
+.page2-footer .links { display:flex; gap:0.22in; }
+.page2-footer a,.page2-footer span { font-size:7.5pt; color:#566A80; }
+.page2-footer a { text-decoration:underline; text-underline-offset:2px; }
+</style></head><body><div class="sheet"><div class="shell"><div class="topline"><div class="brand"><span class="mark" aria-hidden="true"><span class="stem"></span><span class="up"></span><span class="down"></span></span><span class="brandname">Kopilotti Sales</span></div><span class="status">Active development | julkinen konseptidemo | pre-pilot</span></div><div class="hero"><div><h1>Hintaneuvottelu digitaaliseksi myyntikanavaksi.</h1><p class="hero-copy">Kopilotti Sales jatkaa käytetyn auton ostopolkua juuri silloin, kun asiakas on valmis neuvottelemaan hinnasta. LLM hoitaa kielen. Palvelinpuolen deterministinen sääntömoottori tekee kaupallisen päätöksen.</p><div class="chips"><span class="chip">Ei chatbot</span><span class="chip">Ei dynaaminen hinnoittelu</span><span class="chip">Myyjäliike päättää</span></div></div><div><ol class="flow" aria-label="Kopilotti Salesin päätöspolku"><li><span class="n" aria-hidden="true">01</span><div><span class="flow-title">Asiakas</span><span class="desc">avaa autokohtaisen polun ja tekee tarjouksen</span></div></li><li><span class="n" aria-hidden="true">02</span><div><span class="flow-title">LLM-kerros</span><span class="desc">tulkitsee ja selittää; ei hinnoittele</span></div></li><li><span class="n" aria-hidden="true">03</span><div><span class="flow-title">Päätösmoottori</span><span class="desc">ACCEPT / COUNTER / REJECT / ESCALATE</span></div></li><li><span class="n" aria-hidden="true">04</span><div><span class="flow-title">Jälleenmyyjä</span><span class="desc">pitää päätösvallan ja viimeistelee kaupan</span></div></li></ol></div></div><main class="main"><p class="kicker">YHDEN SIVUN YLEISKUVA</p><h2>Yksi puuttuva vaihe digitaalisessa autokaupassa.</h2><p class="lead">Kopilotti Sales ei korvaa automyyjää. Se digitalisoi hintaneuvottelun silloin, kun päätös voidaan tehdä turvallisesti myyjäliikkeen omien sääntöjen perusteella.</p><section class="thesis" aria-label="Tuotteen perusajatus"><article><span class="decor-num" aria-hidden="true">01</span><p class="label">ONGELMA</p><h3>Neuvottelu katkaisee digitaalisen ostopolun</h3><p>Haku, rahoitus ja verkkokauppa voivat olla digitaalisia, mutta hinnasta eteneminen odottaa usein yhä myyjää tai vaihtoautopäällikköä.</p></article><article><span class="decor-num" aria-hidden="true">02</span><p class="label">TUOTE</p><h3>Rajattu digitaalinen neuvottelupolku</h3><p>Autokohtainen sisääntulo, hallitut tarjouskierrokset ja deterministiset tulokset. Rajan ulkopuoliset tapaukset siirtyvät ihmiselle.</p></article><article><span class="decor-num" aria-hidden="true">03</span><p class="label">MIKSI ERILAINEN</p><h3>AI ilman hinnoitteluvaltaa</h3><p>Luonnollinen keskustelu voi olla nopea ilman, että katepäätös annetaan mallille. Myyjäliike määrittää säännöt; ohjelmisto soveltaa niitä.</p></article></section><section class="founder" aria-labelledby="founder-fit"><div><h3 id="founder-fit">Founder-market fit</h3><p>Tuote rakentuu käytännön autokaupan ongelmaan, ei generatiivisen AI:n uutuusarvoon.</p></div><div class="stat"><span class="stat-number">20+</span><span>vuotta autokauppaa</span></div><div class="stat"><span class="stat-number">~15 000</span><span>ajoneuvoa ostettu / myyty verkossa</span></div></section></main><footer class="footer"><a href="https://kopilotti.online/">kopilotti.online</a><a href="https://github.com/mikko-lab/kopilotti-sales-demo">Julkinen GitHub-repositorio</a><span class="right">Yhden sivun yleiskuva - 20.9.2026</span></footer></div></div></body></html>
