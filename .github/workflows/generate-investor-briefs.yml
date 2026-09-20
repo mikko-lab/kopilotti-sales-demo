@@ -163,8 +163,10 @@ jobs:
               assert rows, (path, "no fonts detected")
               for row in rows:
                   assert len(row) >= 7, (path, "unexpected pdffonts row", row)
-                  assert row[3] == "yes", (path, "font not embedded", row)
-                  assert row[5] == "yes", (path, "font missing Unicode map", row)
+                  # Parse from the right: type can be one or two columns (e.g. "CID TrueType").
+                  # The stable tail is: emb sub uni object-id generation.
+                  assert row[-5] == "yes", (path, "font not embedded", row)
+                  assert row[-3] == "yes", (path, "font missing Unicode map", row)
 
               print(f"PASS: {path}")
           PY
