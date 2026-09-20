@@ -1,0 +1,145 @@
+name: Generate accessible investor briefs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/source/kopilotti-sales-investor-brief-fi.html"
+      - "docs/source/kopilotti-sales-investor-brief-en.html"
+      - "scripts/render-investor-briefs.mjs"
+      - ".github/workflows/generate-investor-briefs.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install renderer
+        run: npm install --no-save --no-package-lock puppeteer-core@24.22.3
+
+      - name: Resolve Chrome
+        id: chrome
+        shell: bash
+        run: |
+          CHROME="$(command -v google-chrome || command -v google-chrome-stable || command -v chromium || command -v chromium-browser || true)"
+          if [ -z "$CHROME" ]; then
+            echo "No Chrome/Chromium executable found" >&2
+            exit 1
+          fi
+          echo "path=$CHROME" >> "$GITHUB_OUTPUT"
+
+      - name: Generate tagged PDFs
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.path }}
+        run: node scripts/render-investor-briefs.mjs
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Add metadata and fix English link
+        run: |
+          python -m pip install --quiet pypdf
+          python - <<'PY'
+          from pathlib import Path
+          from pypdf import PdfReader, PdfWriter
+          from pypdf.generic import NameObject, DictionaryObject, BooleanObject
+
+          docs = [
+              ("docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf",
+               "Kopilotti Sales - sijoittaja- ja kumppanitiivistelmä",
+               "Julkinen, saavutettava nykytilan sijoittaja- ja kumppanitiivistelmä - 20.9.2026"),
+              ("docs/kopilotti-sales-customer-investor-summary.pdf",
+               "Kopilotti Sales - Investor & Partner Brief",
+               "Public, accessible current-state investor and partner brief - 20 Sep 2026"),
+          ]
+          for path, title, subject in docs:
+              p = Path(path)
+              reader = PdfReader(str(p))
+              writer = PdfWriter()
+              writer.clone_document_from_reader(reader)
+              writer.add_metadata({
+                  "/Title": title,
+                  "/Author": "Mikko Tarkiainen",
+                  "/Subject": subject,
+                  "/Creator": "Chromium tagged-PDF workflow",
+                  "/Producer": "Skia/PDF + pypdf metadata pass",
+              })
+              root = writer._root_object
+              vp = root.get("/ViewerPreferences")
+              if vp is None:
+                  vp = DictionaryObject()
+                  root[NameObject("/ViewerPreferences")] = vp
+              vp[NameObject("/DisplayDocTitle")] = BooleanObject(True)
+              tmp = p.with_suffix(".tmp.pdf")
+              with tmp.open("wb") as f:
+                  writer.write(f)
+              tmp.replace(p)
+
+          readme = Path("README.en.md")
+          text = readme.read_text(encoding="utf-8")
+          old = "(docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf)"
+          new = "(docs/kopilotti-sales-customer-investor-summary.pdf)"
+          if old not in text and new not in text:
+              raise SystemExit("Expected one-page brief link not found in README.en.md")
+          readme.write_text(text.replace(old, new, 1), encoding="utf-8")
+          PY
+
+      - name: Install PDF validation tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq poppler-utils
+
+      - name: Validate accessibility structure
+        run: |
+          python - <<'PY'
+          from pypdf import PdfReader
+
+          expected = {
+              "docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf": "fi-FI",
+              "docs/kopilotti-sales-customer-investor-summary.pdf": "en-US",
+          }
+          for path, lang in expected.items():
+              r = PdfReader(path)
+              assert len(r.pages) == 1, (path, "page count")
+              root = r.trailer["/Root"]
+              assert root.get("/Lang") == lang, (path, root.get("/Lang"))
+              assert root.get("/StructTreeRoot") is not None, (path, "missing StructTreeRoot")
+              assert bool((root.get("/MarkInfo") or {}).get("/Marked")), (path, "not marked")
+              assert r.pages[0].get("/Tabs") == "/S", (path, "Tabs")
+              assert len(r.pages[0].get("/Annots", [])) == 2, (path, "links")
+              assert bool((root.get("/ViewerPreferences") or {}).get("/DisplayDocTitle")), (path, "DisplayDocTitle")
+          PY
+
+          for f in docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf docs/kopilotti-sales-customer-investor-summary.pdf; do
+            pdfinfo "$f" | grep -q "^Pages:[[:space:]]*1$"
+            pdfinfo -url "$f" | grep -q "https://kopilotti.online/"
+            pdfinfo -url "$f" | grep -q "https://github.com/mikko-lab/kopilotti-sales-demo"
+            pdfinfo -struct-text "$f" > /tmp/struct.txt 2> /tmp/struct.err
+            test ! -s /tmp/struct.err
+            grep -q "H1 (block)" /tmp/struct.txt
+            grep -q "H2 (block)" /tmp/struct.txt
+            grep -q "Link (inline)" /tmp/struct.txt
+            pdffonts "$f" | awk 'NR>2 && NF { if ($4 != "yes" || $6 != "yes") bad=1 } END { exit bad }'
+          done
+
+      - name: Commit generated publications
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add             docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf             docs/kopilotti-sales-customer-investor-summary.pdf             README.en.md
+          if git diff --cached --quiet; then
+            echo "No publication changes"
+            exit 0
+          fi
+          git commit -m "docs: publish accessible investor briefs"
+          git push

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-US"><head><meta charset="utf-8"><title>Kopilotti Sales - Investor &amp; Partner Brief</title><meta name="author" content="Mikko Tarkiainen"><meta name="description" content="Public, accessible current-state investor and partner brief - 20 Sep 2026"><style>
+@page { size: Letter; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin:0; padding:0; width:8.5in; height:11in; }
+body { font-family: Arial, Helvetica, sans-serif; color:#12243A; background:#F4F7FB; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.page { width:8.5in; height:11in; overflow:hidden; background:#F4F7FB; }
+.hero { height:3.56in; background:#071B2E; color:white; padding:0.32in 0.48in 0.22in; display:grid; grid-template-columns: 1.78fr 0.88fr; column-gap:0.26in; }
+.hero-left { min-width:0; }
+.brandrow { display:flex; align-items:center; gap:0.14in; margin-bottom:0.38in; }
+.brandmark { position:relative; width:0.34in; height:0.38in; flex:none; }
+.brandmark .stem { position:absolute; left:0.02in; top:0.02in; width:0.10in; height:0.42in; border-radius:0.07in; background:white; }
+.brandmark .up, .brandmark .down { position:absolute; left:0.085in; width:0.30in; height:0.075in; border-radius:999px; background:#2585FF; transform-origin:left center; }
+.brandmark .up { top:0.22in; transform:rotate(-42deg); }
+.brandmark .down { top:0.22in; transform:rotate(42deg); }
+.brandname { font-size:20px; line-height:1; font-weight:800; letter-spacing:-0.2px; }
+.status { text-align:right; font-size:10.7px; line-height:1.3; color:#91D8FF; font-weight:700; letter-spacing:0.35px; margin-top:0.03in; white-space:nowrap; }
+h1 { margin:0 0 0.075in; font-size:31.5px; line-height:1.10; letter-spacing:-0.8px; font-weight:800; color:white; max-width:4.75in; }
+.hero-copy { margin:0; max-width:4.95in; font-size:12.3px; line-height:1.34; color:#E8EEF6; }
+.chips { display:flex; gap:0.06in; margin-top:0.12in; flex-wrap:wrap; }
+.chip { border:1px solid #476179; color:#F7FAFD; background:#1A3044; border-radius:999px; padding:0.045in 0.08in; font-size:10.2px; font-weight:700; }
+.flow { margin:0.32in 0 0; padding:0; list-style:none; display:grid; gap:0.045in; align-content:start; }
+.flow li { display:grid; grid-template-columns:0.30in 1fr; column-gap:0.10in; min-height:0.50in; padding:0.075in 0.12in; border:1px solid #3D566D; border-radius:0.13in; background:#1A3044; }
+.flow .n { color:#91D8FF; font-size:11.3px; font-weight:700; line-height:1.2; }
+.flow .flow-title { display:block; font-size:11.8px; line-height:1.15; color:white; margin-bottom:0.045in; font-weight:700; }
+.flow span.desc { display:block; color:#C8D3DE; font-size:9.1px; line-height:1.24; }
+.main { padding:0.20in 0.48in 0; }
+.cards { display:grid; grid-template-columns:repeat(3, 1fr); gap:0.12in; }
+.card { position:relative; background:white; border:1px solid #CCD7E4; border-radius:0.15in; min-height:1.37in; padding:0.15in 0.18in 0.14in; }
+.card .eyebrow { margin:0 0 0.09in; color:#0B63CE; font-size:10.8px; line-height:1.1; font-weight:800; text-transform:uppercase; }
+.card h3 { margin:0 0 0.075in; max-width:2.05in; font-size:14.5px; line-height:1.16; letter-spacing:-0.2px; }
+.card p { margin:0; max-width:2.11in; font-size:10.0px; line-height:1.27; color:#46566B; }
+.card-no { position:absolute; right:0.16in; top:0.13in; color:#B4C3D7; font-size:29px; line-height:1; font-weight:800; }
+.evidence { margin-top:0.12in; }
+.section-kicker { margin:0 0 0.085in; color:#0B63CE; font-size:10.8px; font-weight:800; text-transform:uppercase; letter-spacing:0.15px; }
+h2 { margin:0; font-size:19px; line-height:1.16; letter-spacing:-0.35px; }
+.evidence-grid { margin-top:0.09in; display:grid; grid-template-columns:1fr 1fr; gap:0.09in 0.32in; }
+.evidence-item { min-height:0.69in; }
+.badge { display:inline-block; border-radius:999px; padding:0.05in 0.09in; margin-bottom:0.055in; font-size:9.8px; line-height:1.05; font-weight:800; text-transform:uppercase; }
+.badge.blue { color:#0B63CE; background:#EAF3FF; }
+.badge.green { color:#096B50; background:#E9F7F1; }
+.badge.amber { color:#7A4A00; background:#FFF2D9; }
+.evidence-item h3 { margin:0 0 0.065in; font-size:12.7px; line-height:1.16; }
+.evidence-item p { margin:0; font-size:9.55px; line-height:1.24; color:#46566B; }
+.bottom { margin-top:0.12in; height:1.40in; background:#0C2949; color:white; border-radius:0.16in; display:grid; grid-template-columns:1.18fr 0.92fr; }
+.bottom article { padding:0.18in 0.21in 0.13in; min-width:0; }
+.bottom article + article { border-left:1px solid #33506F; }
+.bottom .eyebrow { margin:0 0 0.09in; color:#91D8FF; font-size:10.3px; font-weight:800; text-transform:uppercase; }
+.bottom h3 { margin:0 0 0.08in; font-size:13.8px; line-height:1.16; }
+.bottom p { margin:0; color:#DCE7F2; font-size:9.45px; line-height:1.24; }
+.founder { margin-top:0.06in !important; color:white !important; }
+.founder-label { color:#91D8FF; font-size:9.7px; text-transform:uppercase; margin-right:0.09in; letter-spacing:0.25px; }
+.footer { height:0.38in; margin-top:0.12in; border-top:1px solid #CCD7E4; display:grid; grid-template-columns:1fr 2fr 1.55fr; align-items:end; padding-bottom:0.01in; gap:0.10in; }
+.footer a, .footer span { color:#55667A; font-size:9.1px; line-height:1.2; text-decoration:none; }
+.footer a { text-decoration:underline; text-decoration-thickness:0.6px; text-underline-offset:1.5px; }
+.footer .right { text-align:right; }
+@media print { a { color:inherit; } }
+</style></head>
+<body><div class="page"><header class="hero"><div class="hero-left">
+<div class="brandrow"><span class="brandmark" aria-hidden="true"><span class="stem"></span><span class="up"></span><span class="down"></span></span><span class="brandname">Kopilotti Sales</span></div>
+<h1>Turn price negotiation into a digital sales channel.</h1><p class="hero-copy">Kopilotti Sales extends the used-car buying journey into the moment a buyer is ready to negotiate. The LLM handles language. A deterministic server-side policy engine makes the commercial decision.</p><div class="chips" aria-label="Product boundaries"><span class="chip">Not a chatbot</span><span class="chip">Not dynamic pricing</span><span class="chip">Dealer keeps control</span></div></div>
+<div><p class="status">ACTIVE DEVELOPMENT | PUBLIC CONCEPT DEMO | PRE-PILOT</p><ol class="flow" aria-label="Kopilotti Sales decision flow"><li><span class="n" aria-hidden="true">01</span><div><span class="flow-title">Buyer</span><span class="desc">opens a vehicle-specific path and makes an offer</span></div></li><li><span class="n" aria-hidden="true">02</span><div><span class="flow-title">LLM layer</span><span class="desc">interprets and explains; never sets price</span></div></li><li><span class="n" aria-hidden="true">03</span><div><span class="flow-title">Policy engine</span><span class="desc">ACCEPT / COUNTER / REJECT / ESCALATE</span></div></li><li><span class="n" aria-hidden="true">04</span><div><span class="flow-title">Dealer</span><span class="desc">keeps policy authority and completes the deal</span></div></li></ol></div></header>
+<main class="main"><section class="cards" aria-label="Product thesis"><article class="card"><span class="card-no" aria-hidden="true">01</span><p class="eyebrow">PROBLEM</p><h3>Negotiation is still a manual gap</h3><p>Search, finance and checkout can be digital, but a serious buyer often still waits for a salesperson or trade-in manager before the price can move.</p></article><article class="card"><span class="card-no" aria-hidden="true">02</span><p class="eyebrow">PRODUCT</p><h3>A bounded negotiation path</h3><p>Vehicle-specific entry, controlled offer rounds and deterministic outcomes. Cases outside the automated boundary go to a person instead of a guessed answer.</p></article><article class="card"><span class="card-no" aria-hidden="true">03</span><p class="eyebrow">WHY IT MATTERS</p><h3>AI without pricing authority</h3><p>Natural-language UX can move fast without delegating margin decisions to a model. The dealer defines the rules; the software applies them consistently.</p></article></section>
+<section class="evidence" aria-labelledby="evidence-heading"><p class="section-kicker">EVIDENCE, NOT CLAIMS</p><h2 id="evidence-heading">What the repositories support today</h2><div class="evidence-grid"><article class="evidence-item"><span class="badge blue">PUBLIC DEMO</span><h3>Negotiation core is live as a demonstrator</h3><p>Magic Link and dealer-defined deterministic policy are public. Persistent PostgreSQL negotiation sessions, tenant-scoped access, and schema/readiness gates are implemented and tested. No broad production-ready claim.</p></article><article class="evidence-item"><span class="badge blue">DEALER TOOLING</span><h3>Admin path is more than a mockup</h3><p>Dealer Admin has a validated generic CSV / DMS-export import path with dry-run preview, human approval and atomic apply. No live vendor-specific DMS connection is claimed.</p></article><article class="evidence-item"><span class="badge green">BLACK-BOX EVAL</span><h3>Independent behavior checks exist</h3><p>A separate HTTP/API harness runs live scenarios against pinned local Sales and disposable PostgreSQL. Targeting fails closed to non-production and evidence is redacted. Validation, not certification.</p></article><article class="evidence-item"><span class="badge amber">BUILT / TESTED</span><h3>Expansion work exists outside public traffic</h3><p>Trade-in orchestration, DealSnapshot and provider-independent valuation/history boundaries have implementation evidence. No active VIS / Autovista or carVertical production connection or partnership is claimed.</p></article></div></section>
+<section class="bottom" aria-label="Investment context"><article><p class="eyebrow">WHY THIS CAN COMPOUND</p><h3>The advantage is operating discipline, not LLM novelty.</h3><p>Deterministic policy, tenant boundaries and isolated evaluation form a reusable transaction layer. Pilot first; integrate deeper after value is proven.</p><p class="founder"><span class="founder-label">FOUNDER EDGE</span>20+ years in used-car commerce; about 15,000 vehicles bought/sold online.</p></article><article><p class="eyebrow">NON-NEGOTIABLE BOUNDARY</p><h3>Kopilotti does not handle customer funds or make financing decisions.</h3><p>Payment, financing and handover stay with the dealer and its finance partner. Live DDN verification and live VIS/history-provider connections remain future integration work.</p></article></section>
+<footer class="footer"><a href="https://kopilotti.online/" aria-label="Kopilotti Sales -demo">kopilotti.online</a><a href="https://github.com/mikko-lab/kopilotti-sales-demo" aria-label="Kopilotti Sales public GitHub repository">github.com/mikko-lab/kopilotti-sales-demo</a><span class="right">Investor / partner brief - 20 Sep 2026</span></footer></main></div></body></html>
