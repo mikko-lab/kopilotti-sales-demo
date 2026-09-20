@@ -101,35 +101,73 @@ jobs:
       - name: Validate accessibility structure
         run: |
           python - <<'PY'
+          import subprocess
           from pypdf import PdfReader
 
           expected = {
               "docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf": "fi-FI",
               "docs/kopilotti-sales-customer-investor-summary.pdf": "en-US",
           }
+          required_uris = {
+              "https://kopilotti.online/",
+              "https://github.com/mikko-lab/kopilotti-sales-demo",
+          }
+
           for path, lang in expected.items():
               r = PdfReader(path)
               assert len(r.pages) == 1, (path, "page count")
               root = r.trailer["/Root"]
-              assert root.get("/Lang") == lang, (path, root.get("/Lang"))
+              assert root.get("/Lang") == lang, (path, "language", root.get("/Lang"))
               assert root.get("/StructTreeRoot") is not None, (path, "missing StructTreeRoot")
               assert bool((root.get("/MarkInfo") or {}).get("/Marked")), (path, "not marked")
               assert r.pages[0].get("/Tabs") == "/S", (path, "Tabs")
-              assert len(r.pages[0].get("/Annots", [])) == 2, (path, "links")
               assert bool((root.get("/ViewerPreferences") or {}).get("/DisplayDocTitle")), (path, "DisplayDocTitle")
-          PY
 
-          for f in docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf docs/kopilotti-sales-customer-investor-summary.pdf; do
-            pdfinfo "$f" | grep -q "^Pages:[[:space:]]*1$"
-            pdfinfo -url "$f" | grep -q "https://kopilotti.online/"
-            pdfinfo -url "$f" | grep -q "https://github.com/mikko-lab/kopilotti-sales-demo"
-            pdfinfo -struct-text "$f" > /tmp/struct.txt 2> /tmp/struct.err
-            test ! -s /tmp/struct.err
-            grep -q "H1 (block)" /tmp/struct.txt
-            grep -q "H2 (block)" /tmp/struct.txt
-            grep -q "Link (inline)" /tmp/struct.txt
-            pdffonts "$f" | awk 'NR>2 && NF { if ($4 != "yes" || $6 != "yes") bad=1 } END { exit bad }'
-          done
+              annots = r.pages[0].get("/Annots", [])
+              assert len(annots) == 2, (path, "link annotation count", len(annots))
+              uris = set()
+              for annot_ref in annots:
+                  annot = annot_ref.get_object()
+                  assert annot.get("/StructParent") is not None, (path, "link missing StructParent")
+                  action = annot.get("/A")
+                  if action and action.get("/URI"):
+                      uris.add(str(action.get("/URI")))
+              assert required_uris.issubset(uris), (path, "missing link URI", uris)
+
+              struct = subprocess.run(
+                  ["pdfinfo", "-struct-text", path],
+                  text=True,
+                  capture_output=True,
+                  check=False,
+              )
+              print(f"--- structure: {path} ---")
+              print(struct.stdout[:4000])
+              if struct.stderr:
+                  print("--- pdfinfo stderr (diagnostic) ---")
+                  print(struct.stderr)
+              assert struct.returncode == 0, (path, "pdfinfo -struct-text failed", struct.returncode)
+              assert "Syntax Error" not in struct.stderr, (path, "PDF structure syntax error", struct.stderr)
+              assert "H1 (block)" in struct.stdout, (path, "missing H1 structure")
+              assert "H2 (block)" in struct.stdout, (path, "missing H2 structure")
+              assert "Link (inline)" in struct.stdout, (path, "missing Link structure")
+
+              fonts = subprocess.run(
+                  ["pdffonts", path],
+                  text=True,
+                  capture_output=True,
+                  check=True,
+              )
+              print(f"--- fonts: {path} ---")
+              print(fonts.stdout)
+              rows = [line.split() for line in fonts.stdout.splitlines()[2:] if line.strip()]
+              assert rows, (path, "no fonts detected")
+              for row in rows:
+                  assert len(row) >= 7, (path, "unexpected pdffonts row", row)
+                  assert row[3] == "yes", (path, "font not embedded", row)
+                  assert row[5] == "yes", (path, "font missing Unicode map", row)
+
+              print(f"PASS: {path}")
+          PY
 
       - name: Commit generated publications
         shell: bash
