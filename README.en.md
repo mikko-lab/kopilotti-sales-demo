@@ -18,7 +18,7 @@ This public repository presents the product concept, demonstrator and external o
 
 [Open the Kopilotti Sales website](https://kopilotti.online/en/) · [▶ Mikko-Lab on YouTube](https://www.youtube.com/@mikko-lab)
 
-[📄 One-page customer and investor overview](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf) · [▶ Watch the Kopilotti Sales presentation video (2:37)](https://kopilotti.online/esittelyvideo)
+[📄 One-page customer and investor overview](docs/kopilotti-sales-customer-investor-summary.pdf) · [▶ Watch the Kopilotti Sales presentation video (2:37)](https://kopilotti.online/esittelyvideo)
 
 > **Concept demonstrator – does not require strong identity verification and does not create a binding offer.** The interactive negotiation interface itself is presented in Finnish; see [Current scope](#current-scope).
 
