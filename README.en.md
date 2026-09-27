@@ -100,6 +100,8 @@ Kopilotti Sales does not receive, hold, transfer, settle, or refund customer fun
 
 ## Current scope
 
+> **Development update — 27 September 2026:** A bounded atomic ACCEPT implementation has been completed, merged into the maintained codebase and verified in CI. It is not enabled in the public production demo and does not become active simply by deploying a release. Existing negotiation and purchase flows remain unchanged. [Changes, test evidence and rollout boundaries](docs/development-status-2026-09-27.md#english).
+
 > **Current-state update — 17 September 2026:** The published demo's production backend uses durable PostgreSQL persistence for negotiation sessions. Tenant-scoped session access and database-enforced integrity for tenant relationships are active. The release has been verified with backup-and-restore testing together with schema and readiness gates. A separate black-box Evaluation & Safety harness has also been exercised end to end against a local Sales SUT. This does not change the public demo's feature boundary and does not enable a payment-capable transaction path, a live VIS connection, or live DDN verification.
 
 **Proven in the published demo environment:**
@@ -112,6 +114,8 @@ Kopilotti Sales does not receive, hold, transfer, settle, or refund customer fun
 - After an accepted price, the customer moves, in the current public demo, into the dealer's own transaction process. Financing, payment and vehicle handover are handled in the dealer's own systems.
 
 **Built and tested, not yet in public production traffic:**
+
+- **Bounded atomic ACCEPT.** On an explicitly connected, tenant-scoped path, the agreed price, deal record, reservation, inventory lock and audit events are persisted together or not at all. Retries do not create duplicate deals. Cancellation and expiry release the acceptance hold atomically before the payment stage. This path is not connected to existing HTTP, demo, dealer or purchase flows; payments, handover and acceptance of a counter-offer require separate integration.
 
 - Trade-in and deal-summary handling as separate, traceable steps: vehicle identification, external valuation, an optional dealer-selected vehicle-history check, a deterministic offer, and settlement.
 - A provider-independent VIS / Autovista valuation boundary and adapter skeleton in a separate implementation. The trade-in flow is tested with a test provider; an actual VIS connection has not been implemented or tested against the service.
