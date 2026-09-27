@@ -62,6 +62,8 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 
 # Tuotannon tila
 
+> **Kehitystilanne 27.9.2026:** Rajattu atominen ACCEPT on toteutettu, yhdistetty ylläpidettyyn koodipohjaan ja varmennettu CI:ssä. Se ei ole käytössä julkisessa tuotantodemossa eikä aktivoidu pelkällä version julkaisulla. Nykyiset neuvottelu- ja ostopolut säilyvät ennallaan. [Muutokset, testinäyttö ja käyttöönoton rajat](docs/development-status-2026-09-27.md#suomi).
+
 > **Nykytilapäivitys 17.9.2026:** Julkaistun demon tuotantobackend käyttää pysyvää PostgreSQL-tallennusta neuvottelusessioille. Tenant-rajattu session käyttö ja tenant-suhteiden tietokantatason eheysrajat ovat käytössä. Julkaisu on varmennettu backup/restore-testillä sekä skeema- ja readiness-porteilla. Lisäksi erillinen black-box Evaluation & Safety -harness on ajettu päästä päähän paikallista Sales-SUT:ia vasten. Tämä ei muuta julkisen tuotantodemon ominaisuusrajaa eikä ota käyttöön maksukelpoista kauppapolkua, VIS-yhteyttä tai live-DDN-todennusta.
 
 **Maksu- ja rahoitusraja:** Kopilotti Sales ei vastaanota, säilytä, siirrä, tilitä eikä palauta asiakkaan varoja. Se ei peri varausmaksua tai käsirahaa eikä tee rahoituspäätöstä. Sovitun hinnan jälkeen (1) asiakas maksaa koko kauppahinnan suoraan myyjäliikkeelle liikkeen omissa järjestelmissä, tai (2) asiakas tekee rahoitussopimuksen suoraan myyjäliikkeen tai sen rahoituskumppanin kanssa. Kopilotti voi neuvotella hinnan, muodostaa rakenteellisen yhteenvedon ja siirtää asian myyjäliikkeen käsiteltäväksi — se ei ole maksunsaaja, maksunvälittäjä, luotonantaja eikä rahoituspäätöksen tekijä.
@@ -77,6 +79,8 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - Kopilotti ei vastaanota, säilytä eikä välitä asiakkaan maksuja.
 
 ## Rakennettu ja testattu, mutta ei julkisessa tuotantoliikenteessä
+
+- **Rajattu atominen ACCEPT.** Erikseen kytkettävällä, tenant-rajatulla polulla sovittu hinta, kauppatietue, varaus, varastolukko ja auditointitapahtumat tallentuvat yhdessä tai eivät lainkaan. Uusinnat eivät luo päällekkäisiä kauppoja. Hyväksynnän peruutus ja varauksen vanheneminen vapauttavat lukon atomisesti ennen maksuvaihetta. Polku ei ole kytketty nykyisiin HTTP-, demo-, jälleenmyyjä- tai ostopolkuihin; maksut, luovutus ja vastatarjouksen hyväksyminen vaativat erillisen integraation.
 
 - **Trade-in V1 ja DealSnapshot.** Vaihtoauton tunnistaminen, ulkoisesta arvonmäärityksestä saatavan arvion käsittely, deterministinen tarjous, tarjouksen hyväksyminen, väliraha ja muuttumaton kauppayhteenveto on toteutettu erillisinä ja jäljitettävinä vaiheina. Hyväksytty vaihtoautotarjous voidaan käyttää kauppaan vain kerran.
 - **VIS / Autovista -integraatioraja.** Providerista riippumaton domain-raja ja adapterirunko ajoneuvon tunnistamiselle ja vaihtoauton arvonmääritykselle ovat erillisessä toteutuksessa. Trade-in-polku on testattu testiproviderilla; varsinaista VIS-yhteyttä ei ole toteutettu tai testattu palvelua vasten. Puuttuva tai epäonnistunut arvonmääritys ohjataan manuaaliseen tarkistukseen.
