@@ -18,7 +18,7 @@ This public repository presents the product concept, demonstrator and external o
 
 [Open the Kopilotti Sales website](https://kopilotti.online/en/) · [▶ Mikko-Lab on YouTube](https://www.youtube.com/@mikko-lab)
 
-[📄 One-page overview](docs/kopilotti-sales-customer-investor-summary.pdf) · [📑 Investor & partner brief (2 pages)](docs/kopilotti-sales-investor-partner-brief-en.pdf) · [▶ Watch the Kopilotti Sales presentation video (2:37)](https://kopilotti.online/esittelyvideo)
+[📄 One-page overview](docs/kopilotti-sales-customer-investor-summary.pdf) · [📑 Investor & partner brief (2 pages)](docs/kopilotti-sales-investor-partner-brief-en.pdf) · [▶ Watch the Kopilotti Sales presentation video with English subtitles (2:33)](https://kopilotti.online/en/#sales-video)
 
 > **Concept demonstrator – does not require strong identity verification and does not create a binding offer.** The interactive negotiation interface itself is presented in Finnish; see [Current scope](#current-scope).
 
@@ -32,7 +32,8 @@ This public repository presents the product concept, demonstrator and external o
 - [English product overview (PDF)](docs/kopilotti-sales-overview-en.pdf)
 - [Saavutettava suomenkielinen tekstiversio](docs/kopilotti-sales-overview-fi.md)
 - [Accessible English text version](docs/kopilotti-sales-overview-en.md)
-- [Download the Kopilotti Sales presentation video (MP4, 11 MB)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
+- [Download the Kopilotti Sales presentation video with English subtitles (MP4, 17.1 MB, Finnish narration, 2:33)](assets/kopilotti-sales-esittelyvideo-2026-09-30.en.mp4) · English subtitles [VTT](assets/kopilotti-sales-esittely-2026-09-30.en.vtt) / [SRT](assets/kopilotti-sales-esittely-2026-09-30.en.srt) · [media credits and licences (in Finnish)](docs/esittelyvideo-2026-09-30-credits.md)
+- [Same video with Finnish subtitles (MP4, 18.2 MB)](assets/kopilotti-sales-esittelyvideo-2026-09-30.fi.mp4) · [Finnish text version](docs/esittelyvideo-2026-09-30.fi.md)
 
 ## How it works
 

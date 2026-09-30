@@ -1,0 +1,148 @@
+1
+00:00:00,633 --> 00:00:02,857
+Your customer may not wait until morning.
+
+2
+00:00:03,488 --> 00:00:08,443
+They have found the right car.
+But one question remains.
+
+3
+00:00:09,079 --> 00:00:11,036
+Can we talk about the price?
+
+4
+00:00:12,532 --> 00:00:17,395
+Kopilotti Sales brings price negotiation
+into the dealership's digital sales journey.
+
+5
+00:00:18,024 --> 00:00:21,034
+The buyer reviews the vehicle
+and its condition information.
+
+6
+00:00:21,671 --> 00:00:24,959
+From the vehicle listing,
+they can move on to making an offer.
+
+7
+00:00:26,467 --> 00:00:32,930
+AI supports the conversation.
+Dealer-defined rules determine the commercial outcome.
+
+8
+00:00:33,566 --> 00:00:38,266
+Internal price limits are not shared
+with the language model or the buyer's browser.
+
+9
+00:00:38,905 --> 00:00:41,163
+Commercial authority stays with the dealer.
+
+10
+00:00:42,632 --> 00:00:47,390
+An offer may be accepted, countered,
+or declined.
+
+11
+00:00:48,023 --> 00:00:51,601
+When a case needs judgment,
+it is escalated for human review.
+
+12
+00:00:52,236 --> 00:00:55,119
+Uncertainty is not resolved by guessing.
+
+13
+00:00:56,600 --> 00:01:00,235
+Development now also covers
+state management after acceptance.
+
+14
+00:01:00,867 --> 00:01:07,130
+In the new, tested implementation, the agreed price,
+reservation and deal state are recorded together.
+
+15
+00:01:07,765 --> 00:01:10,972
+If a write fails,
+the operation is rolled back as a whole.
+
+16
+00:01:12,467 --> 00:01:16,195
+The tested flow prevents
+conflicting reservations for the same vehicle.
+
+17
+00:01:16,826 --> 00:01:20,196
+Repeating the same request
+does not create another deal.
+
+18
+00:01:20,831 --> 00:01:24,652
+This new flow is not yet connected
+to the public demo.
+
+19
+00:01:26,163 --> 00:01:30,643
+The agreed price and offer history
+can be collected for the dealership to review.
+
+20
+00:01:31,279 --> 00:01:34,544
+A dealership-scoped summary API
+has been implemented.
+
+21
+00:01:35,178 --> 00:01:40,052
+Its staff interface and automatic contact handoff
+are still under development.
+
+22
+00:01:41,566 --> 00:01:45,525
+An agreed price does not mean
+the car has been paid for or handed over.
+
+23
+00:01:46,157 --> 00:01:50,336
+The dealership handles the contract,
+payment confirmation and vehicle handover.
+
+24
+00:01:51,004 --> 00:01:55,033
+Kopilotti does not handle customer funds
+or make financing decisions.
+
+25
+00:01:56,532 --> 00:02:03,119
+Trade-in valuation and vehicle-history handling
+have also been developed and tested separately.
+
+26
+00:02:03,748 --> 00:02:09,004
+Live connections to external valuation
+and history providers are not yet in place.
+
+27
+00:02:09,643 --> 00:02:13,001
+They require separately agreed integrations.
+
+28
+00:02:14,496 --> 00:02:18,352
+The next step is a limited pilot
+within a dealership's own sales journey.
+
+29
+00:02:18,986 --> 00:02:22,992
+Select the vehicles, agree the boundaries
+and measure the results.
+
+30
+00:02:23,628 --> 00:02:28,815
+Kopilotti Sales. One link.
+Keep the sales conversation moving.
+
+31
+00:02:29,450 --> 00:02:31,083
+Let's talk about a pilot.
