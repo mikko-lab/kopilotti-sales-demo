@@ -18,7 +18,7 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 
 [Avaa Kopilotti Sales -sivusto](https://kopilotti.online/) · [▶ Mikko-Lab YouTubessa](https://www.youtube.com/@mikko-lab)
 
-[📄 Yhden sivun yleiskuva](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf) · [📑 Sijoittaja- ja kumppanibrief (2 sivua)](docs/kopilotti-sales-investor-partner-brief-fi.pdf) · [▶ Katso Kopilotti Salesin esittelyvideo (2:37)](https://kopilotti.online/esittelyvideo)
+[📄 Yhden sivun yleiskuva](docs/kopilotti-sales-asiakas-sijoittajatiivistelma.pdf) · [📑 Sijoittaja- ja kumppanibrief (2 sivua)](docs/kopilotti-sales-investor-partner-brief-fi.pdf) · [▶ Katso Kopilotti Salesin esittelyvideo (2:33)](https://kopilotti.online/esittelyvideo)
 
 > **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**
 
@@ -48,7 +48,8 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - [English product overview (PDF)](docs/kopilotti-sales-overview-en.pdf)
 - [Saavutettava suomenkielinen tekstiversio](docs/kopilotti-sales-overview-fi.md)
 - [Accessible English text version](docs/kopilotti-sales-overview-en.md)
-- [Lataa Kopilotti Salesin esittelyvideo MP4-muodossa (11 Mt)](assets/kopilotti-sales-esittelyvideo-2026-09.mp4)
+- [Lataa Kopilotti Salesin esittelyvideo MP4-muodossa (18,2 Mt, suomenkielinen kerronta ja tekstitys, 2:33)](assets/kopilotti-sales-esittelyvideo-2026-09-30.fi.mp4) · tekstitys [VTT](assets/kopilotti-sales-esittely-2026-09-30.fi.vtt) / [SRT](assets/kopilotti-sales-esittely-2026-09-30.fi.srt) · [videon tekstiversio](docs/esittelyvideo-2026-09-30.fi.md) · [aineistot ja lisenssit](docs/esittelyvideo-2026-09-30-credits.md)
+- [Sama video englanninkielisellä tekstityksellä (MP4, 17,1 Mt, suomenkielinen kerronta)](assets/kopilotti-sales-esittelyvideo-2026-09-30.en.mp4)
 
 ## Näin Kopilotti Sales toimii
 
