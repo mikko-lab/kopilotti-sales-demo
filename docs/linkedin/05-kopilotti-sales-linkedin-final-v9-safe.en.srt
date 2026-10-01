@@ -1,0 +1,193 @@
+1
+00:00:00,100 --> 00:00:02,827
+The price has been agreed.
+
+2
+00:00:02,827 --> 00:00:07,407
+Many digital buying journeys
+end at this point with a message:
+
+3
+00:00:07,407 --> 00:00:09,370
+"A salesperson will contact you."
+
+4
+00:00:09,370 --> 00:00:14,375
+Kopilotti aims to carry an accepted deal
+further, in a controlled way.
+
+5
+00:00:14,375 --> 00:00:18,425
+However, the money does not
+flow through Kopilotti.
+
+6
+00:00:20,100 --> 00:00:23,161
+The language model
+does not decide the price.
+
+7
+00:00:23,161 --> 00:00:25,651
+The dealer sets the limits,
+
+8
+00:00:25,651 --> 00:00:29,801
+and the server side returns
+an acceptance, a counter-offer,
+
+9
+00:00:29,801 --> 00:00:32,291
+a rejection, or escalation for review.
+
+10
+00:00:32,291 --> 00:00:34,269
+After acceptance,
+
+11
+00:00:34,269 --> 00:00:37,565
+the price and the deal
+are confirmed on the server.
+
+12
+00:00:40,100 --> 00:00:43,993
+The accepted decision is bound
+to the correct vehicle,
+
+13
+00:00:43,993 --> 00:00:46,329
+dealer and deal.
+
+14
+00:00:46,329 --> 00:00:49,000
+The same core can also lock the vehicle,
+
+15
+00:00:49,000 --> 00:00:52,930
+so the same car cannot end up
+with two customers.
+
+16
+00:00:52,930 --> 00:00:57,870
+A price reported by the browser or
+the language model is not authoritative.
+
+17
+00:01:00,100 --> 00:01:03,452
+The next step can be payment.
+
+18
+00:01:03,452 --> 00:01:07,940
+Kopilotti is neither a payment service
+nor a payee.
+
+19
+00:01:07,940 --> 00:01:11,130
+The customer pays the dealership directly
+
+20
+00:01:11,130 --> 00:01:14,319
+through the dealership's own
+payment service or bank.
+
+21
+00:01:14,319 --> 00:01:16,819
+Kopilotti can initiate the payment flow,
+
+22
+00:01:16,819 --> 00:01:19,319
+but card details and bank credentials
+
+23
+00:01:19,319 --> 00:01:22,444
+are not shared with Kopilotti
+or the language model.
+
+24
+00:01:24,100 --> 00:01:28,402
+The customer cannot mark
+the payment as completed themselves.
+
+25
+00:01:28,402 --> 00:01:32,926
+Payment status comes verified
+directly from the payment provider.
+
+26
+00:01:32,926 --> 00:01:36,141
+The confirmation is bound
+to the correct deal,
+
+27
+00:01:36,141 --> 00:01:39,356
+amount and payment provider reference.
+
+28
+00:01:39,356 --> 00:01:42,500
+Once the confirmation is accepted
+on the server side,
+
+29
+00:01:42,500 --> 00:01:46,513
+the deal can be marked
+as paid and locked.
+
+30
+00:01:47,100 --> 00:01:51,958
+Financing and contracts
+are external integrations.
+
+31
+00:01:51,958 --> 00:01:55,097
+Kopilotti does not make credit decisions
+
+32
+00:01:55,097 --> 00:01:58,236
+or replace the dealership's
+back-office system.
+
+33
+00:01:58,236 --> 00:02:01,826
+Kopilotti guides the sales process
+
+34
+00:02:01,826 --> 00:02:05,416
+and hands the verified commercial state
+over to the next system.
+
+35
+00:02:08,100 --> 00:02:11,883
+In the public demo,
+no payment is initiated.
+
+36
+00:02:11,883 --> 00:02:16,676
+Payment and financing
+are separate integrations.
+
+37
+00:02:16,676 --> 00:02:19,532
+The direction is clear: conversation,
+
+38
+00:02:19,532 --> 00:02:21,674
+rule-bound negotiation,
+
+39
+00:02:21,674 --> 00:02:23,816
+an accepted deal, a payment flow,
+
+40
+00:02:23,816 --> 00:02:25,958
+and a verified outcome.
+
+41
+00:02:25,958 --> 00:02:28,688
+The language model converses.
+
+42
+00:02:28,688 --> 00:02:31,438
+The server side decides.
+
+43
+00:02:31,438 --> 00:02:35,036
+The dealer stays in control.
