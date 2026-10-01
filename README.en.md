@@ -22,7 +22,7 @@ This public repository presents the product concept, demonstrator and external o
 
 > **Concept demonstrator – does not require strong identity verification and does not create a binding offer.** The interactive negotiation interface itself is presented in Finnish; see [Current scope](#current-scope).
 
-[![Kopilotti Sales digital price negotiation](assets/screenshot-negotiation-card.jpg)](https://kopilotti.online/vehicle.html)
+[![Kopilotti Sales: One link. Keep the sales conversation moving. Digital price negotiation under the dealer’s own rules.](assets/kopilotti-sales-cover-2026-10-01.en.png)](https://kopilotti.online/en/)
 
 ## Product overviews and materials
 
