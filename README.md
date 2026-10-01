@@ -38,7 +38,7 @@ Kopilotti Sales ei korvaa automyyjää.
 
 Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalisen vaiheen ennen kauppoja.
 
-[![Kopilotti Salesin digitaalinen hintaneuvottelu](assets/screenshot-negotiation-card.jpg)](https://kopilotti.online/vehicle.html)
+[![Kopilotti Sales: Yksi linkki. Kaupanteko jatkuu. Digitaalinen hintaneuvottelu autoliikkeen omilla säännöillä.](assets/kopilotti-sales-cover-2026-10-01.fi.png)](https://kopilotti.online/)
 
 ## Tuote-esittelyt ja materiaalit
 
