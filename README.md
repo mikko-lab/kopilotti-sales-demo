@@ -51,6 +51,13 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - [Lataa Kopilotti Salesin esittelyvideo MP4-muodossa (18,2 Mt, suomenkielinen kerronta ja tekstitys, 2:33)](assets/kopilotti-sales-esittelyvideo-2026-09-30.fi.mp4) · tekstitys [VTT](assets/kopilotti-sales-esittely-2026-09-30.fi.vtt) / [SRT](assets/kopilotti-sales-esittely-2026-09-30.fi.srt) · [videon tekstiversio](docs/esittelyvideo-2026-09-30.fi.md) · [aineistot ja lisenssit](docs/esittelyvideo-2026-09-30-credits.md)
 - [Sama video englanninkielisellä tekstityksellä (MP4, 17,1 Mt, suomenkielinen kerronta)](assets/kopilotti-sales-esittelyvideo-2026-09-30.en.mp4)
 
+### LinkedIn- ja kumppanimateriaali
+
+Tiivis esittely LinkedIniin ja kumppaneille. Kuvaa repon dokumentoitua tilaa 1.10.2026.
+
+- [Kopilotti Sales – LinkedIn-esittely (PDF, A4, 4 sivua)](docs/linkedin/kopilotti-sales-linkedin-fi-2026-10-01.pdf)
+- [Kopilotti Sales – LinkedIn overview in English (PDF, A4, 4 pages)](docs/linkedin/kopilotti-sales-linkedin-en-2026-10-01.pdf)
+
 ## Näin Kopilotti Sales toimii
 
 ![Kopilotti Salesin toimintaperiaate: LLM keskustelee ja backend tekee deterministisen hintapäätöksen](assets/kopilotti-sales-flow.svg)

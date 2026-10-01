@@ -35,6 +35,13 @@ This public repository presents the product concept, demonstrator and external o
 - [Download the Kopilotti Sales presentation video with English subtitles (MP4, 17.1 MB, Finnish narration, 2:33)](assets/kopilotti-sales-esittelyvideo-2026-09-30.en.mp4) · English subtitles [VTT](assets/kopilotti-sales-esittely-2026-09-30.en.vtt) / [SRT](assets/kopilotti-sales-esittely-2026-09-30.en.srt) · [media credits and licences (in Finnish)](docs/esittelyvideo-2026-09-30-credits.md)
 - [Same video with Finnish subtitles (MP4, 18.2 MB)](assets/kopilotti-sales-esittelyvideo-2026-09-30.fi.mp4) · [Finnish text version](docs/esittelyvideo-2026-09-30.fi.md)
 
+### LinkedIn and partner material
+
+A compact overview for LinkedIn and partners, reflecting the documented repository state on 1 Oct 2026.
+
+- [Kopilotti Sales – LinkedIn overview (PDF, A4, 4 pages)](docs/linkedin/kopilotti-sales-linkedin-en-2026-10-01.pdf)
+- [Kopilotti Sales – LinkedIn-esittely suomeksi (PDF, A4, 4 sivua)](docs/linkedin/kopilotti-sales-linkedin-fi-2026-10-01.pdf)
+
 ## How it works
 
 ![How Kopilotti Sales works: the LLM converses and the backend makes the deterministic price decision](assets/kopilotti-sales-flow-en.svg)
