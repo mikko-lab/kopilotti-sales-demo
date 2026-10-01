@@ -141,7 +141,7 @@ OUT_DIR = DOCS_DIR
 
 PAGE_W_PT, PAGE_H_PT = 960, 1200  # 4:5 portrait, LinkedIn-carousel-optimized
 REPO = "https://github.com/mikko-lab/kopilotti-sales-demo"
-DEMO_URL = "https://app.kopilotti.online"
+DEMO_URL = "https://kopilotti.online"
 FIXED_DATE = "D:20000101000000+00'00'"
 
 
