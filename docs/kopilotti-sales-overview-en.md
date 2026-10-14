@@ -12,6 +12,11 @@ The dealer defines the policy. The system applies it consistently. Cases outside
 
 Vehicle listing / list-price purchase or price negotiation / agreed price / sales contract / electronic signature / payment or financing / handover.
 
+1. The customer can proceed at the list price or negotiate.
+2. Sales accepts a price on the dealer's behalf within its rules.
+3. The agreed price and offer history are compiled for the dealership to process.
+4. After the price is agreed, the dealership is responsible for the sales contract, signature, payment or financing, and vehicle handover.
+
 An agreed price means that the vehicle and price have been agreed under the dealer's authority. The salesperson does not need to restart the same price negotiation. The sales contract, electronic signature, payment or financing, and handover remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
 
 Sales agrees the price under the dealer's authority. The dealer's systems and selected providers handle the contract, electronic signature and payment or financing. Funds go directly to the selling dealership. People handle exceptions. The language model does not decide the price.

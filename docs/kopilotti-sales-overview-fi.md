@@ -12,6 +12,11 @@ Jälleenmyyjä määrittää säännöt. Järjestelmä soveltaa niitä johdonmuk
 
 Ajoneuvoilmoitus / ostaminen listahinnalla tai hintaneuvottelu / sovittu hinta / kauppasopimus / sähköinen allekirjoitus / maksu tai rahoitus / luovutus.
 
+1. Asiakas voi edetä listahinnalla tai neuvotella.
+2. Sales hyväksyy hinnan liikkeen valtuuttamana, sen sääntöjen rajoissa.
+3. Sovittu hinta ja tarjousten vaiheet kootaan liikkeen käsiteltäväksi.
+4. Hinnan sopimisen jälkeen liike vastaa kauppasopimuksesta, allekirjoituksesta, maksusta tai rahoituksesta sekä auton luovutuksesta.
+
 Sovittu hinta tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Kauppasopimus, sähköinen allekirjoitus, maksu tai rahoitus sekä luovutus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
 
 Sales sopii hinnan liikkeen valtuuttamana. Liikkeen järjestelmät ja sen valitsemat palveluntarjoajat hoitavat sopimuksen, sähköisen allekirjoituksen sekä maksun tai rahoituksen. Rahat maksetaan suoraan myyjäliikkeelle. Poikkeustilanteet siirtyvät ihmiselle. Kielimalli ei päätä hintaa.
