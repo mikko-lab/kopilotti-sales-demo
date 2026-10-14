@@ -54,7 +54,7 @@ class TestPublicShowcaseSync(unittest.TestCase):
         ukk_match = re.search(r'<section[^>]*id="ukk"[^>]*>([\s\S]*?)</section>', self.fi_html)
         self.assertIsNotNone(ukk_match, "#ukk section must exist")
         details = re.findall(r'<details\b', ukk_match.group(1))
-        self.assertEqual(len(details), 5, f"Expected 5 <details> in #ukk, found {len(details)}")
+        self.assertEqual(len(details), 8, f"Expected 8 <details> in #ukk, found {len(details)}")
         self.assertIn("Autoliikkeen yleisimmät kysymykset", ukk_match.group(1))
 
     def test_06_en_faq_has_exactly_five_details(self):
@@ -62,7 +62,7 @@ class TestPublicShowcaseSync(unittest.TestCase):
         faq_match = re.search(r'<section[^>]*id="faq"[^>]*>([\s\S]*?)</section>', self.en_html)
         self.assertIsNotNone(faq_match, "#faq section must exist")
         details = re.findall(r'<details\b', faq_match.group(1))
-        self.assertEqual(len(details), 5, f"Expected 5 <details> in #faq, found {len(details)}")
+        self.assertEqual(len(details), 8, f"Expected 8 <details> in #faq, found {len(details)}")
         self.assertIn("Common questions from dealerships", faq_match.group(1))
 
     def test_07_ukk_faq_ordering(self):
