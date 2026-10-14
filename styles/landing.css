@@ -137,10 +137,12 @@
    .landing-section-inner container is centered (max-width:1080px + auto
    margins), but left-aligned text inside it still starts flush at the
    container's left edge, which reads as "hero is centered, everything
-   else is shoved left" once there's enough side space to notice. List/card
-   body content below (steps-grid, security-list, etc.) stays left-aligned
-   on purpose — only the eyebrow/heading/intro "chapter title" cluster is
-   centered, same pattern the hero already uses. */
+   else is shoved left" once there's enough side space to notice. Only the
+   short eyebrow + heading "chapter title" pair is centered. Multi-line
+   copy (intros, status notes, captions) is left-aligned inside its own
+   centered column (max-width + margin-inline:auto): on 3+ lines centered
+   text makes every line start at a different point, which slows reading,
+   especially on mobile where these paragraphs run to 5-9 lines. */
 .section-eyebrow {
   color: var(--primary);
   font-size: var(--text-2xs);
@@ -165,7 +167,7 @@
   line-height: 1.6;
   max-width: 62ch;
   margin-inline: auto;
-  text-align: center;
+  text-align: left;
 }
 .section-callout {
   margin-top: var(--space-3);
@@ -229,11 +231,8 @@
 .hero-inner {
   display: grid;
   gap: clamp(18px, 3vw, 24px);
-  text-align: center;
-  justify-items: center;
-}
-@media (min-width: 900px) {
-  .hero-inner { text-align: left; justify-items: start; }
+  text-align: left;
+  justify-items: start;
 }
 .hero-eyebrow {
   display: inline-flex;
@@ -273,7 +272,7 @@
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: var(--space-3);
   width: 100%;
 }
@@ -408,7 +407,7 @@
   margin-top: var(--space-3);
   color: var(--muted);
   font-size: var(--text-2xs);
-  text-align: center;
+  text-align: left;
 }
 
 /* ============ Consumer commerce (not an auction) ============ */
@@ -720,7 +719,7 @@
   color: var(--muted);
   font-size: var(--text-xs);
   line-height: 1.55;
-  text-align: center;
+  text-align: left;
 }
 
 /* ============ Comparison ============ */
@@ -1146,11 +1145,13 @@
 }
 .sales-video-frame p a { color: #FFFFFF; }
 .sales-video-note {
-  max-width: 1080px;
+  /* Same 820px column as the intro above and the transcript below, so the
+     left-aligned caption starts where they do, not at the video's edge. */
+  max-width: 820px;
   margin: var(--space-3) auto 0;
   color: var(--text2);
   font-size: var(--text-xs);
-  text-align: center;
+  text-align: left;
 }
 .sales-video-links {
   max-width: 1080px;
