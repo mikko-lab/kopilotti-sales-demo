@@ -583,7 +583,7 @@ TEXT = {
         "cta": "Kokeile demoa",
         "problem_header": "Ongelma ja arvo",
         "problem_point_1": "Ajoneuvon tiedot ja ostopolun muut vaiheet voivat olla verkossa, vaikka hintaneuvottelu vaatii edelleen manuaalista viestinvaihtoa.",
-        "problem_point_2": "Kopilotti Sales hoitaa myyntitehtävän liikkeen valtuuttamana ja vie asiakkaan kohti sovittua kauppaa.",
+        "problem_point_2": "Kopilotti Sales hoitaa myyntitehtävän liikkeen valtuuttamana ja sopii hinnan asiakkaan kanssa.",
         "how_header": "Toimintaperiaate",
         "how_bullets": [
             "Kopilotti Sales on digitaalinen automyyjä ja autoliikkeen myyntikanava.",
@@ -661,7 +661,7 @@ TEXT = {
         "cta": "Try the demo",
         "problem_header": "Problem and value",
         "problem_point_1": "Vehicle information and other purchasing steps can be online while price negotiation still requires a manual exchange.",
-        "problem_point_2": "Kopilotti Sales performs the selling task under the dealer's authority and takes the customer toward an agreed deal.",
+        "problem_point_2": "Kopilotti Sales performs the selling task under the dealer's authority and agrees the price with the customer.",
         "how_header": "How it works",
         "how_bullets": [
             "Kopilotti Sales is a digital car salesperson and a sales channel for dealerships.",

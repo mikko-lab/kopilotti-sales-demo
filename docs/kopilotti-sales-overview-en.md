@@ -4,15 +4,15 @@ Kopilotti Sales is a digital car salesperson and a sales channel for dealerships
 
 ## 1. Product purpose
 
-Vehicle information and other purchasing steps can be online while price negotiation still requires a manual exchange. Kopilotti Sales performs the selling task under the dealer's authority and takes the customer toward an agreed deal.
+Vehicle information and other purchasing steps can be online while price negotiation still requires a manual exchange. Kopilotti Sales performs the selling task under the dealer's authority and agrees the price with the customer.
 
 The dealer defines the policy. The system applies it consistently. Cases outside the automated boundary are escalated for human review.
 
 ## 2. Customer journey and responsibilities
 
-Vehicle listing / list-price purchase or price negotiation / agreed deal and price / sales contract / electronic signature / payment or financing.
+Vehicle listing / list-price purchase or price negotiation / agreed price / sales contract / electronic signature / payment or financing / handover.
 
-An agreed deal means that the vehicle and price have been agreed under the dealer's authority. The salesperson does not need to restart the same price negotiation. The contract, electronic signature and payment or financing remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
+An agreed price means that the vehicle and price have been agreed under the dealer's authority. The salesperson does not need to restart the same price negotiation. The sales contract, electronic signature, payment or financing, and handover remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
 
 Sales agrees the price under the dealer's authority. The dealer's systems and selected providers handle the contract, electronic signature and payment or financing. Funds go directly to the selling dealership. People handle exceptions. The language model does not decide the price.
 
@@ -140,7 +140,7 @@ Reservation and audit mechanisms are implemented and tested but have not been pr
 <!-- sales-claim id="named-operational-owners-response-times" status="roadmap-research" -->
 - named operational owners and response times
 <!-- sales-claim id="admin-agreed-deals-ui" status="roadmap-research" -->
-- an Admin interface for agreed deals
+- an Admin interface for agreed prices
 <!-- sales-claim id="dealer-contact-handoff-consent" status="roadmap-research" -->
 - a consent-based customer-contact handoff to the dealer
 <!-- sales-claim id="dealer-email-notification" status="roadmap-research" -->

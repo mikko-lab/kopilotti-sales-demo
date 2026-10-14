@@ -15,9 +15,9 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 
 ## Myyntikanava ja kaupan jatkovaiheet
 
-Ajoneuvoilmoitus → listahinta tai hintaneuvottelu → sovittu kauppa ja hinta → kauppasopimus → sähköinen allekirjoitus → maksu tai rahoitus.
+Ajoneuvoilmoitus → listahinta tai hintaneuvottelu → sovittu hinta → kauppasopimus → sähköinen allekirjoitus → maksu tai rahoitus → luovutus.
 
-Sovittu kauppa tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Sopimus, sähköinen allekirjoitus sekä maksu tai rahoitus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
+Sovittu hinta tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Kauppasopimus, sähköinen allekirjoitus, maksu tai rahoitus sekä luovutus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
 
 Julkinen demo on ei-sitova esittely. Listahinta- ja neuvottelupolut on toteutettu, mutta nykyinen polku pysähtyy ennen oikeaa maksua tai rahoitusta. Uusi atominen kauppatietue-, varaus- ja varastolukkopolku on toteutettu ja testattu erikseen, eikä sitä ole kytketty nykyisiin asiakaspolkuihin. Käyttöönotto edellyttää saatavuuden, tietojen siirron sekä sopimus-, allekirjoitus- ja maksu- tai rahoitusyhteyksien varmennusta.
 
@@ -34,7 +34,7 @@ Sopimus, allekirjoitus ja maksu- tai rahoituspalvelut tulevat liikkeen järjeste
 
 > **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**
 
-Sovittu kauppa tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Sopimus, sähköinen allekirjoitus sekä maksu tai rahoitus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
+Sovittu hinta tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Kauppasopimus, sähköinen allekirjoitus, maksu tai rahoitus sekä luovutus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
 
 Julkinen demo on ei-sitova esittely. Listahinta- ja neuvottelupolut on toteutettu, mutta nykyinen polku pysähtyy ennen oikeaa maksua tai rahoitusta. Uusi atominen kauppatietue-, varaus- ja varastolukkopolku on toteutettu ja testattu erikseen, eikä sitä ole kytketty nykyisiin asiakaspolkuihin. Käyttöönotto edellyttää saatavuuden, tietojen siirron sekä sopimus-, allekirjoitus- ja maksu- tai rahoitusyhteyksien varmennusta.
 
@@ -112,9 +112,9 @@ Täysi lasku–`PAID`-tuotantopolku on näihin asti **NO-GO**. Kun se aikanaan o
 ## Suunniteltu jatkokehitys, ei nykyinen ominaisuus
 
 - **1–3 erikseen määriteltävää vastatarjoushintaa.** Järjestelmässä on jo kolme automaattista neuvottelukierrosta; tuleva ominaisuus koskee nimenomaan sitä, että autoliike voisi määritellä jokaiselle kierrokselle oman vastatarjoushinnan yhden laskentakaavan sijaan.
-- **Adminin "Sovitut kaupat" -käyttöliittymä.** Neuvotteluyhteenveto-API on toteutettu, mutta sille ei vielä ole käyttöliittymää Kopilotti Adminissa.
+- **Adminin "Sovitut hinnat" -käyttöliittymä.** Neuvotteluyhteenveto-API on toteutettu, mutta sille ei vielä ole käyttöliittymää Kopilotti Adminissa.
 - **Asiakkaan yhteystiedon suostumukseen perustuva handoff.** Asiakkaan yhteystietoa ei vielä välitetä myyjäliikkeelle minkään tämän API:n kautta; se on erillinen, tuleva suostumus- ja tietosuojapäätös.
-- **Myyjälle lähetettävä sähköposti-ilmoitus** sovitusta kaupasta tai käsittelyä vaativasta neuvottelusta.
+- **Myyjälle lähetettävä sähköposti-ilmoitus** sovitusta hinnasta tai käsittelyä vaativasta neuvottelusta.
 - **Erillinen staging-ympäristö** ennen tuotantoa tehtävää harjoittelua ja testausta varten.
 
 ---

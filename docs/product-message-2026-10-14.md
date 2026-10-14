@@ -4,7 +4,7 @@
 
 Kopilotti Sales on digitaalinen automyyjä ja autoliikkeen myyntikanava. Se käy hintaneuvottelun ja hyväksyy hinnan autoliikkeen valtuuttamana, liikkeen määrittämissä rajoissa.
 
-Sovittu kauppa tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Sopimus, sähköinen allekirjoitus sekä maksu tai rahoitus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
+Sovittu hinta tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Kauppasopimus, sähköinen allekirjoitus, maksu tai rahoitus sekä luovutus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
 
 Julkinen demo on ei-sitova esittely. Listahinta- ja neuvottelupolut on toteutettu, mutta nykyinen polku pysähtyy ennen oikeaa maksua tai rahoitusta. Uusi atominen kauppatietue-, varaus- ja varastolukkopolku on toteutettu ja testattu erikseen, eikä sitä ole kytketty nykyisiin asiakaspolkuihin. Käyttöönotto edellyttää saatavuuden, tietojen siirron sekä sopimus-, allekirjoitus- ja maksu- tai rahoitusyhteyksien varmennusta.
 
@@ -12,7 +12,7 @@ Julkinen demo on ei-sitova esittely. Listahinta- ja neuvottelupolut on toteutett
 
 Kopilotti Sales is a digital car salesperson and a sales channel for dealerships. It negotiates and accepts a price on the dealer’s behalf, within the authority and limits set by the dealer.
 
-An agreed deal means that the vehicle and price have been agreed under the dealer’s authority. The salesperson does not need to restart the same price negotiation. The contract, electronic signature and payment or financing remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
+An agreed price means that the vehicle and price have been agreed under the dealer’s authority. The salesperson does not need to restart the same price negotiation. The sales contract, electronic signature, payment or financing, and handover remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
 
 The public demo is a non-binding demonstration. List-price and negotiated-price paths are implemented, but the current flow stops before real payment or financing. The new atomic deal-record, reservation and inventory-lock path is implemented and tested separately and is not connected to the current customer journeys. Rollout requires verified availability, data handoff, contract, electronic-signature and payment or financing connections.
 

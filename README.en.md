@@ -4,7 +4,7 @@
 
 Kopilotti Sales is a digital car salesperson and a sales channel for dealerships. It negotiates and accepts a price on the dealer’s behalf, within the authority and limits set by the dealer.
 
-Kopilotti Sales helps used-car dealers, dealer groups, automotive marketplaces and dealer platforms move online buyers from vehicle interest to an agreed transaction — 24/7. AI handles the customer conversation; deterministic rules keep pricing authority with the dealer.
+Kopilotti Sales helps used-car dealers, dealer groups, automotive marketplaces and dealer platforms move online buyers from vehicle interest to an agreed price — 24/7. AI handles the customer conversation; deterministic rules keep pricing authority with the dealer.
 
 This public repository presents the product concept, demonstrator and external operating principles. It does not contain the private transaction engine, dealer-specific commercial rules, production integrations or other protected implementation details.
 
@@ -15,9 +15,9 @@ This public repository presents the product concept, demonstrator and external o
 
 ## Sales channel and completion steps
 
-Vehicle listing → list price or negotiation → agreed deal and price → sales contract → electronic signature → payment or financing.
+Vehicle listing → list price or negotiation → agreed price → sales contract → electronic signature → payment or financing → handover.
 
-An agreed deal means that the vehicle and price have been agreed under the dealer’s authority. The salesperson does not need to restart the same price negotiation. The contract, electronic signature and payment or financing remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
+An agreed price means that the vehicle and price have been agreed under the dealer’s authority. The salesperson does not need to restart the same price negotiation. The sales contract, electronic signature, payment or financing, and handover remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
 
 The public demo is a non-binding demonstration. List-price and negotiated-price paths are implemented, but the current flow stops before real payment or financing. The new atomic deal-record, reservation and inventory-lock path is implemented and tested separately and is not connected to the current customer journeys. Rollout requires verified availability, data handoff, contract, electronic-signature and payment or financing connections.
 
@@ -143,7 +143,7 @@ Kopilotti Sales does not receive, hold, transfer, settle, or refund customer fun
 - A preliminary carVertical HTTP adapter, unit-tested only against endpoint, authentication and response-schema assumptions made by this codebase. Those assumptions are not a carVertical-confirmed API contract, the adapter has never been run against a carVertical sandbox or live service, and it is not connected to runtime or the public demo.
 - A contract, invoice and bank-transfer path from an agreed price toward a paid state — currently a no-go for real payment, gated behind an explicit, clearly marked concept-contract step with no payable account details shown.
 - DDN preparation: deterministic canonicalization, hash generation, and bounded local receipt/provenance preparation have been implemented and tested in development. Live DDN verification, signer authentication, quorum/trust-profile verification, and public anchoring are not active on the public production path.
-- An authenticated, dealership-scoped, read-only negotiation-summary API: a dealer-staff user can see their own dealership's agreed deals and negotiations that need dealer review, including the agreed price, the vehicle's public display fields, timestamps, and a structural offer history. It never returns the customer's email, phone number, identity hashes, free-form evidence text, a Magic Link token, or internal pricing policy. An Admin UI for this view, an email notification to the dealer, and a consent-based customer-contact handoff do not exist yet.
+- An authenticated, dealership-scoped, read-only negotiation-summary API: a dealer-staff user can see their own dealership's agreed prices and negotiations that need dealer review, including the agreed price, the vehicle's public display fields, timestamps, and a structural offer history. It never returns the customer's email, phone number, identity hashes, free-form evidence text, a Magic Link token, or internal pricing policy. An Admin UI for this view, an email notification to the dealer, and a consent-based customer-contact handoff do not exist yet.
 
 The current demonstrator models a Finnish dealer transaction. Market-specific financing, consumer-law, payment and vehicle-registration integrations would need to be implemented separately for each country, and are not part of this public repository or the current live demo.
 

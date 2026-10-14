@@ -64,8 +64,8 @@
       <div class="hero-inner">
         <p class="hero-eyebrow">Kopilotti Sales</p>
         <h1>Your digital car salesperson. Your dealership’s terms.</h1>
-        <p class="hero-lede">Kopilotti Sales is your dealership’s sales channel. It negotiates and accepts a price within your authority and limits. Sales’ role is to guide the customer to an agreed deal for your dealership to complete in its own systems.</p>
-        <p class="hero-tagline">At the list price or through negotiation — toward a completed sale.</p>
+        <p class="hero-lede">Kopilotti Sales is your dealership’s sales channel. It negotiates and accepts a price within your authority and limits. Once the price is agreed, the customer receives your sales contract to sign and pays or arranges financing through your dealership’s systems.</p>
+        <p class="hero-tagline">At the list price or through negotiation — toward an agreed price.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#demo" aria-describedby="heroDemoNotice">Explore the demonstrator</a>
           <a class="btn btn-outline-inverse" href="#how-it-works">Discuss a partnership</a>
@@ -205,8 +205,8 @@
         <ol class="steps-grid">
           <li class="step-card"><span class="step-number" aria-hidden="true">1</span><h3>Customer selects a vehicle</h3><p>The vehicle listing and condition information support the buying decision.</p></li>
           <li class="step-card"><span class="step-number" aria-hidden="true">2</span><h3>List price or negotiation</h3><p>The customer can proceed at the list price or negotiate. Sales accepts a price on the dealer’s behalf within its rules.</p></li>
-          <li class="step-card"><span class="step-number" aria-hidden="true">3</span><h3>Agreed deal and price</h3><p>A successful journey produces an agreed deal for the dealer to complete. A person handles exceptions.</p></li>
-          <li class="step-card"><span class="step-number" aria-hidden="true">4</span><h3>The dealer completes the sale</h3><p>The contract, electronic signature and payment or financing use the dealer’s systems and selected providers.</p></li>
+          <li class="step-card"><span class="step-number" aria-hidden="true">3</span><h3>Agreed price</h3><p>The agreed price and offer history are compiled for the dealership to process. A person handles exceptions.</p></li>
+          <li class="step-card"><span class="step-number" aria-hidden="true">4</span><h3>The dealer completes the sale</h3><p>The contract, electronic signature and payment or financing use the dealer’s systems and selected providers. Finally, the dealership arranges vehicle handover with the customer.</p></li>
         </ol>
         <p class="product-status-note">This describes the full product journey. The public demo does not complete every step; rollout readiness is explained below.</p>
       </div>
@@ -214,9 +214,9 @@
 
     <section class="landing-section" id="transaction-layer" aria-labelledby="transactionHeading">
       <div class="landing-section-inner">
-        <h2 id="transactionHeading" class="section-heading">An agreed deal for the dealership to complete</h2>
-        <p class="section-intro commerce-intro">An agreed deal means that the vehicle and price have been agreed under the dealer’s authority. The salesperson does not need to restart the same price negotiation. The contract, electronic signature and payment or financing remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.</p>
-        <div class="journey-row is-kopilotti"><h3>Full journey — requires verified connections</h3><ol class="journey-steps"><li>Vehicle listing</li><li>List price or negotiation</li><li>Agreed deal and price</li><li>Sales contract</li><li>Electronic signature</li><li>Payment or financing</li></ol></div>
+        <h2 id="transactionHeading" class="section-heading">Price agreed — the dealership completes the sale</h2>
+        <p class="section-intro commerce-intro">An agreed price means that the vehicle and price have been agreed under the dealer’s authority. The salesperson does not need to restart the same price negotiation. The sales contract, electronic signature, payment or financing, and handover remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.</p>
+        <div class="journey-row is-kopilotti"><h3>Full journey — requires verified connections</h3><ol class="journey-steps"><li>Vehicle listing</li><li>List price or negotiation</li><li>Agreed price</li><li>Sales contract</li><li>Electronic signature</li><li>Payment or financing</li><li>Handover</li></ol></div>
         <p class="section-callout commerce-boundary">Sales agrees the price under the dealer’s authority. The dealership and its selected providers handle the contract, electronic signature, payment or financing, and handover. Funds are paid directly to the dealership. Kopilotti does not receive, hold or transfer funds or make financing decisions.</p>
         <p class="product-status-note">The public demo is a non-binding demonstration. List-price and negotiated-price paths are implemented, but the current flow stops before real payment or financing. The new atomic deal-record, reservation and inventory-lock path is implemented and tested separately and is not connected to the current customer journeys. Rollout requires verified availability, data handoff, contract, electronic-signature and payment or financing connections.</p>
       </div>
@@ -386,7 +386,7 @@
         <p class="section-eyebrow">FAQ</p>
         <h2 id="faqHeading" class="section-heading">Common questions from dealerships</h2>
         <div class="faq-list">
-          <details class="faq-item"><summary class="faq-question">Is this a lead service?</summary><div class="faq-answer"><p>Sales acts as a car salesperson and agrees a price under the dealer’s authority. A lead expresses interest; an agreed deal already identifies the vehicle and agreed price, so the same price negotiation does not need to start again. The public demo is non-binding, and automatic data handoff to dealer systems requires integration.</p></div></details>
+          <details class="faq-item"><summary class="faq-question">Is this a lead service?</summary><div class="faq-answer"><p>Sales acts as a car salesperson and agrees a price under the dealer’s authority. A lead expresses interest; an agreed price means the vehicle and price are already agreed, so the same price negotiation does not need to start again. The public demo is non-binding, and automatic data handoff to dealer systems requires integration.</p></div></details>
           <details class="faq-item"><summary class="faq-question">What is Sales authorised to decide?</summary><div class="faq-answer"><p>The dealer defines its commercial authority. A deterministic server-side policy engine accepts a price, makes a counter-offer, rejects an offer or escalates an exception under those rules. The language model does not decide the price.</p></div></details>
           <details class="faq-item"><summary class="faq-question">Where are the contract and payment handled?</summary><div class="faq-answer"><p>In the dealer’s systems and with its selected contract, electronic-signature and payment or financing providers. Funds go directly to the dealership. An accepted price is not yet a signed contract, payment or vehicle handover. Connections must be verified before rollout.</p></div></details>
           <details class="faq-item">

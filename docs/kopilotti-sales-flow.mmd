@@ -1,8 +1,9 @@
 flowchart TD
     N0["Ajoneuvoilmoitus"] --> N1
     N1["Listahinta tai neuvottelu"] --> N2
-    N2["Sovittu kauppa ja hinta"] --> N3
+    N2["Sovittu hinta"] --> N3
     N3["Sopimus ja allekirjoitus"] --> N4
-    N4["Maksu tai rahoitus"]
+    N4["Maksu tai rahoitus"] --> N5
+    N5["Luovutus"]
     N1 -. Poikkeus .-> H["Ihmisen arvio"]
     %% Tavoitepolku: yhteydet varmennettava. Julkinen demo on ei-sitova.

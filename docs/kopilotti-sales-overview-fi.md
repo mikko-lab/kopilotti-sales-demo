@@ -4,15 +4,15 @@ Kopilotti Sales on digitaalinen automyyjä ja autoliikkeen myyntikanava. Se käy
 
 ## 1. Tuotteen tarkoitus
 
-Ajoneuvon tiedot ja ostopolun muut vaiheet voivat olla verkossa, vaikka hintaneuvottelu vaatii edelleen manuaalista viestinvaihtoa. Kopilotti Sales hoitaa myyntitehtävän liikkeen valtuuttamana ja vie asiakkaan kohti sovittua kauppaa.
+Ajoneuvon tiedot ja ostopolun muut vaiheet voivat olla verkossa, vaikka hintaneuvottelu vaatii edelleen manuaalista viestinvaihtoa. Kopilotti Sales hoitaa myyntitehtävän liikkeen valtuuttamana ja sopii hinnan asiakkaan kanssa.
 
 Jälleenmyyjä määrittää säännöt. Järjestelmä soveltaa niitä johdonmukaisesti. Automaatiorajan ulkopuoliset tapaukset eskaloidaan ihmiselle.
 
 ## 2. Asiakaspolku ja vastuut
 
-Ajoneuvoilmoitus / ostaminen listahinnalla tai hintaneuvottelu / sovittu kauppa ja hinta / kauppasopimus / sähköinen allekirjoitus / maksu tai rahoitus.
+Ajoneuvoilmoitus / ostaminen listahinnalla tai hintaneuvottelu / sovittu hinta / kauppasopimus / sähköinen allekirjoitus / maksu tai rahoitus / luovutus.
 
-Sovittu kauppa tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Sopimus, sähköinen allekirjoitus sekä maksu tai rahoitus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
+Sovittu hinta tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Kauppasopimus, sähköinen allekirjoitus, maksu tai rahoitus sekä luovutus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
 
 Sales sopii hinnan liikkeen valtuuttamana. Liikkeen järjestelmät ja sen valitsemat palveluntarjoajat hoitavat sopimuksen, sähköisen allekirjoituksen sekä maksun tai rahoituksen. Rahat maksetaan suoraan myyjäliikkeelle. Poikkeustilanteet siirtyvät ihmiselle. Kielimalli ei päätä hintaa.
 
@@ -140,7 +140,7 @@ Varaus- ja auditointimekanismit on toteutettu ja testattu, mutta niitä ei ole t
 <!-- sales-claim id="named-operational-owners-response-times" status="roadmap-research" -->
 - nimetyt operatiiviset omistajat ja vasteajat
 <!-- sales-claim id="admin-agreed-deals-ui" status="roadmap-research" -->
-- Adminin sovitut kaupat -käyttöliittymä
+- Adminin sovitut hinnat -käyttöliittymä
 <!-- sales-claim id="dealer-contact-handoff-consent" status="roadmap-research" -->
 - asiakkaan yhteystiedon suostumukseen perustuva jälleenmyyjä-handoff
 <!-- sales-claim id="dealer-email-notification" status="roadmap-research" -->
