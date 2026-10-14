@@ -2,7 +2,7 @@
 
 # Kopilotti Sales
 
-Dealer-controlled price-negotiation software for automotive digital retail.
+Kopilotti Sales is a digital car salesperson and a sales channel for dealerships. It negotiates and accepts a price on the dealer’s behalf, within the authority and limits set by the dealer.
 
 Kopilotti Sales helps used-car dealers, dealer groups, automotive marketplaces and dealer platforms move online buyers from vehicle interest to an agreed transaction — 24/7. AI handles the customer conversation; deterministic rules keep pricing authority with the dealer.
 
@@ -11,6 +11,18 @@ This public repository presents the product concept, demonstrator and external o
 ![Status](https://img.shields.io/badge/status-active%20development-orange)
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
+
+
+## Sales channel and completion steps
+
+Vehicle listing → list price or negotiation → agreed deal and price → sales contract → electronic signature → payment or financing.
+
+An agreed deal means that the vehicle and price have been agreed under the dealer’s authority. The salesperson does not need to restart the same price negotiation. The contract, electronic signature and payment or financing remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
+
+The public demo is a non-binding demonstration. List-price and negotiated-price paths are implemented, but the current flow stops before real payment or financing. The new atomic deal-record, reservation and inventory-lock path is implemented and tested separately and is not connected to the current customer journeys. Rollout requires verified availability, data handoff, contract, electronic-signature and payment or financing connections.
+
+Contract, electronic-signature and payment or financing services come from the dealership’s systems and selected providers. Funds are paid directly to the dealership.
+
 
 ## Explore Kopilotti Sales
 
@@ -35,7 +47,7 @@ This public repository presents the product concept, demonstrator and external o
 - [Download the Kopilotti Sales presentation video with English subtitles (MP4, 17.1 MB, Finnish narration, 2:33)](assets/kopilotti-sales-esittelyvideo-2026-09-30.en.mp4) · English subtitles [VTT](assets/kopilotti-sales-esittely-2026-09-30.en.vtt) / [SRT](assets/kopilotti-sales-esittely-2026-09-30.en.srt) · [media credits and licences (in Finnish)](docs/esittelyvideo-2026-09-30-credits.md)
 - [Same video with Finnish subtitles (MP4, 18.2 MB)](assets/kopilotti-sales-esittelyvideo-2026-09-30.fi.mp4) · [Finnish text version](docs/esittelyvideo-2026-09-30.fi.md)
 
-### LinkedIn and partner material
+### Earlier LinkedIn and partner material (1 October 2026)
 
 A compact overview for LinkedIn and partners, reflecting the documented repository state on 1 Oct 2026.
 
@@ -62,10 +74,10 @@ Kopilotti Sales acts as a digital salesperson that can:
 - make counter-offers within the dealer's own pricing rules
 - accept an offer within the limits the dealer has configured
 - escalate exceptional cases to a person
-- form a deal at the agreed price
-- hand the customer to the dealer's own checkout and payment process
+- agree the vehicle and price under dealer authority; the atomic deal-record path still requires integration
+- continue to the dealer's completion process once the required connections have been verified
 
-The public demonstrator's scope ends at the agreed-price transaction and handing the customer to the dealer's own process. It is not an auction, a bidding system, or an automated clearance channel — the vehicle is sold at the market price and terms the dealer has set, under ordinary consumer-sales conditions.
+The public demo illustrates price agreement. It does not create a binding sale or establish an operational handoff to external dealer systems. It is not an auction, a bidding system, or an automated clearance channel — the vehicle is sold at the market price and terms the dealer has set, under ordinary consumer-sales conditions.
 
 ## High-level transaction flow
 
@@ -126,7 +138,7 @@ Kopilotti Sales does not receive, hold, transfer, settle, or refund customer fun
 - **Bounded atomic ACCEPT.** On an explicitly connected, tenant-scoped path, the agreed price, deal record, reservation, inventory lock and audit events are persisted together or not at all. Retries do not create duplicate deals. Cancellation and expiry release the acceptance hold atomically before the payment stage. This path is not connected to existing HTTP, demo, dealer or purchase flows; payments, handover and acceptance of a counter-offer require separate integration.
 
 - Trade-in and deal-summary handling as separate, traceable steps: vehicle identification, external valuation, an optional dealer-selected vehicle-history check, a deterministic offer, and settlement.
-- A provider-independent VIS / Autovista valuation boundary and adapter skeleton in a separate implementation. The trade-in flow is tested with a test provider; an actual VIS connection has not been implemented or tested against the service.
+- A provider-independent Autovista’s VIS valuation service valuation boundary and adapter skeleton in a separate implementation. The trade-in flow is tested with a test provider; an actual VIS connection has not been implemented or tested against the service.
 - An optional provider-independent vehicle-history risk layer, dealer-defined deterministic policy, idempotency/cache boundary, daily request budget and privacy-preserving audit path, implemented and tested on a separate development branch. In the target flow, the dealer may request this check after the VIS valuation as supporting input for pricing or manual review. The optional step has not yet been wired into runtime in this target order.
 - A preliminary carVertical HTTP adapter, unit-tested only against endpoint, authentication and response-schema assumptions made by this codebase. Those assumptions are not a carVertical-confirmed API contract, the adapter has never been run against a carVertical sandbox or live service, and it is not connected to runtime or the public demo.
 - A contract, invoice and bank-transfer path from an agreed price toward a paid state — currently a no-go for real payment, gated behind an explicit, clearly marked concept-contract step with no payable account details shown.
@@ -135,7 +147,7 @@ Kopilotti Sales does not receive, hold, transfer, settle, or refund customer fun
 
 The current demonstrator models a Finnish dealer transaction. Market-specific financing, consumer-law, payment and vehicle-registration integrations would need to be implemented separately for each country, and are not part of this public repository or the current live demo.
 
-There is no announced VIS / Autovista or carVertical partnership or active production integration. Going live with either service requires a provider-confirmed API contract, documentation, credentials, secure secret handling, sandbox verification and commercial agreement.
+There is no announced Autovista’s VIS valuation service or carVertical partnership or active production integration. Going live with either service requires a provider-confirmed API contract, documentation, credentials, secure secret handling, sandbox verification and commercial agreement.
 
 ## What is not included in the public repository
 

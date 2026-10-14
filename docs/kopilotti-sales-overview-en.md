@@ -1,23 +1,22 @@
 # Kopilotti Sales - product overview
 
-Kopilotti Sales digitizes used-vehicle price negotiation. Natural-language interaction and the commercial decision are separated: an LLM may support the conversation, while a deterministic server-side policy engine makes the commercial decision within boundaries defined by the dealer.
+Kopilotti Sales is a digital car salesperson and a sales channel for dealerships. It negotiates and accepts a price on the dealer's behalf, within the authority and limits set by the dealer.
 
 ## 1. Product purpose
 
-Vehicle information and other purchasing steps can be online while price negotiation still requires a manual exchange. Kopilotti Sales turns that step into a controlled digital flow without transferring commercial authority away from the dealer.
+Vehicle information and other purchasing steps can be online while price negotiation still requires a manual exchange. Kopilotti Sales performs the selling task under the dealer's authority and takes the customer toward an agreed deal.
 
 The dealer defines the policy. The system applies it consistently. Cases outside the automated boundary are escalated for human review.
 
-## 2. Customer journey
+## 2. Customer journey and responsibilities
 
-1. The customer opens a vehicle-specific negotiation flow.
-2. The customer submits an offer.
-3. The server loads the vehicle and the applicable commercial policy.
-4. The policy engine returns `ACCEPT`, `COUNTER`, `REJECT`, or `ESCALATE`.
-5. An accepted outcome may reserve the vehicle in the same database transaction as the decision, session transition, and audit event.
-6. The customer continues in the dealer's own completion process, or a person handles an escalated case.
+Vehicle listing / list-price purchase or price negotiation / agreed deal and price / sales contract / electronic signature / payment or financing.
 
-Kopilotti Sales limits its role to digital price negotiation and a controlled continuation path. The dealer remains responsible for its own transaction, payment, and handover processes.
+An agreed deal means that the vehicle and price have been agreed under the dealer's authority. The salesperson does not need to restart the same price negotiation. The contract, electronic signature and payment or financing remain separate steps; the vehicle is not yet paid for or handed over. Price validity and availability are checked under the agreed terms.
+
+Sales agrees the price under the dealer's authority. The dealer's systems and selected providers handle the contract, electronic signature and payment or financing. Funds go directly to the selling dealership. People handle exceptions. The language model does not decide the price.
+
+The public demo is a non-binding demonstration. List-price and negotiated-price paths are implemented, but the current flow stops before real payment or financing. The new atomic deal-record, reservation and inventory-lock path is implemented and tested separately and is not connected to the current customer journeys. Rollout requires verified availability, data handoff, contract, electronic-signature and payment or financing connections.
 
 ## 3. Commercial boundaries
 

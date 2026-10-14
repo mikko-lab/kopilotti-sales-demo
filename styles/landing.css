@@ -613,7 +613,7 @@
   background: rgba(255,255,255,.72);
 }
 .journey-row.is-kopilotti .journey-steps li:nth-child(3),
-.journey-row.is-kopilotti .journey-steps li:nth-child(4) {
+.journey-row.is-kopilotti .journey-steps li:nth-child(2) {
   background: var(--primary);
   border-color: var(--primary);
   color: var(--white);

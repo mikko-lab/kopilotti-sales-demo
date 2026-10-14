@@ -1,16 +1,8 @@
-%% Kopilotti Sales flow diagram, technical source (English).
-%% Does not render in the README (GitHub Mobile doesn't show Mermaid
-%% blocks) — the README uses assets/kopilotti-sales-flow-en.svg instead.
-%% Keep this source in sync with docs/kopilotti-sales-flow.mmd (Finnish)
-%% if the diagram content changes.
-flowchart LR
-    A["Customer submits an offer"] --> B["Kopilotti Sales"]
-    B --> C["LLM converses"]
-    B --> D["Backend checks<br/>dealer's business rules"]
-    D --> E{"Deterministic decision"}
-    E -->|ACCEPT| F["Accept the offer"]
-    E -->|COUNTER| G["Make a counter-offer"]
-    E -->|REJECT| H["Reject the offer"]
-    E -->|ESCALATE| I["Escalate to a person"]
-
-    style C stroke-dasharray: 5 5
+flowchart TD
+    N0["Vehicle listing"] --> N1
+    N1["List price or negotiation"] --> N2
+    N2["Agreed deal and price"] --> N3
+    N3["Contract and signature"] --> N4
+    N4["Payment or financing"]
+    N1 -. Exception .-> H["Human review"]
+    %% Full intended journey: connections must be verified. The public demo is non-binding.

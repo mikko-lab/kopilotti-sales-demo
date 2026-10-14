@@ -1,15 +1,8 @@
-%% Kopilotti Sales -toimintakaavion tekninen lähde.
-%% Ei renderöidy README:ssä (GitHub Mobile ei näytä Mermaid-lohkoja) —
-%% README käyttää sen sijaan tiedostoa assets/kopilotti-sales-flow.svg.
-%% Pidä tämä lähde ajan tasalla, jos kaavion sisältö muuttuu.
-flowchart LR
-    A["Asiakas tekee tarjouksen"] --> B["Kopilotti Sales"]
-    B --> C["LLM keskustelee"]
-    B --> D["Backend tarkistaa<br/>autoliikkeen säännöt"]
-    D --> E{"Deterministinen päätös"}
-    E -->|ACCEPT| F["Hyväksy tarjous"]
-    E -->|COUNTER| G["Tee vastatarjous"]
-    E -->|REJECT| H["Hylkää tarjous"]
-    E -->|ESCALATE| I["Siirrä ihmiselle"]
-
-    style C stroke-dasharray: 5 5
+flowchart TD
+    N0["Ajoneuvoilmoitus"] --> N1
+    N1["Listahinta tai neuvottelu"] --> N2
+    N2["Sovittu kauppa ja hinta"] --> N3
+    N3["Sopimus ja allekirjoitus"] --> N4
+    N4["Maksu tai rahoitus"]
+    N1 -. Poikkeus .-> H["Ihmisen arvio"]
+    %% Tavoitepolku: yhteydet varmennettava. Julkinen demo on ei-sitova.

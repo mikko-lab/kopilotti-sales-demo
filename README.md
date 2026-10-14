@@ -2,7 +2,7 @@
 
 # Kopilotti Sales
 
-Kopilotti Sales on kaupallinen ohjelmistotuote ja digitaalinen kaupankäyntikerros käytettyjen ajoneuvojen myyntiin.
+Kopilotti Sales on digitaalinen automyyjä ja autoliikkeen myyntikanava. Se käy hintaneuvottelun ja hyväksyy hinnan autoliikkeen valtuuttamana, liikkeen määrittämissä rajoissa.
 
 Tämä repositorio esittelee tuotteen toimintaa, käyttöliittymää, arkkitehtuuria ja tuotantorajoja.
 
@@ -11,6 +11,18 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 ![Status](https://img.shields.io/badge/status-active%20development-orange)
 ![Platform](https://img.shields.io/badge/platform-web-blue)
 ![License](https://img.shields.io/badge/license-proprietary-lightgrey)
+
+
+## Myyntikanava ja kaupan jatkovaiheet
+
+Ajoneuvoilmoitus → listahinta tai hintaneuvottelu → sovittu kauppa ja hinta → kauppasopimus → sähköinen allekirjoitus → maksu tai rahoitus.
+
+Sovittu kauppa tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Sopimus, sähköinen allekirjoitus sekä maksu tai rahoitus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
+
+Julkinen demo on ei-sitova esittely. Listahinta- ja neuvottelupolut on toteutettu, mutta nykyinen polku pysähtyy ennen oikeaa maksua tai rahoitusta. Uusi atominen kauppatietue-, varaus- ja varastolukkopolku on toteutettu ja testattu erikseen, eikä sitä ole kytketty nykyisiin asiakaspolkuihin. Käyttöönotto edellyttää saatavuuden, tietojen siirron sekä sopimus-, allekirjoitus- ja maksu- tai rahoitusyhteyksien varmennusta.
+
+Sopimus, allekirjoitus ja maksu- tai rahoituspalvelut tulevat liikkeen järjestelmistä ja sen valitsemilta palveluntarjoajilta. Rahat maksetaan suoraan myyjäliikkeelle.
+
 
 ## Tutustu Kopilotti Salesiin
 
@@ -22,23 +34,9 @@ Julkinen repositorio ei sisällä tuotannon päätösmoottoria, jälleenmyyjäko
 
 > **Konseptidemo – ei vaadi vahvaa tunnistautumista eikä synnytä sitovaa tarjousta.**
 
-> **Perinteinen verkkokauppa digitalisoi listahintaisen ostamisen.**
->
-> **Kopilotti Sales digitalisoi hintaneuvottelun.**
+Sovittu kauppa tarkoittaa tässä, että kohdeauto ja hinta on sovittu liikkeen valtuuttamana. Myyjän ei tarvitse aloittaa samaa hintaneuvottelua uudelleen. Sopimus, sähköinen allekirjoitus sekä maksu tai rahoitus ovat vielä erillisiä vaiheita; auto ei ole tämän perusteella maksettu tai luovutettu. Hinnan ja saatavuuden voimassaolo tarkistetaan sovittujen ehtojen mukaan.
 
-Kopilotti Sales jatkaa käytetyn auton kaupantekoa verkossa silloin, kun asiakas on valmis keskustelemaan hinnasta.
-
-Se lisää nykyiseen digitaaliseen ostopolkuun asiakkaan tarjouksen, rajatun neuvottelun ja deterministisen hinnanpäätöksen. Myyjäliikkeen päätösvalta säilyy, ja kaikki kaupalliset päätökset tehdään palvelimella myyjäliikkeen omien liiketoimintasääntöjen mukaisesti.
-
-Kopilotti Sales ei ole chatbot.
-
-Kopilotti Sales ei ole automaattinen hinnoittelujärjestelmä.
-
-Kopilotti Sales ei korvaa automyyjää.
-
-Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalisen vaiheen ennen kauppoja.
-
-[![Kopilotti Sales: Yksi linkki. Kaupanteko jatkuu. Digitaalinen hintaneuvottelu autoliikkeen omilla säännöillä.](assets/kopilotti-sales-cover-2026-10-01.fi.png)](https://kopilotti.online/)
+Julkinen demo on ei-sitova esittely. Listahinta- ja neuvottelupolut on toteutettu, mutta nykyinen polku pysähtyy ennen oikeaa maksua tai rahoitusta. Uusi atominen kauppatietue-, varaus- ja varastolukkopolku on toteutettu ja testattu erikseen, eikä sitä ole kytketty nykyisiin asiakaspolkuihin. Käyttöönotto edellyttää saatavuuden, tietojen siirron sekä sopimus-, allekirjoitus- ja maksu- tai rahoitusyhteyksien varmennusta.
 
 ## Tuote-esittelyt ja materiaalit
 
@@ -51,9 +49,9 @@ Se digitalisoi käytettyjen ajoneuvojen kaupan viimeisen merkittävän manuaalis
 - [Lataa Kopilotti Salesin esittelyvideo MP4-muodossa (18,2 Mt, suomenkielinen kerronta ja tekstitys, 2:33)](assets/kopilotti-sales-esittelyvideo-2026-09-30.fi.mp4) · tekstitys [VTT](assets/kopilotti-sales-esittely-2026-09-30.fi.vtt) / [SRT](assets/kopilotti-sales-esittely-2026-09-30.fi.srt) · [videon tekstiversio](docs/esittelyvideo-2026-09-30.fi.md) · [aineistot ja lisenssit](docs/esittelyvideo-2026-09-30-credits.md)
 - [Sama video englanninkielisellä tekstityksellä (MP4, 17,1 Mt, suomenkielinen kerronta)](assets/kopilotti-sales-esittelyvideo-2026-09-30.en.mp4)
 
-### LinkedIn- ja kumppanimateriaali
+### Aiempi LinkedIn- ja kumppanimateriaali (1.10.2026)
 
-Tiivis esittely LinkedIniin ja kumppaneille. Kuvaa repon dokumentoitua tilaa 1.10.2026.
+Päivätty aiempi esittely; ei tämän viestiuudistuksen ajantasainen tuotekuvaus. Nykyinen sanamuoto: [tuoteviesti FI/EN](docs/product-message-2026-10-14.md).
 
 - [Kopilotti Sales – LinkedIn-esittely (PDF, A4, 4 sivua)](docs/linkedin/kopilotti-sales-linkedin-fi-2026-10-01.pdf)
 - [Kopilotti Sales – LinkedIn overview in English (PDF, A4, 4 pages)](docs/linkedin/kopilotti-sales-linkedin-en-2026-10-01.pdf)
@@ -91,7 +89,7 @@ Tiivis esittely LinkedIniin ja kumppaneille. Kuvaa repon dokumentoitua tilaa 1.1
 - **Rajattu atominen ACCEPT.** Erikseen kytkettävällä, tenant-rajatulla polulla sovittu hinta, kauppatietue, varaus, varastolukko ja auditointitapahtumat tallentuvat yhdessä tai eivät lainkaan. Uusinnat eivät luo päällekkäisiä kauppoja. Hyväksynnän peruutus ja varauksen vanheneminen vapauttavat lukon atomisesti ennen maksuvaihetta. Polku ei ole kytketty nykyisiin HTTP-, demo-, jälleenmyyjä- tai ostopolkuihin; maksut, luovutus ja vastatarjouksen hyväksyminen vaativat erillisen integraation.
 
 - **Trade-in V1 ja DealSnapshot.** Vaihtoauton tunnistaminen, ulkoisesta arvonmäärityksestä saatavan arvion käsittely, deterministinen tarjous, tarjouksen hyväksyminen, väliraha ja muuttumaton kauppayhteenveto on toteutettu erillisinä ja jäljitettävinä vaiheina. Hyväksytty vaihtoautotarjous voidaan käyttää kauppaan vain kerran.
-- **VIS / Autovista -integraatioraja.** Providerista riippumaton domain-raja ja adapterirunko ajoneuvon tunnistamiselle ja vaihtoauton arvonmääritykselle ovat erillisessä toteutuksessa. Trade-in-polku on testattu testiproviderilla; varsinaista VIS-yhteyttä ei ole toteutettu tai testattu palvelua vasten. Puuttuva tai epäonnistunut arvonmääritys ohjataan manuaaliseen tarkistukseen.
+- **Autovistan VIS-arvonmäärityspalvelun integraatioraja.** Providerista riippumaton domain-raja ja adapterirunko ajoneuvon tunnistamiselle ja vaihtoauton arvonmääritykselle ovat erillisessä toteutuksessa. Trade-in-polku on testattu testiproviderilla; varsinaista VIS-yhteyttä ei ole toteutettu tai testattu palvelua vasten. Puuttuva tai epäonnistunut arvonmääritys ohjataan manuaaliseen tarkistukseen.
 - **Valinnainen ajoneuvohistorian riskikerros.** Tavoitepolussa myyjäliike voi pyytää VIS-arvonmäärityksen jälkeen ajoneuvohistorian tarkistuksen hinnoittelun ja päätöksenteon tueksi. VIN-tunnistus, palveluntarjoajasta riippumaton historiatieto, jälleenmyyjäkohtainen deterministinen riskipolitiikka, välimuisti/idempotenssi, päiväkohtainen kustannusraja ja tietosuojattu auditointi on toteutettu ja testattu erillisellä kehityshaaralla. Valinnaista vaihetta ei ole vielä kytketty tavoitejärjestyksessä runtimeen tai julkiseen demoon.
 - **Alustava carVertical-adapteri.** HTTP-adapteri on yksikkötestattu vain tämän koodipohjan itse olettamaa endpointia, autentikointia ja vastausrakennetta vasten. Oletukset eivät perustu carVerticalin vahvistamaan API-sopimukseen, eikä koodia ole ajettu carVerticalin sandboxia tai oikeaa palvelua vasten. Historiapalvelu tuottaa tukitietoa myyjäliikkeen sääntöihin tai manuaaliseen arvioon; se ei itsessään aseta hyvityshintaa tai tee kaupallista päätöstä.
 - **Sopimus-, lasku- ja tilisiirtopolku.** Palvelimen hyväksymästä hinnasta voidaan muodostaa idempotentti kauppapaketti, jonka tilakone on `PRICE_AGREED → CONTRACT_READY → AWAITING_PAYMENT → PAID`.
@@ -100,7 +98,7 @@ Tiivis esittely LinkedIniin ja kumppaneille. Kuvaa repon dokumentoitua tilaa 1.1
 - **DDN-valmistelu.** Deterministinen kanonisointi, hashien muodostus ja rajattu paikallinen päätöskuitin/provenienssin valmistelu on toteutettu ja testattu kehitysympäristössä. Live-DDN-todennus, allekirjoittajan autentikointi, quorum-/trust-profile-todennus ja julkinen ankkurointi eivät ole käytössä julkisessa tuotantopolussa.
 - **Jälleenmyyjän neuvotteluyhteenveto-API.** Autentikoitu, jälleenmyyjäkohtainen ja vain lukeva rajapinta sovittujen ja ihmiskäsittelyä vaativien neuvottelujen listaukseen ja rakenteelliseen yhteenvetoon on toteutettu ja testattu. Ks. alla oleva oma osio.
 
-> **Integraatioiden tuotantoraja:** aktiivista VIS / Autovista- tai carVertical-yhteyttä ei ole, eikä kumpaankaan liity julkistettua kumppanuutta. Tuotantokytkentä vaatii palveluntarjoajan vahvistaman rajapintasopimuksen, dokumentaation, tunnukset, turvallisen salaisuuksien hallinnan sekä sandbox- ja tuotantoympäristöjen sopimustestauksen.
+> **Integraatioiden tuotantoraja:** aktiivista Autovistan VIS-arvonmäärityspalvelu- tai carVertical-yhteyttä ei ole, eikä kumpaankaan liity julkistettua kumppanuutta. Tuotantokytkentä vaatii palveluntarjoajan vahvistaman rajapintasopimuksen, dokumentaation, tunnukset, turvallisen salaisuuksien hallinnan sekä sandbox- ja tuotantoympäristöjen sopimustestauksen.
 
 ## Vaaditaan ennen maksukelpoista tuotantopolkua
 
@@ -206,10 +204,10 @@ Kopilotti Sales toimii digitaalisena automyyjänä, joka voi:
 - tehdä vastatarjouksia myyjäliikkeen hinnoittelusääntöjen mukaisesti
 - hyväksyä tarjouksen liiketoimintasääntöjen sallimissa rajoissa
 - eskaloida poikkeustapaukset ihmiselle
-- muodostaa kauppa sovitulla hinnalla
-- siirtää asiakas myyjäliikkeen omaan kaupanteko- ja maksuprosessiin
+- sopia kohdeauto ja hinta liikkeen valtuuttamana; atominen kauppatietue on vielä erikseen kytkettävä
+- jatkaa sovitusta hinnasta myyjäliikkeen kaupanteko- ja maksuprosessiin, kun tarvittavat yhteydet on varmennettu
 
-Nykyisessä julkisessa tuotantodemossa Kopilotti Salesin tehtävä päättyy sovitulla hinnalla muodostettuun kauppaan ja asiakkaan siirtämiseen myyjäliikkeen omaan prosessiin.
+Nykyinen julkinen demo havainnollistaa hinnan sopimista. Se ei luo sitovaa kauppaa eikä osoita toimivaa automaattista siirtoa myyjäliikkeen järjestelmään. Uusi atominen kauppatietuepolku on erillinen, vielä kytkemätön toteutus.
 
 Kehitys- ja testiympäristöissä rakennettu sopimus-, lasku- ja maksunseurantapolku on kuvattu kohdassa [Tuotannon tila](#tuotannon-tila). Se ei ole vielä julkisen tuotantodemon maksukelpoinen ominaisuus.
 
@@ -227,14 +225,13 @@ Kopilotti Sales:
 - ei tulkitse huoltohistoriaa
 - ei määritä hinnoittelustrategiaa
 - ei hallitse ajoneuvoja
-- ei korvaa automyyjää
 - ei sovi ajoneuvon luovutuksesta
 - ei vastaanota, säilytä tai välitä asiakkaan maksuja
 - ei tee kaupallisia päätöksiä LLM:n perusteella
 
 Kopilotti Sales ei ole huutokauppa, tarjouskilpailu tai automaattinen poistomyyntikanava.
 
-Se on käytettyjen ajoneuvojen normaaliin vähittäismyyntiin tarkoitettu digitaalinen hintaneuvottelukanava. Ajoneuvo myydään myyjäliikkeen määrittämällä markkinahinnalla ja liiketoimintasäännöillä.
+Se on käytettyjen ajoneuvojen normaaliin vähittäismyyntiin tarkoitettu digitaalinen automyyjä ja autoliikkeen myyntikanava. Ajoneuvo myydään myyjäliikkeen määrittämällä markkinahinnalla ja liiketoimintasäännöillä.
 
 Kauppa on normaalia autoliikkeen kuluttajakauppaa, johon sovelletaan kuluttajansuojalain mukaisia oikeuksia kaupankäyntikanavasta riippumatta.
 
@@ -259,7 +256,7 @@ Kun asiakas on tutustunut ajoneuvoon ja päättänyt edetä kohti kauppoja, Kopi
 
 Kopilotti Sales on rakennettu yhtä tarkoitusta varten:
 
-turvalliseen digitaaliseen hintaneuvotteluun ennen kauppoja.
+liikkeen valtuuttamaan hinnan sopimiseen osana myyntitehtävää.
 
 ---
 
@@ -645,7 +642,7 @@ Suunnitteilla:
 - DDN-todennuksen kytkeminen julkisen neuvottelupolun tuotantoliikenteeseen
 - autoliikkeen Adminissa erikseen määriteltävät 1–3 vastatarjoushintaa, nykyisen yhden laskentakaavan sijaan
 - API-pohjaiset DMS-, CRM- ja markkinapaikkaintegraatiot Magic Linkin luonnin ja ajoneuvotietojen automatisoimiseksi
-- VIS / Autovista -tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella
+- Autovistan VIS-arvonmäärityspalvelun tuotantokytkentä lisensoidun rajapintasopimuksen ja tunnusten perusteella
 - ajoneuvohistorian tuotantokytkentä palveluntarjoajan vahvistaman API-sopimuksen, sandboxin ja kaupallisen sopimuksen perusteella
 
 Nämä ovat suunniteltuja integraatioita ja ominaisuuksia, eivät nykyisiä.
@@ -691,7 +688,7 @@ Ajoneuvohistorian riskikerros on toteutettu ja testattu erillisellä kehityshaar
 
 Alustava carVertical-adapteri on testattu vain itse oletettua rajapintasopimusta vasten. Sitä ei ole ajettu carVerticalin sandboxia tai oikeaa palvelua vasten, eikä aktiivista integraatiota tai julkistettua kumppanuutta ole.
 
-VIS / Autovista -tuotantokytkentä ei ole aktiivinen. Sisäinen Trade-in-polku on testattu testiproviderilla, mutta varsinaista VIS-yhteyttä ei ole toteutettu tai testattu palvelua vasten. Tuotantokytkentä odottaa lisensoitua rajapintasopimusta, dokumentaatiota, tunnuksia ja sopimustestausta.
+Autovistan VIS-arvonmäärityspalvelun tuotantokytkentä ei ole aktiivinen. Sisäinen Trade-in-polku on testattu testiproviderilla, mutta varsinaista VIS-yhteyttä ei ole toteutettu tai testattu palvelua vasten. Tuotantokytkentä odottaa lisensoitua rajapintasopimusta, dokumentaatiota, tunnuksia ja sopimustestausta.
 
 Vaihtoauton lopullinen arviointi, hyvityshinta ja poikkeustapausten hyväksyntä säilyvät aina myyjäliikkeen vastuulla.
 
